@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>푸디핏::{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/common.css' %}" type="text/css">
+
+	<!-- 구글 noto fonts -->
+	<!--
+	<link rel="stylesheet" href="https://fonts.googleapis.com">
+	<link rel="stylesheet" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:weight@100;300;400;500;700;900&display=swap">
+	-->
+	{% block css_files %}{% endblock %}
+	{% block js_files %}{% endblock %}
+
+</head>
+
+<body>
+	{% block content %}{% endblock %}
+</body>
+
+</html>

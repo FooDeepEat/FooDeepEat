@@ -1,0 +1,40 @@
+/* common styles */
+* {
+  color: #121212; 
+  font-size: 16px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+/* 포인트 색 1 : #37BA2A
+포인트 색 2 : #206B18 (웹에 적용 후 확인 예정) */
+
+/* 일반 상태에서의 스타일 */
+a {
+  color: inherit; /* 초록색으로 변경 */
+  text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+
+/* 방문한 상태에서의 스타일 */
+a:visited {
+  color: #206B18;
+  /* 포인트색 2 : 진한초록 */
+  transition: color 0.5s ease-in-out;
+}
+
+/* 마우스를 올렸을 때의 스타일 */
+a:hover {
+  color : #37BA2A; 
+  /* 포인트색 1 : 옅은초록 */
+  transition: color 1.5s ease-in-out;
+}
+
+/* 눌렀을 때의 스타일 */
+a:active {
+  color: #37BA2A; /* 노란색으로 유지 */
+}
+
+/* 밑줄 제거 */
+a {
+  text-decoration: none;
+}
+

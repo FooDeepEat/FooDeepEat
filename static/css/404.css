@@ -1,0 +1,31 @@
+/* 공통 스타일 */
+body{
+    margin: 0 auto;
+    padding: 5px;
+    box-sizing: border-box;
+    max-width: 800px;
+    background-color: white;
+    display: block;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+/* 로고 이미지 크기 조절 */
+.logoimg{
+    width: 300px;
+    height: auto;
+}
+
+/* 404 메세지 */
+.msg_404{
+    margin-bottom: 30px;
+    padding-left: 3px;
+
+}
+
+.msg_404 > p{
+    margin-top: auto;
+}

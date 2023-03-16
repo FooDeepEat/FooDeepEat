@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+	푸디핏 :: 회원가입
+{% endblock %}]
+
+
+{% block content %}
+	<header>
+	    <h2>회원가입</h2>
+	</header>
+
+	<!-- 파일도 form에서 다룰수 있게 해준다. enctype="multipart/form-data" -->
+	<form action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+        <div class="signinrequired">
+	        <h3>필수정보</h3>
+	        <label>프로필사진
+                <input type="file" id="image-upload" name="profile_img" accept=".jpg, .jpeg, .png" onchange="checkFileSize(this)">
+	        </label>
+            <label>성
+                <input type="text" name="firstname" class="getuserfirstname" required placeholder="성을 입력해 주세요.">
+            </label>
+            <label>이름
+                <input type="text" name="lastname" class="getuserlastname" required placeholder="이름을 입력해 주세요.">
+            </label>
+            <label>아이디
+                <input type="text" name="userid" class="getuserid" required placeholder="아이디를 입력해 주세요.">
+	            <button type="submit" name="auth" class="auth_userid" onclick="checkId();">중복체크</button>
+            </label>
+	        <label>비밀번호
+	            <input type="password" name="password" class="getuserpassword" required placeholder="4~16자 사이로 입력해 주세요.">
+	        </label>
+	        <label>비밀번호확인
+                <input type="password" name="passwordcheck" id="getuserpasswordcheck" class="getuserpasswordcheck" required placeholder="위와 동일한 비밀번호를 입력해 주세요." min="4" max="16" onkeyup="checkPassword();">
+	        </label>
+	        <br>
+	        <p id="message"></p>
+	        <br>
+	        <label>이메일
+		        <input type="email" placeholder="loveat@foodeepeat.com" name="email" class="getuseremail">
+		        <button type="submit" class="sendvalidcode">인증코드 발송</button>
+	        </label>
+	        <label for="getvalidcode">인증 코드 입력
+                <input type="text" name="emailcheck" class="getvalidcode">
+		        <button type="submit" class="checkvalidcode">인증코드 확인</button>
+	        </label>
+	        <label>생년월일
+                <input type="date" min="1900" max="2023" value="2000-01-01" name="birthday" class="birthday">
+	        </label>
+	        <label>휴대폰 번호
+		        <input type="tel" name="phone_number" class="getusertel" placeholder="010-1234-1234" maxlength="13"/>
+	        </label>
+	        <label>주소
+		        <input type="text" name='postal_code' id="jusocode" placeholder="우편번호 입력" class="getuserjusonum" readonly/>
+		        <input type="button" onclick="execDaumPostcode();" value="우편번호"/>
+		        <input type="text" name='city' id="juso1" placeholder="주소 입력"  readonly/>
+		        <input type="text" name='address' id="juso2" placeholder="상세 주소 입력"/>
+	        </label>
+        </div>
+
+	    <div class="useragreement">
+	        <p>필수 개인정보 제공 동의 여부</p>
+	        <label>
+	            <input type="radio" name="must_agree" value=True required>동의합니다.
+	        </label>
+	        <label>
+	            <input type="radio" name="must_agree" id="mustagree" value=False required>동의하지 않습니다.
+	        </label>
+        </div>
+		<div class="signinoptional">
+	        <h3>선택정보</h3>
+	        <small>해당 내용은 회원가입 후, 마이페이지에서도 입력하실 수 있습니다.</small>
+	        <h4>건강정보제공 서비스를 위한 선택 정보</h4>
+	        <label for="gender-select">성별</label>
+	        <select id="gender-select" name="gender">
+		        <option value="female">여성</option>
+		        <option value="male">남성</option>
+	        </select>
+
+	        <label for="userheight">키
+		        <input type="number" step="0.1" max="300" name="height" class="userheight">
+	        </label>
+	        <label for="userweight">몸무게
+		        <input type="number" step="0.1" max="300" name="weight" class="userweight" >
+	        </label>
+
+	        <div class="useragreement">
+                <p>선택 개인정보 제공 동의 여부</p>
+	            <label>
+	                <input type="radio" value=True name="option_agree" required>동의합니다.
+	            </label>
+	            <label>
+	                <input type="radio" value=False name="option_agree" required>동의하지 않습니다.
+	            </label>
+	        </div>
+
+            <button type="submit" onclick="test();">가입하기</button>
+		</div>
+	</form>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="{% static 'users/js/register.js' %}"></script>
+{% endblock %}

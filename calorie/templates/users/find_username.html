@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	아이디 찾기
+{% endblock %}
+
+{% block content %}
+
+{% if find_id %}
+	해당 이메일에 등록 된 아이디는 {{ find_id }} 입니다
+	<a href="{% url 'login' %}">로그인 페이지로 이동</a>
+
+{% else %}
+    <form method="POST">
+        {% csrf_token %}
+	    {% if error_msg %}
+	        <p style="color:red">{{ error_msg }}</p>
+	    {% endif %}
+        <div>
+	        <label for="name">이름</label>
+	        <input type="text" name="name" required>
+            <label for="email">이메일</label>
+            <input type="email" name="email" required>
+	        <label for="birth_date">생년월일</label>
+	        <input type="date" name="birth_date" required>
+        </div>
+        <button type="submit">아이디 찾기</button>
+    </form>
+
+{% endif %}
+
+{% endblock %}

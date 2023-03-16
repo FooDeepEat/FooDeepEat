@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	Document
+{% endblock %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'calorie/css/mypage.css' %}">
+{% endblock %}
+
+{% block js_files %}
+	<script type="text/javascript" src="{% static 'calorie/js/mypage.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+
+<div>
+    <ul class="side-bar">
+        <li class="daily-nutri on"><a href="#">일일 영양정보</a></li>
+        <li class="daily-nutri"><a href="#">회원정보수정</a></li>
+    </ul>
+</div>
+
+<div class="calendar">
+    <form method="GET">
+        <input type="date" id="currentDate" value="" max="">
+    </form>
+</div>
+
+<section>
+    <div class="section1">
+        <div class="pie-nutrients">
+            <canvas id='canvas'></canvas>
+        </div>
+    </div>
+	<div class="section2-1">
+        <table>
+            <caption>오늘의 영양정보 요약</caption>
+            <tr>
+                <th>열량</th>
+                <th>:</th>
+                <td>1000kcal</td>
+            </tr>
+            <tr>
+                <th>탄수화물</th>
+                <th>:</th>
+                <td>100g</td>
+                <td>(400kcal)</td>
+            </tr>
+            <tr>
+                <th>단백질</th>
+                <th>:</th>
+                <td>75g</td>
+                <td>(300kcal)</td>
+            </tr>
+            <tr>
+                <th>지방</th>
+                <th>:</th>
+                <td>33.3g</td>
+                <td>(300kcal)</td>
+            </tr>
+        </table>
+    </div>
+	<div class="section2-2">
+        <form action="" method="POST">
+            <textarea maxlength="300" placeholder="오늘의 한 마디(최대 300자):"></textarea>
+            <button class="submit-button" type="submit">기록하기</button>
+        </form>
+    </div>
+
+    <div class="section3">
+        <div class="foods-list">
+            <table>
+                <tr>
+                    <div class="foods-image">
+                        <img src="./cat.png" alt="">
+                    </div>
+                </tr>
+                <caption>영양정보</caption>
+                <tr>
+                    <th>탄수화물</th>
+                    <th>:</th>
+                    <td>100g</td>
+                    <td>(400kcal)</td>
+                </tr>
+                <tr>
+                    <th>단백질</th>
+                    <th>:</th>
+                    <td>75g</td>
+                    <td>(300kcal)</td>
+                </tr>
+                <tr>
+                    <th>지방</th>
+                    <th>:</th>
+                    <td>33.3g</td>
+                    <td>(300kcal)</td>
+                </tr>
+                <tr>
+                    <th>열량</th>
+                    <th>:</th>
+                    <td>1000kcal</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+	<div class=section4>
+        <div class="foods-list">
+            <table>
+                <tr>
+                    <div class="foods-image">
+                        <img src="./cat.png" alt="">
+                    </div>
+                </tr>
+                <caption>영양정보</caption>
+                <tr>
+                    <th>탄수화물</th>
+                    <th>:</th>
+                    <td>100g</td>
+                    <td>(400kcal)</td>
+                </tr>
+                <tr>
+                    <th>단백질</th>
+                    <th>:</th>
+                    <td>75g</td>
+                    <td>(300kcal)</td>
+                </tr>
+                <tr>
+                    <th>지방</th>
+                    <th>:</th>
+                    <td>33.3g</td>
+                    <td>(300kcal)</td>
+                </tr>
+                <tr>
+                    <th>열량</th>
+                    <th>:</th>
+                    <td>1000kcal</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

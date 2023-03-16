@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/calorie/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/calorie/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/calorie/service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/users/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/users/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/users/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/common.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/calorie.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/checkdiet.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/404.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/checkdiet.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/mypage.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/pipolicy.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/register.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/terms.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/html/whoweare.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/checkdiet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/register.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="cd6a25cd40175b1bcaf4a9234c2c5d57ea97146b" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SWAP_SIDES_IN_COMPARE_BRANCHES" value="true" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Mwf4gFFK0P0hhXwBqt554fJIft" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/seok/Documents/tool_collection/food_deep_eat&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/calorie/templates/calorie" />
+      <recent name="$PROJECT_DIR$/calorie/static/users/js" />
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/static/image" />
+      <recent name="$PROJECT_DIR$/static/css" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/calorie/templates/calorie" />
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/calorie/static/calorie/css" />
+      <recent name="$PROJECT_DIR$/calorie/static/calorie/js" />
+      <recent name="$PROJECT_DIR$/calorie/static/users/js" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="food_deep_eat" type="Python.DjangoServer" factoryName="Django server">
+      <module name="food_deep_eat" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="" />
+      <created>1678683375406</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1678683375406</updated>
+      <workItem from="1678683377845" duration="1085000" />
+      <workItem from="1678684500502" duration="8640000" />
+      <workItem from="1678693333077" duration="7478000" />
+      <workItem from="1678714871671" duration="11356000" />
+      <workItem from="1678763735029" duration="17459000" />
+      <workItem from="1678842541263" duration="1177000" />
+      <workItem from="1678843723002" duration="20741000" />
+      <workItem from="1678929439884" duration="150000" />
+      <workItem from="1678929660767" duration="1285000" />
+      <workItem from="1678930957978" duration="4160000" />
+      <workItem from="1678942336098" duration="7457000" />
+      <workItem from="1678951268028" duration="153000" />
+      <workItem from="1678952875989" duration="930000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

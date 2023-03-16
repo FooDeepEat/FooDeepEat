@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+   	<!-- 404 js -->
+	<meta http-equiv="refresh" content="10;url=home.html">
+	<script src="{% static "js/404.js" %}"></script>
+
+{% block title %}
+	404
+{% endblock %}
+
+{% block css_files %}
+	<link rel="stylesheet" href="{% static "css/404.css" %}" type="text/css">
+{% endblock %}
+
+{% block content %}
+<header>
+    <h1>
+        <a href="{% url "home" %}">
+        <img src="/image/horizontal_logo.png" alt="푸디핏" class="logoimg">
+        </a>
+    </h1>
+</header>
+
+<section>
+	<hr>
+	<h2>404 NOT FOUND</h2>
+	<hr>
+	<div class="msg_404">
+	<p>안녕하세요, 고객님.</p>
+	<p>
+	함께하는 <strong>식생활 라이프스타일 서포터 푸디핏</strong>입니다.
+	해당 페이지는, 고객님께서 요청하신 페이지가
+	아직 준비되지 않았을 경우 나타나는 페이지입니다.
+	잠시 후에 <strong><a href="{% url 'home' %}">홈 페이지</a></strong>로 보내드리겠습니다.
+	</p>
+	<p>
+	문의사항이 있으신 경우 <strong><a href="{% url 'home' %}">홈 페이지</a></strong> 하단의 문의하기를 눌러 주세요.
+	</p>
+
+	<p>기다리시는 동안, 아래 음식에 대한 영양정보를 확인해 보세요.</p>
+	</div>
+</section>
+<div>
+	<table name="404waiting" class="foodinformation">
+		<thead>
+		<tr>
+			<td>음식 이름</td>
+			<td colspan="2">영양 이름</td>
+		</tr>
+		</thead>
+
+		<tbody>
+		<tr>
+			<td rowspan="4">음식이미지</td>
+			<td>열량(Kcal)</td>
+			<td>영양 정보</td>
+		</tr>
+		<tr>
+			<td>탄수화물(g)</td>
+			<td>영양 정보</td>
+		</tr>
+		<tr>
+			<td>단백질(g)</td>
+			<td>영양 정보</td>
+		</tr>
+		<tr>
+			<td>지방(g)</td>
+			<td>영양 정보</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+
+{% endblock %}
