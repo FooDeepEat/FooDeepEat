@@ -5,58 +5,61 @@
 {% endblock %}
 
 {% block content %}
+{% include 'header.html' %}
+<div class="wrap">
+	<div>
+		<h2>사진으로 영양정보 확인하기</h2>
 
-<div>
-    <h2>사진으로 영양정보 확인하기</h2>
-
-    <div class="circle-image" style="background-image: url('#')"></div>
-    <form action="#" method="post" enctype="multipart/form-data">
-        <label for="image-upload">사진 업로드:</label>
-        <input type="file" id="image-upload" name="image-upload">
-        <button type="submit">제출</button>
-      </form>
-</div>
-<div>
-    <h2>사진 분석으로 확인한 식단</h2>
-
-    <div class="circle-image" style="background-image: url('#')"></div>
-</div>
-
-<section>
-    <h2>
-        오늘의 추천 식단!
-    </h2>
-    <div>
-		<table name="404waiting" class="foodinformation">
-			<thead>
-			<tr>
-				<td>음식 이름</td>
-				<td colspan="2">영양 이름</td>
-			</tr>
-			</thead>
-
-			<tbody>
-			<tr>
-				<td rowspan="4">음식이미지</td>
-				<td>열량(Kcal)</td>
-				<td>영양 정보</td>
-			</tr>
-			<tr>
-				<td>탄수화물(g)</td>
-				<td>영양 정보</td>
-			</tr>
-			<tr>
-				<td>단백질(g)</td>
-				<td>영양 정보</td>
-			</tr>
-			<tr>
-				<td>지방(g)</td>
-				<td>영양 정보</td>
-			</tr>
-			</tbody>
-		</table>
+		<div class="circle-image" style="background-image: url('#')"></div>
+		<form action="#" method="post" enctype="multipart/form-data">
+			<label for="image-upload">사진 업로드:</label>
+			<input type="file" id="image-upload" name="image-upload">
+			<button type="submit">제출</button>
+		</form>
 	</div>
-</section>
+	<div>
+		<h2>사진 분석으로 확인한 식단</h2>
+
+		<div class="circle-image" style="background-image: url('#')"></div>
+	</div>
+
+	<section>
+		<h2>
+			오늘의 추천 식단!
+		</h2>
+		<div>
+			<table name="404waiting" class="foodinformation">
+				<thead>
+				<tr>
+					<td>음식 이름</td>
+					<td colspan="2">영양 이름</td>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr>
+					<td rowspan="4">음식이미지</td>
+					<td>열량(Kcal)</td>
+					<td>영양 정보</td>
+				</tr>
+				<tr>
+					<td>탄수화물(g)</td>
+					<td>영양 정보</td>
+				</tr>
+				<tr>
+					<td>단백질(g)</td>
+					<td>영양 정보</td>
+				</tr>
+				<tr>
+					<td>지방(g)</td>
+					<td>영양 정보</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</div>
+{% include 'footer.html' %}
 {% endblock %}
 
 

@@ -1,87 +1,94 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    FooDeepEat
+{% endblock %}
 
 {% block content %}	
-<div class="section" style="white-space: nowrap;">    
-    <input type="radio" name="slide" id="slide01" checked>
-    <input type="radio" name="slide" id="slide02">
-    <input type="radio" name="slide" id="slide03">
-    <div class="slidewrap">
-        <ul class="slidelist" style="display: inline-block;">
-            <li style="width: 100%;">
-                <a href="#">
+{% include 'header.html' %}
+<div class="wrap">
+    <div class="section" style="white-space: nowrap;">    
+        <input type="radio" name="slide" id="slide01" checked>
+        <input type="radio" name="slide" id="slide02">
+        <input type="radio" name="slide" id="slide03">
+        <div class="slidewrap">
+            <ul class="slidelist" style="display: inline-block;">
+                <li style="width: 100%;">
+                    <a href="#">
+                        <label for="slide03" class="left"></label>
+                        <img src="img\slidebanner (1).jpg" alt="slide01">
+                        <label for="slide02" class="right"></label>
+                    </a>
+                </li>
+                <li style="width: 100%;">
+                    <a href="#">
+                        <label for="slide01" class="left"></label>
+                        <img src="img\slidebanner (2).jpg" alt="slide02">
+                        <label for="slide03" class="right"></label>
+                    </a>
+                </li>
+                <li style="width: 100%;">
+                    <a href="#">
+                        <label for="slide02" class="left"></label>
+                        <img src="img\slidebanner (3).jpg" alt="slide03">
+                        <label for="slide01" class="right"></label>
+                    </a>
+                </li>
+            </ul>
+            <div class="slide-control">
+                <div class="control01">
                     <label for="slide03" class="left"></label>
-                    <img src="img\slidebanner (1).jpg" alt="slide01">
                     <label for="slide02" class="right"></label>
-                </a>
-            </li>
-            <li style="width: 100%;">
-                <a href="#">
+                </div>
+                <div class="control02">
                     <label for="slide01" class="left"></label>
-                    <img src="img\slidebanner (2).jpg" alt="slide02">
                     <label for="slide03" class="right"></label>
-                </a>
-            </li>
-            <li style="width: 100%;">
-                <a href="#">
+                </div>
+                <div class="control03">
                     <label for="slide02" class="left"></label>
-                    <img src="img\slidebanner (3).jpg" alt="slide03">
                     <label for="slide01" class="right"></label>
-                </a>
-            </li>
-        </ul>
-        <div class="slide-control">
-            <div class="control01">
-                <label for="slide03" class="left"></label>
-                <label for="slide02" class="right"></label>
+                </div>
             </div>
-            <div class="control02">
-                <label for="slide01" class="left"></label>
-                <label for="slide03" class="right"></label>
-            </div>
-            <div class="control03">
-                <label for="slide02" class="left"></label>
-                <label for="slide01" class="right"></label>
-            </div>
+        </div> 
+    </div>
+
+
+    <section>
+        <h2>
+            오늘의 추천 식단!
+        </h2>
+        <div>
+            <table class="foodinformation">
+                <thead>
+                <tr>
+                    <td>음식 이름</td>
+                    <td colspan="2">영양 이름</td>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td rowspan="4">음식이미지</td>
+                    <td>열량(Kcal)</td>
+                    <td>영양 정보</td>
+                </tr>
+                <tr>
+                    <td>탄수화물(g)</td>
+                    <td>영양 정보</td>
+                </tr>
+                <tr>
+                    <td>단백질(g)</td>
+                    <td>영양 정보</td>
+                </tr>
+                <tr>
+                    <td>지방(g)</td>
+                    <td>영양 정보</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-    </div> 
+    </section>
 </div>
-
-
-<section>
-    <h2>
-        오늘의 추천 식단!
-    </h2>
-    <div>
-		<table class="foodinformation">
-			<thead>
-			<tr>
-				<td>음식 이름</td>
-				<td colspan="2">영양 이름</td>
-			</tr>
-			</thead>
-
-			<tbody>
-			<tr>
-				<td rowspan="4">음식이미지</td>
-				<td>열량(Kcal)</td>
-				<td>영양 정보</td>
-			</tr>
-			<tr>
-				<td>탄수화물(g)</td>
-				<td>영양 정보</td>
-			</tr>
-			<tr>
-				<td>단백질(g)</td>
-				<td>영양 정보</td>
-			</tr>
-			<tr>
-				<td>지방(g)</td>
-				<td>영양 정보</td>
-			</tr>
-			</tbody>
-		</table>
-	</div>
-</section>
+{% include 'footer.html' %}
 {% endblock %}
 
