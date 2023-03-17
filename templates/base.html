@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{% static 'css/common.css' %}" type="text/css">
     <link rel="stylesheet" href="{% static 'css/fonts.css' %}" type="text/css">	
 	{% block css_files %}{% endblock %}
-	{% block js_files %}{% endblock %}
 </head>
 
 <body>	
@@ -19,4 +18,5 @@
 	</div>
 </body>
 
+{% block js_files %}{% endblock %}
 </html>

@@ -5,6 +5,10 @@
 	푸디핏 :: 회원가입
 {% endblock %}]
 
+{% block js_files %}
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="{% static 'js/register.js' %}"></script>
+{% endblock %}
 
 {% block content %}
 {% include 'header.html' %}
@@ -110,6 +114,5 @@
 </div>
 {% include 'footer.html' %}
 
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="{% static 'js/register.js' %}"></script>
+
 {% endblock %}

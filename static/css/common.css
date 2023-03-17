@@ -51,7 +51,9 @@ h1,h2,h3,h4,h5{
 }
 .cont{
   max-width: 1920px;
+  min-height: 1080px;
   margin: 0 auto;
+  position: relative;
 }
 .wrap{
   max-width: 1200px;
