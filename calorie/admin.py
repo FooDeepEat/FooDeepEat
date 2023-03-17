@@ -3,9 +3,4 @@ from . import models
 
 # Register your models here.
 
-admin.site.register(models.User)
-admin.site.register(models.UserProfileImage)
-admin.site.register(models.UserAgree)
-admin.site.register(models.UserAddress)
-
-
+admin.site.register(models.FoodImage)

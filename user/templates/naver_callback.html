@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  var naver_id_login = new naver_id_login("iTanYcwIz0n5CqfvCNb3", "http://127.0.0.1:8000/auth/login");
+  // 네이버 사용자 프로필 조회
+  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+  function naverSignInCallback() {
+  var email = naver_id_login.getProfileData('email');
+  // AJAX 요청을 보내서 이메일이 등록되어 있는지 확인
+    $.ajax({
+      // POST 메소드를 사용하여 데이터 전송
+      type: "POST",
+      // 데이터 전송 URL 지정
+      url: "/auth/naver/email/",
+      // 전송할 데이터 지정
+      data: {
+        'email': email,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      },
+      // 서버로부터 응답이 성공적으로 돌아왔을 때 처리할 함수
+      success: function(data) {
+        console.log("이메일 전송 완료");
+        // 이메일이 확인되면 회원가입 페이지로 이동
+        window.location.href = "/auth/register/";
+      },
+      // AJAX 요청 중 에러가 발생했을 때 처리할 함수
+      error: function(xhr, status, error) {
+        console.log("An error occurred: " + error);
+        alert("An error occurred while processing the request. Please try again later.");
+      }
+    });
+  }
+</script>
+</body>
+</html>
+

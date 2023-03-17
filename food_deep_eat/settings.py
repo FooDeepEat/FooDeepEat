@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "calorie",
+    "user"
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,7 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom User model
-AUTH_USER_MODEL = "calorie.User"
+AUTH_USER_MODEL = "user.Account"
 
 # Media Directory
 MEDIA_URL = "/media/"

@@ -14,6 +14,9 @@
 	<!-- 파일도 form에서 다룰수 있게 해준다. enctype="multipart/form-data" -->
 	<form action="" method="POST" enctype="multipart/form-data">
 		{% csrf_token %}
+		{% if error_msg %}
+	        <p style="color:red">{{ error_msg }}</p>
+		{% endif %}
         <div class="signinrequired">
 	        <h3>필수정보</h3>
 	        <label>프로필사진
@@ -101,5 +104,5 @@
 	</form>
 
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script src="{% static 'users/js/register.js' %}"></script>
+	<script src="{% static 'js/register.js' %}"></script>
 {% endblock %}

@@ -5,28 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/calorie/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/calorie/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/calorie/service.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/users/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/users/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/users/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/templates/google_login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/templates/kakao_login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user/templates/naver_callback.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/static/calorie/css/mypage.css" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/static/css/mypage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/static/calorie/js/mypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/static/js/mypage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/static/users/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/css/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/static/users/js/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/js/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/introduce.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/introduce.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/mypage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/users/find_username.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/find_username.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/users/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/users/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/calorie/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/common.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/calorie.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/checkdiet.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/404.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/checkdiet.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/main.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/mypage.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/pipolicy.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/register.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/terms.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/html/whoweare.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/checkdiet.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/js/register.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/404.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/404.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/food_deep_eat/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/food_deep_eat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/image/horizontal_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/image/horizontal_logo.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,9 +40,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
-        <option value="JavaScript File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -70,7 +71,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/seok/Documents/tool_collection/food_deep_eat&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/seok/Documents/tool_collection/food_deep_eat/user/templates&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,18 +82,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/user/templates" />
+      <recent name="$PROJECT_DIR$/static/image" />
       <recent name="$PROJECT_DIR$/calorie/templates/calorie" />
       <recent name="$PROJECT_DIR$/calorie/static/users/js" />
       <recent name="$PROJECT_DIR$/templates" />
-      <recent name="$PROJECT_DIR$/static/image" />
-      <recent name="$PROJECT_DIR$/static/css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/calorie/templates/calorie" />
-      <recent name="$PROJECT_DIR$/templates" />
-      <recent name="$PROJECT_DIR$/calorie/static/calorie/css" />
-      <recent name="$PROJECT_DIR$/calorie/static/calorie/js" />
-      <recent name="$PROJECT_DIR$/calorie/static/users/js" />
+      <recent name="$PROJECT_DIR$/calorie/static" />
+      <recent name="$PROJECT_DIR$/user/static" />
+      <recent name="$PROJECT_DIR$/calorie/templates" />
+      <recent name="$PROJECT_DIR$/user/templates" />
+      <recent name="$PROJECT_DIR$/calorie/templates/users" />
     </key>
   </component>
   <component name="RunManager">
@@ -140,7 +141,11 @@
       <workItem from="1678930957978" duration="4160000" />
       <workItem from="1678942336098" duration="7457000" />
       <workItem from="1678951268028" duration="153000" />
-      <workItem from="1678952875989" duration="930000" />
+      <workItem from="1678952875989" duration="1401000" />
+      <workItem from="1678963631936" duration="3643000" />
+      <workItem from="1678969758550" duration="2143000" />
+      <workItem from="1678971907950" duration="7456000" />
+      <workItem from="1679011647268" duration="875000" />
     </task>
     <servers />
   </component>
