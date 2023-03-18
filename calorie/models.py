@@ -35,7 +35,7 @@ class UserFood(models.Model):
 class UserMemo(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='memos')
     description = models.TextField(blank=True, null=True)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
 
     class Meta:
         unique_together = ('user', 'date')
