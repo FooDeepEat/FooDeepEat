@@ -3,10 +3,12 @@ from user.models import Account
 
 
 class Food(models.Model):
-    name = models.CharField(null=True, blank=True, default='', max_length=20)
-    carbohydrate = models.IntegerField()
-    protein = models.IntegerField()
-    fat = models.IntegerField()
+    name = models.CharField(max_length=20, null=True, blank=True, default=None)
+    weight = models.IntegerField(null=True, blank=True, default=None)
+    energy = models.IntegerField(null=True, blank=True, default=None)
+    carbohydrate = models.IntegerField(null=True, blank=True, default=None)
+    protein = models.IntegerField(null=True, blank=True, default=None)
+    fat = models.IntegerField(null=True, blank=True, default=None)
 
     def __str__(self):
         return f"음식:{self.name} 탄수화물:{self.carbohydrate} 단백질:{self.protein} 지방:{self.fat}"
@@ -14,7 +16,7 @@ class Food(models.Model):
 
 class FoodImage(models.Model):
     name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='images')
-    food_img = models.ImageField(null=True, blank=True, default='', upload_to="food/")
+    food_img = models.ImageField(null=True, blank=True, default=None, upload_to="food/")
 
     def __str__(self):
         return f"음식:{self.name} 이미지:{self.food_img}"
@@ -23,9 +25,10 @@ class FoodImage(models.Model):
 class UserFood(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='users')
     name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='foods')
-    carbohydrate = models.IntegerField()
-    protein = models.IntegerField()
-    fat = models.IntegerField()
+    weight = models.IntegerField(null=True, blank=True, default=None)
+    carbohydrate = models.IntegerField(null=True, blank=True, default=None)
+    protein = models.IntegerField(null=True, blank=True, default=None)
+    fat = models.IntegerField(null=True, blank=True, default=None)
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
