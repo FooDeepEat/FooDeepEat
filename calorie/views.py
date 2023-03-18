@@ -1,24 +1,30 @@
 from django.shortcuts import render, redirect
-from user import models
+from datetime import datetime
+from django.contrib.auth.decorators import login_required
 from . import models
 
 
+@login_required
 def service(request):
-    user_id = request.session.get('user_id')  # 세션 데이터에서 유저 ID 불러오기
-    if user_id:
-        user = models.Account.objects.get(id=user_id)
-        return render(request, "service.html", {'username': user.username})
-    else:
-        return redirect('login')
+    user = request.user
+    return render(request, "service.html", {"user": user})
 
 
-def mypage(request):
-    user_id = request.session.get('user_id')  # 세션 데이터에서 유저 ID 불러오기
-    if user_id:
-        user = models.Account.objects.get(id=user_id)
-        return render(request, "mypage.html", {'username': user.username})
-    else:
-        return redirect('login')
+@login_required
+def mypage(request, date=None):
+    if not date:
+        today = datetime.now().date().strftime("%Y-%m-%d")
+        # 날짜값이 있으면 앞, 없으면 today
+        return redirect('mypage_with_date', date=today)
+
+    if request.method == 'POST':
+        edit_date = request.POST.get('edit_date')
+        return redirect('mypage_with_date', date=edit_date)
+
+    user = request.user
+    memos = models.UserMemo.objects.filter(user_id=user.id, date=date)
+    foods = models.UserFood.objects.filter(user_id=user.id, date=date)
+    return render(request, "mypage.html", {"user": user, "memos": memos, "date": date, "foods": foods})
 
 
 def home(request):

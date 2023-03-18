@@ -8,7 +8,6 @@ urlpatterns = [
     path("logout/", views.logout_page, name="logout"),
     path("register/", views.register, name="register"),
     path("find_username/", views.find_username, name="find_username"),
-    path("naver/callback/", views.naver_callback, name="naver_callback")
 
     # static 파일을 서빙할수있는것을 지정하는것.
     # media_root에 지정한 폴더에서 취급하겠다.

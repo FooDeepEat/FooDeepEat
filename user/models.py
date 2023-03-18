@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 from django.core.validators import RegexValidator
 
+
 phone_validator = RegexValidator(
     regex=r'^01\d{1}-\d{3,4}-\d{4}$'
 )
@@ -11,12 +12,11 @@ phone_validator = RegexValidator(
 
 # 유저 정보 테이블
 class Account(AbstractUser):
-    birth_date = models.DateField(db_column="birth_date",
-                                  # 오늘보다 과거인 날짜만 입력 할 수 있음
-                                  validators=[MinValueValidator(timezone.localdate()),  # 현재 시간보다 미래 시간 허용 금지
+    # 오늘보다 과거인 날짜만 입력 할 수 있음
+    birth_date = models.DateField(validators=[MinValueValidator(timezone.localdate()),  # 현재 시간보다 미래 시간 허용 금지
                                               MaxValueValidator(timezone.localdate()),  # 현재 시간보다 과거 시간 허용 금지
                                               ], default="1900-01-01", null=False)
-    email = models.EmailField(db_column="user_email", null=False, unique=True)
+    email = models.EmailField(null=False, unique=True)
     phone_number = models.CharField(validators=[phone_validator], null=False, unique=True, max_length=15)
 
     def __str__(self):
@@ -27,6 +27,7 @@ class Account(AbstractUser):
 class ProfileImage(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='profile')
     profile_img = models.ImageField(null=True, blank=True, default='', upload_to="profile/")
+    img_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"유저:{self.user.username} 이미지:{self.profile_img}"

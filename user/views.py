@@ -10,10 +10,10 @@ from . import models
 
 def register(request):
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST)
         user_id = request.POST['userid']
         password = request.POST['password']
-        user_email = request.POST['email']
+        email = request.POST['email']
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
         birth_date = request.POST['birthday']
@@ -33,7 +33,7 @@ def register(request):
 
         # 1. 데이터 유효성 검사
         try:
-            validate_email(user_email)
+            validate_email(email)
             validate_password(password)
         except ValidationError as e:
             error_msg = "이메일 또는 패스워드 형식이 맞지 않습니다."
@@ -41,7 +41,7 @@ def register(request):
 
         # 2. DB 데이터 삽입
         with transaction.atomic():
-            user = models.Account.objects.create_user(user_id, user_email, password, first_name=first_name,
+            user = models.Account.objects.create_user(user_id, email, password, first_name=first_name,
                                                    last_name=last_name, birth_date=birth_date,
                                                    phone_number=phone_number)
             models.Address.objects.create(postal_code=postal_code, city=city, address=address or None, user=user)
@@ -65,7 +65,7 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            request.session['user_id'] = user.id
+            #request.session['user_id'] = user.id
             # print(request.session)
             # print(user.id)
             return redirect('home')
@@ -98,7 +98,3 @@ def find_username(request):
 def logout_page(request):
     logout(request)
     return redirect("home")
-
-
-def naver_callback(request):
-    return render(request, "naver_callback.html")

@@ -2,17 +2,16 @@
 {% load static %}
 
 {% block title %}
-	Document
+	마이페이지
 {% endblock %}
 
 {% block css_files %}
-    <link rel="stylesheet" href="{% static 'calorie/css/mypage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
 {% endblock %}
 
 {% block js_files %}
-	<script type="text/javascript" src="{% static 'calorie/js/mypage.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/mypage.js' %}"></script>
 {% endblock %}
-
 
 {% block content %}
 
@@ -24,10 +23,11 @@
 </div>
 
 <div class="calendar">
-    <form method="GET">
-        <input type="date" id="currentDate" value="" max="">
+    <form method="POST">
+	    {% csrf_token %}
+		<input type="date" name="edit_date" id="currentDate" value="{{ date }}">
+        <button type="submit">선택</button>
     </form>
-</div>
 
 <section>
     <div class="section1">
@@ -65,8 +65,21 @@
     </div>
 	<div class="section2-2">
         <form action="" method="POST">
-            <textarea maxlength="300" placeholder="오늘의 한 마디(최대 300자):"></textarea>
-            <button class="submit-button" type="submit">기록하기</button>
+            {% csrf_token %}
+            {% if not memo %}
+	            <label>오늘의 한 마디:
+	            <textarea maxlength="300" name="add_memo" placeholder="최대 300자까지 입력 가능합니다.">
+	            </textarea>
+	            <button class="submit-button" type="submit">기록하기</button>
+	            </label>
+            {% else %}
+	            <label for="my-textarea">오늘의 한 마디:
+	            <textarea maxlength="300" name="edit_memo" placeholder="최대 300자까지 입력 가능합니다.">
+	            {{ memo.description }}
+	            </textarea>
+                 </label>
+                <button class="submit-button" type="submit">수정하기</button>
+            {% endif %}
         </form>
     </div>
 
@@ -141,5 +154,6 @@
         </div>
     </div>
 </section>
+</div>
 
 {% endblock %}

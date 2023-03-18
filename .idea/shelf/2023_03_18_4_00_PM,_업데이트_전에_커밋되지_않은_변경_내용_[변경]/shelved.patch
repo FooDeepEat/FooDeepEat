@@ -1,0 +1,1056 @@
+Index: calorie/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.shortcuts import render, redirect\nfrom user import models\nfrom . import models\n\n\ndef service(request):\n    user_id = request.session.get('user_id')  # 세션 데이터에서 유저 ID 불러오기\n    if user_id:\n        user = models.Account.objects.get(id=user_id)\n        return render(request, \"service.html\", {'username': user.username})\n    else:\n        return redirect('login')\n\n\ndef mypage(request):\n    user_id = request.session.get('user_id')  # 세션 데이터에서 유저 ID 불러오기\n    if user_id:\n        user = models.Account.objects.get(id=user_id)\n        return render(request, \"mypage.html\", {'username': user.username})\n    else:\n        return redirect('login')\n\n\ndef home(request):\n    return render(request, \"home.html\")\n\n\ndef introduce(request):\n    return render(request, \"introduce.html\")\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/views.py b/calorie/views.py
+--- a/calorie/views.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/calorie/views.py	(date 1679121904887)
+@@ -1,24 +1,30 @@
+ from django.shortcuts import render, redirect
+-from user import models
++from datetime import datetime
++from django.contrib.auth.decorators import login_required
+ from . import models
+ 
+ 
++@login_required
+ def service(request):
+-    user_id = request.session.get('user_id')  # 세션 데이터에서 유저 ID 불러오기
+-    if user_id:
+-        user = models.Account.objects.get(id=user_id)
+-        return render(request, "service.html", {'username': user.username})
+-    else:
+-        return redirect('login')
++    user = request.user
++    return render(request, "service.html", {"user": user})
++
+ 
++@login_required
++def mypage(request, date=None):
++    if not date:
++        today = datetime.now().date().strftime("%Y-%m-%d")
++        # 날짜값이 있으면 앞, 없으면 today
++        return redirect('mypage_with_date', date=today)
+ 
+-def mypage(request):
+-    user_id = request.session.get('user_id')  # 세션 데이터에서 유저 ID 불러오기
+-    if user_id:
+-        user = models.Account.objects.get(id=user_id)
+-        return render(request, "mypage.html", {'username': user.username})
+-    else:
+-        return redirect('login')
++    if request.method == 'POST':
++        edit_date = request.POST.get('edit_date')
++        return redirect('mypage_with_date', date=edit_date)
++
++    user = request.user
++    memos = models.UserMemo.objects.filter(user_id=user.id, date=date)
++    foods = models.UserFood.objects.filter(user_id=user.id, date=date)
++    return render(request, "mypage.html", {"user": user, "memos": memos, "date": date, "foods": foods})
+ 
+ 
+ def home(request):
+Index: calorie/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.conf import settings\nfrom django.urls import path, include\nfrom django.conf.urls.static import static\nfrom . import views\n\nurlpatterns = [\n    # 첫 번째 URL 공간\n    path('', views.home, name=\"home\"),\n\n    # 세 번째 URL 공간\n    path('calorie/', include([\n        path('', views.service, name='service'),\n        path('mypage/', views.mypage, name='mypage'),\n        path('introduce/', views.introduce, name=\"introduce\"),\n    ])),\n\n    # static 파일을 서빙할수있는것을 지정하는것.\n    # media_root에 지정한 폴더에서 취급하겠다.\n] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/urls.py b/calorie/urls.py
+--- a/calorie/urls.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/calorie/urls.py	(date 1679043663710)
+@@ -11,6 +11,7 @@
+     path('calorie/', include([
+         path('', views.service, name='service'),
+         path('mypage/', views.mypage, name='mypage'),
++        path('mypage/<str:date>/', views.mypage, name='mypage_with_date'),
+         path('introduce/', views.introduce, name="introduce"),
+     ])),
+ 
+Index: calorie/templates/mypage.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html' %}\r\n{% load static %}\r\n\r\n{% block title %}\r\n\tDocument\r\n{% endblock %}\r\n\r\n{% block css_files %}\r\n    <link rel=\"stylesheet\" href=\"{% static 'calorie/css/mypage.css' %}\">\r\n{% endblock %}\r\n\r\n{% block js_files %}\r\n\t<script type=\"text/javascript\" src=\"{% static 'calorie/js/mypage.js' %}\"></script>\r\n{% endblock %}\r\n\r\n\r\n{% block content %}\r\n\r\n<div>\r\n    <ul class=\"side-bar\">\r\n        <li class=\"daily-nutri on\"><a href=\"#\">일일 영양정보</a></li>\r\n        <li class=\"daily-nutri\"><a href=\"#\">회원정보수정</a></li>\r\n    </ul>\r\n</div>\r\n\r\n<div class=\"calendar\">\r\n    <form method=\"GET\">\r\n        <input type=\"date\" id=\"currentDate\" value=\"\" max=\"\">\r\n    </form>\r\n</div>\r\n\r\n<section>\r\n    <div class=\"section1\">\r\n        <div class=\"pie-nutrients\">\r\n            <canvas id='canvas'></canvas>\r\n        </div>\r\n    </div>\r\n\t<div class=\"section2-1\">\r\n        <table>\r\n            <caption>오늘의 영양정보 요약</caption>\r\n            <tr>\r\n                <th>열량</th>\r\n                <th>:</th>\r\n                <td>1000kcal</td>\r\n            </tr>\r\n            <tr>\r\n                <th>탄수화물</th>\r\n                <th>:</th>\r\n                <td>100g</td>\r\n                <td>(400kcal)</td>\r\n            </tr>\r\n            <tr>\r\n                <th>단백질</th>\r\n                <th>:</th>\r\n                <td>75g</td>\r\n                <td>(300kcal)</td>\r\n            </tr>\r\n            <tr>\r\n                <th>지방</th>\r\n                <th>:</th>\r\n                <td>33.3g</td>\r\n                <td>(300kcal)</td>\r\n            </tr>\r\n        </table>\r\n    </div>\r\n\t<div class=\"section2-2\">\r\n        <form action=\"\" method=\"POST\">\r\n            <textarea maxlength=\"300\" placeholder=\"오늘의 한 마디(최대 300자):\"></textarea>\r\n            <button class=\"submit-button\" type=\"submit\">기록하기</button>\r\n        </form>\r\n    </div>\r\n\r\n    <div class=\"section3\">\r\n        <div class=\"foods-list\">\r\n            <table>\r\n                <tr>\r\n                    <div class=\"foods-image\">\r\n                        <img src=\"./cat.png\" alt=\"\">\r\n                    </div>\r\n                </tr>\r\n                <caption>영양정보</caption>\r\n                <tr>\r\n                    <th>탄수화물</th>\r\n                    <th>:</th>\r\n                    <td>100g</td>\r\n                    <td>(400kcal)</td>\r\n                </tr>\r\n                <tr>\r\n                    <th>단백질</th>\r\n                    <th>:</th>\r\n                    <td>75g</td>\r\n                    <td>(300kcal)</td>\r\n                </tr>\r\n                <tr>\r\n                    <th>지방</th>\r\n                    <th>:</th>\r\n                    <td>33.3g</td>\r\n                    <td>(300kcal)</td>\r\n                </tr>\r\n                <tr>\r\n                    <th>열량</th>\r\n                    <th>:</th>\r\n                    <td>1000kcal</td>\r\n                </tr>\r\n            </table>\r\n        </div>\r\n    </div>\r\n\t<div class=section4>\r\n        <div class=\"foods-list\">\r\n            <table>\r\n                <tr>\r\n                    <div class=\"foods-image\">\r\n                        <img src=\"./cat.png\" alt=\"\">\r\n                    </div>\r\n                </tr>\r\n                <caption>영양정보</caption>\r\n                <tr>\r\n                    <th>탄수화물</th>\r\n                    <th>:</th>\r\n                    <td>100g</td>\r\n                    <td>(400kcal)</td>\r\n                </tr>\r\n                <tr>\r\n                    <th>단백질</th>\r\n                    <th>:</th>\r\n                    <td>75g</td>\r\n                    <td>(300kcal)</td>\r\n                </tr>\r\n                <tr>\r\n                    <th>지방</th>\r\n                    <th>:</th>\r\n                    <td>33.3g</td>\r\n                    <td>(300kcal)</td>\r\n                </tr>\r\n                <tr>\r\n                    <th>열량</th>\r\n                    <th>:</th>\r\n                    <td>1000kcal</td>\r\n                </tr>\r\n            </table>\r\n        </div>\r\n    </div>\r\n</section>\r\n\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/templates/mypage.html b/calorie/templates/mypage.html
+--- a/calorie/templates/mypage.html	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/calorie/templates/mypage.html	(date 1679121546045)
+@@ -2,18 +2,17 @@
+ {% load static %}
+ 
+ {% block title %}
+-	Document
++	마이페이지
+ {% endblock %}
+ 
+ {% block css_files %}
+-    <link rel="stylesheet" href="{% static 'calorie/css/mypage.css' %}">
++    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+ {% endblock %}
+ 
+ {% block js_files %}
+-	<script type="text/javascript" src="{% static 'calorie/js/mypage.js' %}"></script>
++	<script type="text/javascript" src="{% static 'js/mypage.js' %}"></script>
+ {% endblock %}
+ 
+-
+ {% block content %}
+ 
+ <div>
+@@ -24,10 +23,11 @@
+ </div>
+ 
+ <div class="calendar">
+-    <form method="GET">
+-        <input type="date" id="currentDate" value="" max="">
++    <form method="POST">
++	    {% csrf_token %}
++		<input type="date" name="edit_date" id="currentDate" value="{{ date }}">
++        <button type="submit">선택</button>
+     </form>
+-</div>
+ 
+ <section>
+     <div class="section1">
+@@ -65,8 +65,21 @@
+     </div>
+ 	<div class="section2-2">
+         <form action="" method="POST">
+-            <textarea maxlength="300" placeholder="오늘의 한 마디(최대 300자):"></textarea>
+-            <button class="submit-button" type="submit">기록하기</button>
++            {% csrf_token %}
++            {% if not memo %}
++	            <label>오늘의 한 마디:
++	            <textarea maxlength="300" name="add_memo" placeholder="최대 300자까지 입력 가능합니다.">
++	            </textarea>
++	            <button class="submit-button" type="submit">기록하기</button>
++	            </label>
++            {% else %}
++	            <label for="my-textarea">오늘의 한 마디:
++	            <textarea maxlength="300" name="edit_memo" placeholder="최대 300자까지 입력 가능합니다.">
++	            {{ memo.description }}
++	            </textarea>
++                 </label>
++                <button class="submit-button" type="submit">수정하기</button>
++            {% endif %}
+         </form>
+     </div>
+ 
+@@ -141,5 +154,6 @@
+         </div>
+     </div>
+ </section>
++</div>
+ 
+ {% endblock %}
+\ No newline at end of file
+Index: templates/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% load static %}\n\n<!DOCTYPE html>\n<html lang=\"ko\">\n\n<head>\n\t<meta charset=\"UTF-8\">\n\t<title>푸디핏::{% block title %}{% endblock %}</title>\n\t\n    <link rel=\"stylesheet\" href=\"{% static 'css/common.css' %}\" type=\"text/css\">\n    <link rel=\"stylesheet\" href=\"{% static 'css/fonts.css' %}\" type=\"text/css\">\t\n    <link rel=\"stylesheet\" href=\"{% static 'css/header_footer.css' %}\" type=\"text/css\">\t\n\n\t{% block css_files %}{% endblock %}\n\t{% block js_files %}{% endblock %}\n\n</head>\n\n<body>\n\t<header class=\"menu\">\n\t\t<nav class=\"manu_nav\">\n\t\t\t<h1 class=\"logo\"><a href=\"{% url \"home\" %}\"><img src=\"{%static 'image/horizontal_logo.png' %}\"></a></h1>\n\t\t\t<ul class=\"nav_menu\">\n\t\t\t\t<li class=\"nave_menu_li\"><a href=\"{% url \"introduce\" %}\">우리는</a></li>\n\t\t\t\t<li class=\"nave_menu_li\"><a href=\"{% url \"service\" %}\">FooDeepEat!</a></li>\n\t\t\t</ul>\n\t\t\t\n\t\t\t<ul class=\"nav_user\">\n\t\t\t\t{% if user.is_authenticated %}\n\t\t\t\t<li class=\"nav_user_li\"><a href=\"{% url \"mypage\" %}\">마이페이지</a></li>\n\t\t\t\t<li class=\"nav_user_li\"><a href=\"{% url \"logout\" %}\">로그아웃</a></li>\n\n\t\t\t\t{% else %}\n\t\t\t\t<li class=\"nav_user_li\"><a href=\"{% url \"register\" %}\">회원가입</a></li>\n\t\t\t\t<li class=\"nav_user_li\"><a href=\"{% url \"login\" %}\">로그인</a></li>\n\t\t\t\t{% endif %}\n\t\t\t</ul>\n\t\t</nav>\n\t</header>\n\t{% block content %}{% endblock %}\n\t<footer>\n\t\t<div class=\"footer_box\">\n\t\t\t<div class=\"footer_logo\"><img src=\"{%static 'image/logo.png' %}\"></div>\n\t\t\t<div class=\"footer_info\">\n\t\t\t\t<ul class=\"footer_menu\">\n\t\t\t\t\t<li>푸디핏</li>\n\n\t\t\t\t\t{% comment %} 온클릭 수정하기 {% endcomment %}\n\t\t\t\t\t<li class=\"footer_li\"><a onclick=\"window.open('privacy.html','window_name','width=640,height=820,location=no,status=no,scrollbars=yes');\">개인정보 처리방침</a></li>\n\t\t\t\t\t<li class=\"footer_li\"><a onclick=\"window.open('terms.html','window_name','width=640,height=820,location=no,status=no,scrollbars=yes');\">이용약관</a></li>\n\t\t\t\t\t<li class=\"footer_li\"><a href=\"tel:01050420310\">대표전화</a></li>\n\t\t\t\t\t<li class=\"footer_li\"><a href=\"mailto:aquinasogames@gmail.com\">문의하기</a></li>\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<p class=\"copyright\">Copyrightⓒ2023 by FooDeepEat.</p>\n\t\t</div>\n\t</footer>\n</body>\n\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/templates/base.html b/templates/base.html
+--- a/templates/base.html	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/templates/base.html	(date 1679043663707)
+@@ -29,7 +29,6 @@
+ 				{% if user.is_authenticated %}
+ 				<li class="nav_user_li"><a href="{% url "mypage" %}">마이페이지</a></li>
+ 				<li class="nav_user_li"><a href="{% url "logout" %}">로그아웃</a></li>
+-
+ 				{% else %}
+ 				<li class="nav_user_li"><a href="{% url "register" %}">회원가입</a></li>
+ 				<li class="nav_user_li"><a href="{% url "login" %}">로그인</a></li>
+@@ -37,6 +36,7 @@
+ 			</ul>
+ 		</nav>
+ 	</header>
++	<div style="margin-bottom: 100px"></div>
+ 	{% block content %}{% endblock %}
+ 	<footer>
+ 		<div class="footer_box">
+Index: calorie/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\n\nclass FoodImage(models.Model):\n    test = models.IntegerField(null=False)\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/models.py b/calorie/models.py
+--- a/calorie/models.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/calorie/models.py	(date 1679041631747)
+@@ -1,6 +1,44 @@
+ from django.db import models
++from user.models import Account
++
++
++class Food(models.Model):
++    name = models.CharField(null=True, blank=True, default='', max_length=20)
++    carbohydrate = models.IntegerField()
++    protein = models.IntegerField()
++    fat = models.IntegerField()
++
++    def __str__(self):
++        return f"음식:{self.name} 탄수화물:{self.carbohydrate} 단백질:{self.protein} 지방:{self.fat}"
++
+ 
+ class FoodImage(models.Model):
+-    test = models.IntegerField(null=False)
++    name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='images')
++    food_img = models.ImageField(null=True, blank=True, default='', upload_to="food/")
++
++    def __str__(self):
++        return f"음식:{self.name} 이미지:{self.food_img}"
++
++
++class UserFood(models.Model):
++    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='users')
++    name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='foods')
++    carbohydrate = models.IntegerField()
++    protein = models.IntegerField()
++    fat = models.IntegerField()
++    date = models.DateField(auto_now_add=True)
++
++    def __str__(self):
++        return f"유저:{self.user} 음식:{self.name} 탄수화물:{self.carbohydrate} 단백질:{self.protein} 지방:{self.fat} 날짜:{self.date}"
+ 
+ 
++class UserMemo(models.Model):
++    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='memos')
++    description = models.TextField(blank=True, null=True)
++    date = models.DateField(auto_now_add=True)
++
++    class Meta:
++        unique_together = ('user', 'date')
++
++    def __str__(self):
++        return f"유저:{self.user.username} 메모:{self.description} 날짜:{self.date}"
+Index: calorie/migrations/0001_initial.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/migrations/0001_initial.py b/calorie/migrations/0001_initial.py
+deleted file mode 100644
+--- a/calorie/migrations/0001_initial.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ /dev/null	(revision 591bc663f202789ca54681e7395695af468d91ea)
+@@ -1,28 +0,0 @@
+-# Generated by Django 4.1.7 on 2023-03-17 00:20
+-
+-from django.db import migrations, models
+-
+-
+-class Migration(migrations.Migration):
+-
+-    initial = True
+-
+-    dependencies = []
+-
+-    operations = [
+-        migrations.CreateModel(
+-            name="FoodImage",
+-            fields=[
+-                (
+-                    "id",
+-                    models.BigAutoField(
+-                        auto_created=True,
+-                        primary_key=True,
+-                        serialize=False,
+-                        verbose_name="ID",
+-                    ),
+-                ),
+-                ("test", models.IntegerField()),
+-            ],
+-        ),
+-    ]
+Index: user/migrations/0001_initial.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/migrations/0001_initial.py b/user/migrations/0001_initial.py
+deleted file mode 100644
+--- a/user/migrations/0001_initial.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ /dev/null	(revision 591bc663f202789ca54681e7395695af468d91ea)
+@@ -1,277 +0,0 @@
+-# Generated by Django 4.1.7 on 2023-03-17 00:20
+-
+-import datetime
+-from django.conf import settings
+-import django.contrib.auth.models
+-import django.contrib.auth.validators
+-import django.core.validators
+-from django.db import migrations, models
+-import django.db.models.deletion
+-import django.utils.timezone
+-
+-
+-class Migration(migrations.Migration):
+-
+-    initial = True
+-
+-    dependencies = [
+-        ("auth", "0012_alter_user_first_name_max_length"),
+-    ]
+-
+-    operations = [
+-        migrations.CreateModel(
+-            name="Account",
+-            fields=[
+-                (
+-                    "id",
+-                    models.BigAutoField(
+-                        auto_created=True,
+-                        primary_key=True,
+-                        serialize=False,
+-                        verbose_name="ID",
+-                    ),
+-                ),
+-                ("password", models.CharField(max_length=128, verbose_name="password")),
+-                (
+-                    "last_login",
+-                    models.DateTimeField(
+-                        blank=True, null=True, verbose_name="last login"
+-                    ),
+-                ),
+-                (
+-                    "is_superuser",
+-                    models.BooleanField(
+-                        default=False,
+-                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+-                        verbose_name="superuser status",
+-                    ),
+-                ),
+-                (
+-                    "username",
+-                    models.CharField(
+-                        error_messages={
+-                            "unique": "A user with that username already exists."
+-                        },
+-                        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+-                        max_length=150,
+-                        unique=True,
+-                        validators=[
+-                            django.contrib.auth.validators.UnicodeUsernameValidator()
+-                        ],
+-                        verbose_name="username",
+-                    ),
+-                ),
+-                (
+-                    "first_name",
+-                    models.CharField(
+-                        blank=True, max_length=150, verbose_name="first name"
+-                    ),
+-                ),
+-                (
+-                    "last_name",
+-                    models.CharField(
+-                        blank=True, max_length=150, verbose_name="last name"
+-                    ),
+-                ),
+-                (
+-                    "is_staff",
+-                    models.BooleanField(
+-                        default=False,
+-                        help_text="Designates whether the user can log into this admin site.",
+-                        verbose_name="staff status",
+-                    ),
+-                ),
+-                (
+-                    "is_active",
+-                    models.BooleanField(
+-                        default=True,
+-                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+-                        verbose_name="active",
+-                    ),
+-                ),
+-                (
+-                    "date_joined",
+-                    models.DateTimeField(
+-                        default=django.utils.timezone.now, verbose_name="date joined"
+-                    ),
+-                ),
+-                (
+-                    "birth_date",
+-                    models.DateField(
+-                        db_column="birth_date",
+-                        default="1900-01-01",
+-                        validators=[
+-                            django.core.validators.MinValueValidator(
+-                                datetime.date(2023, 3, 17)
+-                            ),
+-                            django.core.validators.MaxValueValidator(
+-                                datetime.date(2023, 3, 17)
+-                            ),
+-                        ],
+-                    ),
+-                ),
+-                (
+-                    "email",
+-                    models.EmailField(
+-                        db_column="user_email", max_length=254, unique=True
+-                    ),
+-                ),
+-                (
+-                    "phone_number",
+-                    models.CharField(
+-                        max_length=15,
+-                        unique=True,
+-                        validators=[
+-                            django.core.validators.RegexValidator(
+-                                regex="^01\\d{1}-\\d{3,4}-\\d{4}$"
+-                            )
+-                        ],
+-                    ),
+-                ),
+-                (
+-                    "groups",
+-                    models.ManyToManyField(
+-                        blank=True,
+-                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+-                        related_name="user_set",
+-                        related_query_name="user",
+-                        to="auth.group",
+-                        verbose_name="groups",
+-                    ),
+-                ),
+-                (
+-                    "user_permissions",
+-                    models.ManyToManyField(
+-                        blank=True,
+-                        help_text="Specific permissions for this user.",
+-                        related_name="user_set",
+-                        related_query_name="user",
+-                        to="auth.permission",
+-                        verbose_name="user permissions",
+-                    ),
+-                ),
+-            ],
+-            options={
+-                "verbose_name": "user",
+-                "verbose_name_plural": "users",
+-                "abstract": False,
+-            },
+-            managers=[
+-                ("objects", django.contrib.auth.models.UserManager()),
+-            ],
+-        ),
+-        migrations.CreateModel(
+-            name="ProfileImage",
+-            fields=[
+-                (
+-                    "id",
+-                    models.BigAutoField(
+-                        auto_created=True,
+-                        primary_key=True,
+-                        serialize=False,
+-                        verbose_name="ID",
+-                    ),
+-                ),
+-                (
+-                    "profile_img",
+-                    models.ImageField(
+-                        blank=True, default="", null=True, upload_to="profile/"
+-                    ),
+-                ),
+-                (
+-                    "user",
+-                    models.ForeignKey(
+-                        on_delete=django.db.models.deletion.CASCADE,
+-                        related_name="profile",
+-                        to=settings.AUTH_USER_MODEL,
+-                    ),
+-                ),
+-            ],
+-        ),
+-        migrations.CreateModel(
+-            name="Option",
+-            fields=[
+-                (
+-                    "id",
+-                    models.BigAutoField(
+-                        auto_created=True,
+-                        primary_key=True,
+-                        serialize=False,
+-                        verbose_name="ID",
+-                    ),
+-                ),
+-                (
+-                    "height",
+-                    models.PositiveIntegerField(blank=True, default="", null=True),
+-                ),
+-                (
+-                    "weight",
+-                    models.PositiveIntegerField(blank=True, default="", null=True),
+-                ),
+-                (
+-                    "gender",
+-                    models.CharField(blank=True, default="", max_length=10, null=True),
+-                ),
+-                (
+-                    "user",
+-                    models.OneToOneField(
+-                        on_delete=django.db.models.deletion.CASCADE,
+-                        related_name="option",
+-                        to=settings.AUTH_USER_MODEL,
+-                    ),
+-                ),
+-            ],
+-        ),
+-        migrations.CreateModel(
+-            name="Agree",
+-            fields=[
+-                (
+-                    "id",
+-                    models.BigAutoField(
+-                        auto_created=True,
+-                        primary_key=True,
+-                        serialize=False,
+-                        verbose_name="ID",
+-                    ),
+-                ),
+-                ("must_agree", models.BooleanField(default=True)),
+-                ("option_agree", models.BooleanField(default=False)),
+-                (
+-                    "user",
+-                    models.OneToOneField(
+-                        on_delete=django.db.models.deletion.CASCADE,
+-                        related_name="agree",
+-                        to=settings.AUTH_USER_MODEL,
+-                    ),
+-                ),
+-            ],
+-        ),
+-        migrations.CreateModel(
+-            name="Address",
+-            fields=[
+-                (
+-                    "id",
+-                    models.BigAutoField(
+-                        auto_created=True,
+-                        primary_key=True,
+-                        serialize=False,
+-                        verbose_name="ID",
+-                    ),
+-                ),
+-                ("postal_code", models.IntegerField()),
+-                ("city", models.CharField(max_length=100)),
+-                (
+-                    "address",
+-                    models.CharField(blank=True, default="", max_length=255, null=True),
+-                ),
+-                (
+-                    "user",
+-                    models.ForeignKey(
+-                        on_delete=django.db.models.deletion.CASCADE,
+-                        related_name="addresses",
+-                        to=settings.AUTH_USER_MODEL,
+-                    ),
+-                ),
+-            ],
+-        ),
+-    ]
+Index: user/templates/google_login.html
+===================================================================
+diff --git a/user/templates/google_login.html b/user/templates/google_login.html
+deleted file mode 100644
+--- a/user/templates/google_login.html	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ /dev/null	(revision 591bc663f202789ca54681e7395695af468d91ea)
+@@ -1,37 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="ko">
+-<head>
+-    <meta charset="UTF-8">
+-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-    <meta name="google-signin-scope" content="profile email">
+-    <meta name="google-signin-client_id" content="503581009604-k4mv33qd268vbpc040i5mi9juorjlc73.apps.googleusercontent.com">
+-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+-    <title>Document</title>
+-</head>
+-<body>
+-    <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+-    <button type="button" onclick="signOut();">Sign Out</button>
+-    <script>
+-        function onSignIn(googleUser){
+-            //Useful data for your client-side scripts:
+-            var profile = googleUser.getBasicProfile();
+-            console.log("ID: "+ profile.getId()); // Don't send this directly to your server!
+-            console.log("Full Name: "+ profile.getName());
+-            console.log("Given Name: "+ profile.getGivenName());
+-            console.log("Family Name: "+ profile.getFamilyName());
+-            console.log("Image URL: "+ profile.getImageUrl());
+-            console.log("Email: "+ profile.getEmail());
+-
+-            //The ID token you need to pass to your Backend:
+-            var id_token = googleUser.getAuthResponse().id_token;
+-            console.log("ID Token: "+ id_token);
+-        };
+-
+-        function signOut(){
+-            gapi.auth2.getAuthInstance().disconnect();
+-        };
+-    </script>
+-    
+-</body>
+-</html>
+\ No newline at end of file
+Index: user/templates/naver_callback.html
+===================================================================
+diff --git a/user/templates/naver_callback.html b/user/templates/naver_callback.html
+deleted file mode 100644
+--- a/user/templates/naver_callback.html	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ /dev/null	(revision 591bc663f202789ca54681e7395695af468d91ea)
+@@ -1,42 +0,0 @@
+-<!doctype html>
+-<html lang="ko">
+-<head>
+-<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+-</head>
+-<body>
+-<script type="text/javascript">
+-  var naver_id_login = new naver_id_login("iTanYcwIz0n5CqfvCNb3", "http://127.0.0.1:8000/auth/login");
+-  // 네이버 사용자 프로필 조회
+-  naver_id_login.get_naver_userprofile("naverSignInCallback()");
+-  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+-  function naverSignInCallback() {
+-  var email = naver_id_login.getProfileData('email');
+-  // AJAX 요청을 보내서 이메일이 등록되어 있는지 확인
+-    $.ajax({
+-      // POST 메소드를 사용하여 데이터 전송
+-      type: "POST",
+-      // 데이터 전송 URL 지정
+-      url: "/auth/naver/email/",
+-      // 전송할 데이터 지정
+-      data: {
+-        'email': email,
+-        csrfmiddlewaretoken: '{{ csrf_token }}'
+-      },
+-      // 서버로부터 응답이 성공적으로 돌아왔을 때 처리할 함수
+-      success: function(data) {
+-        console.log("이메일 전송 완료");
+-        // 이메일이 확인되면 회원가입 페이지로 이동
+-        window.location.href = "/auth/register/";
+-      },
+-      // AJAX 요청 중 에러가 발생했을 때 처리할 함수
+-      error: function(xhr, status, error) {
+-        console.log("An error occurred: " + error);
+-        alert("An error occurred while processing the request. Please try again later.");
+-      }
+-    });
+-  }
+-</script>
+-</body>
+-</html>
+-
+Index: user/templates/kakao_login.html
+===================================================================
+diff --git a/user/templates/kakao_login.html b/user/templates/kakao_login.html
+deleted file mode 100644
+--- a/user/templates/kakao_login.html	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ /dev/null	(revision 591bc663f202789ca54681e7395695af468d91ea)
+@@ -1,32 +0,0 @@
+-<!DOCTYPE html>
+-<html lang="ko">
+-<head>
+-    <meta charset="UTF-8">
+-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-    <title>카카오 로그인 api</title>
+-</head>
+-<body>
+-    <a href="javascript:kakaoLogin();"><img src="../img/kakao_login_medium_narrow.png" alt="카카오 로그인"/></a>
+-    <!--kakao login api-->
+-    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+-    <script>
+-        window.Kakao.init("d77216c0fe94925e904209033c336dc9");
+-        function kakaoLogin() {
+-            window.Kakao.Auth.login({
+-                scope:'profile_image, account_email, gender',
+-                success: function(auth0bj) {
+-                    console.log(auth0bj);
+-                    window.Kakao.API.request({
+-                        url:'/v2/user/me',
+-                        success: res=>{
+-                            const kakao_account = res.kakao_account;
+-                            console.log(kakao_account);
+-                        }
+-                    });
+-                }
+-            });
+-        }
+-    </script> 
+-</body>
+-</html>
+\ No newline at end of file
+Index: calorie/apps.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.apps import AppConfig\n\n\nclass CalorieConfig(AppConfig):\n    default_auto_field = \"django.db.models.BigAutoField\"\n    name = \"calorie\"\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/apps.py b/calorie/apps.py
+--- a/calorie/apps.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/calorie/apps.py	(date 1679042173504)
+@@ -1,6 +1,6 @@
+ from django.apps import AppConfig
+ 
+-
+ class CalorieConfig(AppConfig):
+     default_auto_field = "django.db.models.BigAutoField"
+     name = "calorie"
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"c73b87c6-c505-4d67-96fb-2758f19fb12f\" name=\"변경\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/user/templates/google_login.html\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/user/templates/kakao_login.html\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/user/templates/naver_callback.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/admin.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/admin.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/migrations/0001_initial.py\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/models.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/models.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/static/calorie/css/mypage.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/static/css/mypage.css\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/static/calorie/js/mypage.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/static/js/mypage.js\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/static/users/css/login.css\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/static/css/login.css\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/static/users/js/register.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/static/js/register.js\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/calorie/home.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/templates/home.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/calorie/introduce.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/templates/introduce.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/calorie/mypage.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/templates/mypage.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/calorie/service.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/templates/service.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/users/find_username.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/templates/find_username.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/users/login.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/templates/login.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/templates/users/register.html\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/user/templates/register.html\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/urls.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/urls.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/calorie/views.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/calorie/views.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/food_deep_eat/settings.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/food_deep_eat/settings.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/food_deep_eat/urls.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/food_deep_eat/urls.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/static/image/horizontal_logo.png\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/static/image/horizontal_logo.png\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"DjangoConsoleOptions\" custom-start-script=\"import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)\">\n    <option name=\"myCustomStartScript\" value=\"import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"HTML File\" />\n        <option value=\"JavaScript File\" />\n        <option value=\"Python Script\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\n      <map>\n        <entry key=\"$PROJECT_DIR$\" value=\"cd6a25cd40175b1bcaf4a9234c2c5d57ea97146b\" />\n      </map>\n    </option>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n    <option name=\"SWAP_SIDES_IN_COMPARE_BRANCHES\" value=\"true\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2Mwf4gFFK0P0hhXwBqt554fJIft\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showExcludedFiles\" value=\"false\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n    <option name=\"showMembers\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,\n    &quot;last_opened_file_path&quot;: &quot;/Users/seok/Documents/tool_collection/food_deep_eat/user/templates&quot;,\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\n  }\n}</component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/user/templates\" />\n      <recent name=\"$PROJECT_DIR$/static/image\" />\n      <recent name=\"$PROJECT_DIR$/calorie/templates/calorie\" />\n      <recent name=\"$PROJECT_DIR$/calorie/static/users/js\" />\n      <recent name=\"$PROJECT_DIR$/templates\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/calorie/static\" />\n      <recent name=\"$PROJECT_DIR$/user/static\" />\n      <recent name=\"$PROJECT_DIR$/calorie/templates\" />\n      <recent name=\"$PROJECT_DIR$/user/templates\" />\n      <recent name=\"$PROJECT_DIR$/calorie/templates/users\" />\n    </key>\n  </component>\n  <component name=\"RunManager\">\n    <configuration name=\"food_deep_eat\" type=\"Python.DjangoServer\" factoryName=\"Django server\">\n      <module name=\"food_deep_eat\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <option name=\"launchJavascriptDebuger\" value=\"false\" />\n      <option name=\"port\" value=\"8000\" />\n      <option name=\"host\" value=\"\" />\n      <option name=\"additionalOptions\" value=\"\" />\n      <option name=\"browserUrl\" value=\"\" />\n      <option name=\"runTestServer\" value=\"false\" />\n      <option name=\"runNoReload\" value=\"false\" />\n      <option name=\"useCustomRunCommand\" value=\"false\" />\n      <option name=\"customRunCommand\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"애플리케이션 수준\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"디폴트 작업\">\n      <changelist id=\"c73b87c6-c505-4d67-96fb-2758f19fb12f\" name=\"변경\" comment=\"\" />\n      <created>1678683375406</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1678683375406</updated>\n      <workItem from=\"1678683377845\" duration=\"1085000\" />\n      <workItem from=\"1678684500502\" duration=\"8640000\" />\n      <workItem from=\"1678693333077\" duration=\"7478000\" />\n      <workItem from=\"1678714871671\" duration=\"11356000\" />\n      <workItem from=\"1678763735029\" duration=\"17459000\" />\n      <workItem from=\"1678842541263\" duration=\"1177000\" />\n      <workItem from=\"1678843723002\" duration=\"20741000\" />\n      <workItem from=\"1678929439884\" duration=\"150000\" />\n      <workItem from=\"1678929660767\" duration=\"1285000\" />\n      <workItem from=\"1678930957978\" duration=\"4160000\" />\n      <workItem from=\"1678942336098\" duration=\"7457000\" />\n      <workItem from=\"1678951268028\" duration=\"153000\" />\n      <workItem from=\"1678952875989\" duration=\"1401000\" />\n      <workItem from=\"1678963631936\" duration=\"3643000\" />\n      <workItem from=\"1678969758550\" duration=\"2143000\" />\n      <workItem from=\"1678971907950\" duration=\"7456000\" />\n      <workItem from=\"1679011647268\" duration=\"875000\" />\n    </task>\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"main\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/.idea/workspace.xml	(date 1679122509552)
+@@ -5,29 +5,27 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
+-      <change afterPath="$PROJECT_DIR$/user/templates/google_login.html" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/user/templates/kakao_login.html" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/user/templates/naver_callback.html" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/calorie/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/admin.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/calorie/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/apps.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/calorie/migrations/0001_initial.py" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/calorie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/models.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/static/calorie/css/mypage.css" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/static/css/mypage.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/static/calorie/js/mypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/static/js/mypage.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/static/users/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/css/login.css" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/static/users/js/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/js/register.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/home.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/introduce.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/introduce.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/mypage.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/calorie/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/service.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/users/find_username.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/find_username.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/users/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/login.html" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/calorie/templates/users/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/register.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/calorie/templates/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/mypage.html" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/calorie/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/urls.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/food_deep_eat/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/settings.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/food_deep_eat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/urls.py" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/static/image/horizontal_logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/image/horizontal_logo.png" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/migrations/0001_initial.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/models.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/static/js/naver_login.js" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/js/naver_login.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/templates/google_login.html" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/templates/kakao_login.html" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/login.html" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/templates/naver_callback.html" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/urls.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -103,6 +101,7 @@
+       <option name="PARENT_ENVS" value="true" />
+       <envs>
+         <env name="PYTHONUNBUFFERED" value="1" />
++        <env name="DJANGO_SETTINGS_MODULE" value="food_deep_eat.settings" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+       <option name="WORKING_DIRECTORY" value="" />
+@@ -145,7 +144,8 @@
+       <workItem from="1678963631936" duration="3643000" />
+       <workItem from="1678969758550" duration="2143000" />
+       <workItem from="1678971907950" duration="7456000" />
+-      <workItem from="1679011647268" duration="875000" />
++      <workItem from="1679011647268" duration="23845000" />
++      <workItem from="1679118346056" duration="4157000" />
+     </task>
+     <servers />
+   </component>
+Index: user/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models\nfrom django.contrib.auth.models import AbstractUser\nfrom django.core.validators import MinValueValidator, MaxValueValidator\nfrom django.utils import timezone\nfrom django.core.validators import RegexValidator\n\nphone_validator = RegexValidator(\n    regex=r'^01\\d{1}-\\d{3,4}-\\d{4}$'\n)\n\n\n# 유저 정보 테이블\nclass Account(AbstractUser):\n    birth_date = models.DateField(db_column=\"birth_date\",\n                                  # 오늘보다 과거인 날짜만 입력 할 수 있음\n                                  validators=[MinValueValidator(timezone.localdate()),  # 현재 시간보다 미래 시간 허용 금지\n                                              MaxValueValidator(timezone.localdate()),  # 현재 시간보다 과거 시간 허용 금지\n                                              ], default=\"1900-01-01\", null=False)\n    email = models.EmailField(db_column=\"user_email\", null=False, unique=True)\n    phone_number = models.CharField(validators=[phone_validator], null=False, unique=True, max_length=15)\n\n    def __str__(self):\n        return f\"이메일:{self.email} 아이디:{self.username} 비밀번호:{self.password}\"\n\n\n# 유저 프로필 사진\nclass ProfileImage(models.Model):\n    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='profile')\n    profile_img = models.ImageField(null=True, blank=True, default='', upload_to=\"profile/\")\n\n    def __str__(self):\n        return f\"유저:{self.user.username} 이미지:{self.profile_img}\"\n\n\n# 유저 주소 테이블\nclass Address(models.Model):\n    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='addresses')\n    postal_code = models.IntegerField(null=False)\n    city = models.CharField(null=False, max_length=100)\n    address = models.CharField(null=True, blank=True, max_length=255, default='')\n\n    def __str__(self):\n        return f\"유저:{self.user.username} 우편번호:{self.postal_code} 도시:{self.city} 상세주소:{self.address}\"\n\n\n# 유저 선택 정보 테이블\nclass Option(models.Model):\n    user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name='option')\n    height = models.PositiveIntegerField(null=True, blank=True, default='')\n    weight = models.PositiveIntegerField(null=True, blank=True, default='')\n    gender = models.CharField(null=True, blank=True, default='', max_length=10)\n\n    def __str__(self):\n        return f\"유저:{self.user.username} 키:{self.height} 몸무게:{self.weight}\"\n\n\n# 유저 동의 테이블\nclass Agree(models.Model):\n    user = models.OneToOneField(Account, on_delete=models.CASCADE, related_name='agree')\n    must_agree = models.BooleanField(default=True)\n    option_agree = models.BooleanField(default=False)\n\n    def __str__(self):\n        return f\"유저:{self.user.username} 필수동의:{self.must_agree} 선택동의:{self.option_agree}\"\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/models.py b/user/models.py
+--- a/user/models.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/user/models.py	(date 1679042905945)
+@@ -4,6 +4,7 @@
+ from django.utils import timezone
+ from django.core.validators import RegexValidator
+ 
++
+ phone_validator = RegexValidator(
+     regex=r'^01\d{1}-\d{3,4}-\d{4}$'
+ )
+@@ -11,12 +12,11 @@
+ 
+ # 유저 정보 테이블
+ class Account(AbstractUser):
+-    birth_date = models.DateField(db_column="birth_date",
+-                                  # 오늘보다 과거인 날짜만 입력 할 수 있음
+-                                  validators=[MinValueValidator(timezone.localdate()),  # 현재 시간보다 미래 시간 허용 금지
++    # 오늘보다 과거인 날짜만 입력 할 수 있음
++    birth_date = models.DateField(validators=[MinValueValidator(timezone.localdate()),  # 현재 시간보다 미래 시간 허용 금지
+                                               MaxValueValidator(timezone.localdate()),  # 현재 시간보다 과거 시간 허용 금지
+                                               ], default="1900-01-01", null=False)
+-    email = models.EmailField(db_column="user_email", null=False, unique=True)
++    email = models.EmailField(null=False, unique=True)
+     phone_number = models.CharField(validators=[phone_validator], null=False, unique=True, max_length=15)
+ 
+     def __str__(self):
+@@ -27,6 +27,7 @@
+ class ProfileImage(models.Model):
+     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='profile')
+     profile_img = models.ImageField(null=True, blank=True, default='', upload_to="profile/")
++    img_date = models.DateTimeField(auto_now_add=True)
+ 
+     def __str__(self):
+         return f"유저:{self.user.username} 이미지:{self.profile_img}"
+Index: user/static/js/naver_login.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>var naver_id_login = new naver_id_login(\"iTanYcwIz0n5CqfvCNb3\", \"http://127.0.0.1:8000/auth/naver/callback/\");\nvar state = naver_id_login.getUniqState();\nnaver_id_login.setButton(\"white\", 2,40);\nnaver_id_login.setDomain(\"http://127.0.0.1:8000\");\nnaver_id_login.setState(state);\nnaver_id_login.setPopup();\nnaver_id_login.init_naver_id_login();
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/static/js/naver_login.js b/user/static/js/naver_login.js
+--- a/user/static/js/naver_login.js	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/user/static/js/naver_login.js	(date 1679014251679)
+@@ -1,6 +1,6 @@
+ var naver_id_login = new naver_id_login("iTanYcwIz0n5CqfvCNb3", "http://127.0.0.1:8000/auth/naver/callback/");
+ var state = naver_id_login.getUniqState();
+-naver_id_login.setButton("white", 2,40);
++naver_id_login.setButton("green", 2,50);
+ naver_id_login.setDomain("http://127.0.0.1:8000");
+ naver_id_login.setState(state);
+ naver_id_login.setPopup();
+Index: food_deep_eat/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"food_deep_eat URL Configuration\n\nThe `urlpatterns` list routes URLs to views. For more information please see:\n    https://docs.djangoproject.com/en/4.1/topics/http/urls/\nExamples:\nFunction views\n    1. Add an import:  from my_app import views\n    2. Add a URL to urlpatterns:  path('', views.home, name='home')\nClass-based views\n    1. Add an import:  from other_app.views import Home\n    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')\nIncluding another URLconf\n    1. Import the include() function: from django.urls import include, path\n    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))\n\"\"\"\nfrom django.contrib import admin\nfrom django.urls import path, include\n\nurlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"\", include(\"calorie.urls\")),\n    path(\"auth\", include(\"user.urls\"))\n]\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/food_deep_eat/urls.py b/food_deep_eat/urls.py
+--- a/food_deep_eat/urls.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/food_deep_eat/urls.py	(date 1679013052485)
+@@ -19,5 +19,5 @@
+ urlpatterns = [
+     path("admin/", admin.site.urls),
+     path("", include("calorie.urls")),
+-    path("auth", include("user.urls"))
++    path("auth/", include("user.urls"))
+ ]
+Index: user/views.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.contrib.auth import authenticate, login, logout\nfrom django.contrib.auth.password_validation import validate_password\nfrom django.core.validators import validate_email\nfrom django.db import transaction\nfrom django.shortcuts import render, redirect\nfrom django.core.exceptions import ValidationError\nfrom django.utils import timezone\nfrom . import models\n\n\ndef register(request):\n    if request.method == \"POST\":\n        print(request.POST)\n        user_id = request.POST['userid']\n        password = request.POST['password']\n        user_email = request.POST['email']\n        first_name = request.POST['firstname']\n        last_name = request.POST['lastname']\n        birth_date = request.POST['birthday']\n        phone_number = request.POST['phone_number']\n        postal_code = request.POST['postal_code']\n        city = request.POST['city']\n        address = request.POST['address']\n        must_agree = request.POST['must_agree']\n        option_agree = request.POST['option_agree']\n        height = request.POST['height']\n        weight = request.POST['weight']\n        gender = request.POST['gender']\n        profile_img = request.FILES.get('profile_img', None)\n        # 파일 업로드 처리 - 중복 방지\n        if profile_img:\n            profile_img.name = f\"{timezone.now().strftime('%Y%m%d_%H%M%S')}-{profile_img.name}\"\n\n        # 1. 데이터 유효성 검사\n        try:\n            validate_email(user_email)\n            validate_password(password)\n        except ValidationError as e:\n            error_msg = \"이메일 또는 패스워드 형식이 맞지 않습니다.\"\n            return render(request, \"register.html\", {\"error_msg\": error_msg})\n\n        # 2. DB 데이터 삽입\n        with transaction.atomic():\n            user = models.Account.objects.create_user(user_id, user_email, password, first_name=first_name,\n                                                   last_name=last_name, birth_date=birth_date,\n                                                   phone_number=phone_number)\n            models.Address.objects.create(postal_code=postal_code, city=city, address=address or None, user=user)\n            models.Option.objects.create(height=height or None, weight=weight or None, gender=gender or None,\n                                             user=user)\n            models.Agree.objects.create(must_agree=must_agree, option_agree=option_agree, user=user)\n            models.ProfileImage.objects.create(profile_img=profile_img, user=user)\n\n        user = authenticate(username=user_id, password=password)\n        if user is not None:\n            register_success = '회원 가입이 완료되었습니다. 로그인해주세요.'\n            return render(request, 'login.html', {\"register_success\": register_success})\n\n    return render(request, \"register.html\")\n\n\ndef login_page(request):\n    if request.method == \"POST\":\n        username = request.POST[\"username\"]\n        password = request.POST[\"password\"]\n        user = authenticate(request, username=username, password=password)\n        if user:\n            login(request, user)\n            request.session['user_id'] = user.id\n            # print(request.session)\n            # print(user.id)\n            return redirect('home')\n        else:\n            error_msg = \"아이디 또는 비밀번호가 틀렸습니다.\"\n            return render(request, \"login.html\", {\"error_msg\": error_msg})\n\n    return render(request, \"login.html\")\n\n\n# 아이디 찾기\ndef find_username(request):\n    if request.method == \"POST\":\n        email = request.POST.get(\"email\")\n        first_name = request.POST['name'][:1]\n        last_name = request.POST['name'][1:]\n        birth_date = request.POST.get('birth_date')\n        # print(request.POST)\n        try:\n            user = models.Account.objects.get(email=email, first_name=first_name, last_name=last_name,\n                                           birth_date=birth_date)\n            return render(request, 'find_username.html', {\"find_id\": user.username})\n        except models.Account.DoesNotExist:\n            error_msg = '등록 된 계정은 없습니다.'\n            return render(request, 'find_username.html', {\"error_msg\": error_msg})\n\n    return render(request, 'find_username.html')\n\n\ndef logout_page(request):\n    logout(request)\n    return redirect(\"home\")\n\n\ndef naver_callback(request):\n    return render(request, \"naver_callback.html\")\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/views.py b/user/views.py
+--- a/user/views.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/user/views.py	(date 1679120138096)
+@@ -13,7 +13,7 @@
+         print(request.POST)
+         user_id = request.POST['userid']
+         password = request.POST['password']
+-        user_email = request.POST['email']
++        email = request.POST['email']
+         first_name = request.POST['firstname']
+         last_name = request.POST['lastname']
+         birth_date = request.POST['birthday']
+@@ -33,7 +33,7 @@
+ 
+         # 1. 데이터 유효성 검사
+         try:
+-            validate_email(user_email)
++            validate_email(email)
+             validate_password(password)
+         except ValidationError as e:
+             error_msg = "이메일 또는 패스워드 형식이 맞지 않습니다."
+@@ -41,7 +41,7 @@
+ 
+         # 2. DB 데이터 삽입
+         with transaction.atomic():
+-            user = models.Account.objects.create_user(user_id, user_email, password, first_name=first_name,
++            user = models.Account.objects.create_user(user_id, email, password, first_name=first_name,
+                                                    last_name=last_name, birth_date=birth_date,
+                                                    phone_number=phone_number)
+             models.Address.objects.create(postal_code=postal_code, city=city, address=address or None, user=user)
+@@ -65,7 +65,7 @@
+         user = authenticate(request, username=username, password=password)
+         if user:
+             login(request, user)
+-            request.session['user_id'] = user.id
++            #request.session['user_id'] = user.id
+             # print(request.session)
+             # print(user.id)
+             return redirect('home')
+@@ -97,8 +97,4 @@
+ 
+ def logout_page(request):
+     logout(request)
+-    return redirect("home")
+-
+-
+-def naver_callback(request):
+-    return render(request, "naver_callback.html")
++    return redirect("home")
+\ No newline at end of file
+Index: food_deep_eat/settings.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"\nDjango settings for food_deep_eat project.\n\nGenerated by 'django-admin startproject' using Django 4.1.7.\n\nFor more information on this file, see\nhttps://docs.djangoproject.com/en/4.1/topics/settings/\n\nFor the full list of settings and their values, see\nhttps://docs.djangoproject.com/en/4.1/ref/settings/\n\"\"\"\n\nfrom pathlib import Path\nfrom config.environ import Environ\n\n# Build paths inside the project like this: BASE_DIR / 'subdir'.\nBASE_DIR = Path(__file__).resolve().parent.parent\n\n# Quick-start development settings - unsuitable for production\n# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/\n\n# SECURITY WARNING: keep the secret key used in production secret!\nSECRET_KEY = Environ.SECRET_KEY\n\n# SECURITY WARNING: don't run with debug turned on in production!\nDEBUG = True\n\nALLOWED_HOSTS = [\"*\"]\n\n# Application definition\n\nINSTALLED_APPS = [\n    \"phone_field\",\n    \"django.contrib.admin\",\n    \"django.contrib.auth\",\n    \"django.contrib.contenttypes\",\n    \"django.contrib.sessions\",\n    \"django.contrib.messages\",\n    \"django.contrib.staticfiles\",\n    \"calorie\",\n    \"user\"\n]\n\nMIDDLEWARE = [\n    \"django.middleware.security.SecurityMiddleware\",\n    \"django.contrib.sessions.middleware.SessionMiddleware\",\n    \"django.middleware.common.CommonMiddleware\",\n    \"django.middleware.csrf.CsrfViewMiddleware\",\n    \"django.contrib.auth.middleware.AuthenticationMiddleware\",\n    \"django.contrib.messages.middleware.MessageMiddleware\",\n    \"django.middleware.clickjacking.XFrameOptionsMiddleware\",\n]\n\nROOT_URLCONF = \"food_deep_eat.urls\"\n\nTEMPLATES = [\n    {\n        \"BACKEND\": \"django.template.backends.django.DjangoTemplates\",\n        \"DIRS\": [BASE_DIR / 'templates']\n        ,\n        \"APP_DIRS\": True,\n        \"OPTIONS\": {\n            \"context_processors\": [\n                \"django.template.context_processors.debug\",\n                \"django.template.context_processors.request\",\n                \"django.contrib.auth.context_processors.auth\",\n                \"django.contrib.messages.context_processors.messages\",\n            ],\n        },\n    },\n]\n\nWSGI_APPLICATION = \"food_deep_eat.wsgi.application\"\n\n# Database\n# https://docs.djangoproject.com/en/4.1/ref/settings/#databases\n\nDATABASES = {\n    \"default\": {\n        'ENGINE': Environ.DB_ENGINE,\n        'NAME': Environ.DB_NAME,\n        'USER': Environ.DB_USER,\n        'PASSWORD': Environ.DB_PASS,\n        'HOST': Environ.DB_HOST,\n        'PORT': Environ.DB_PORT,\n    }\n}\n\n# Password validation\n# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators\n\nAUTH_PASSWORD_VALIDATORS = [\n    {\n        \"NAME\": \"django.contrib.auth.password_validation.UserAttributeSimilarityValidator\",\n    },\n    {\n        \"NAME\": \"django.contrib.auth.password_validation.MinimumLengthValidator\",\n    },\n    {\n        \"NAME\": \"django.contrib.auth.password_validation.CommonPasswordValidator\",\n    },\n    {\n        \"NAME\": \"django.contrib.auth.password_validation.NumericPasswordValidator\",\n    },\n]\n\n# Internationalization\n# https://docs.djangoproject.com/en/4.1/topics/i18n/\n\nLANGUAGE_CODE = \"en-us\"\n\nTIME_ZONE = \"UTC\"\n\nUSE_I18N = True\n\nUSE_TZ = True\n\n# Static files (CSS, JavaScript, Images)\n# https://docs.djangoproject.com/en/4.1/howto/static-files/\nimport os\n\nSTATIC_URL = \"static/\"\n\nSTATICFILES_DIRS = [\n    BASE_DIR / 'static'\n]\n\n# Default primary key field type\n# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field\n\nDEFAULT_AUTO_FIELD = \"django.db.models.BigAutoField\"\n\n# Custom User model\nAUTH_USER_MODEL = \"user.Account\"\n\n# Media Directory\nMEDIA_URL = \"/media/\"\n\nMEDIA_ROOT = os.path.join(BASE_DIR, 'media')\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/food_deep_eat/settings.py b/food_deep_eat/settings.py
+--- a/food_deep_eat/settings.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/food_deep_eat/settings.py	(date 1679120539130)
+@@ -12,6 +12,7 @@
+ 
+ from pathlib import Path
+ from config.environ import Environ
++import os
+ 
+ # Build paths inside the project like this: BASE_DIR / 'subdir'.
+ BASE_DIR = Path(__file__).resolve().parent.parent
+@@ -30,7 +31,6 @@
+ # Application definition
+ 
+ INSTALLED_APPS = [
+-    "phone_field",
+     "django.contrib.admin",
+     "django.contrib.auth",
+     "django.contrib.contenttypes",
+@@ -38,7 +38,8 @@
+     "django.contrib.messages",
+     "django.contrib.staticfiles",
+     "calorie",
+-    "user"
++    "user",
++    "social_django",
+ ]
+ 
+ MIDDLEWARE = [
+@@ -117,7 +118,6 @@
+ 
+ # Static files (CSS, JavaScript, Images)
+ # https://docs.djangoproject.com/en/4.1/howto/static-files/
+-import os
+ 
+ STATIC_URL = "static/"
+ 
+@@ -135,5 +135,10 @@
+ 
+ # Media Directory
+ MEDIA_URL = "/media/"
+-
+ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
++
++# 로그인 URL
++LOGIN_URL = 'login'
++
++
++
+Index: user/urls.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.conf import settings\nfrom django.urls import path, include\nfrom django.conf.urls.static import static\nfrom . import views\n\nurlpatterns = [\n    path(\"login/\", views.login_page, name=\"login\"),\n    path(\"logout/\", views.logout_page, name=\"logout\"),\n    path(\"register/\", views.register, name=\"register\"),\n    path(\"find_username/\", views.find_username, name=\"find_username\"),\n    path(\"naver/callback/\", views.naver_callback, name=\"naver_callback\")\n\n    # static 파일을 서빙할수있는것을 지정하는것.\n    # media_root에 지정한 폴더에서 취급하겠다.\n] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/urls.py b/user/urls.py
+--- a/user/urls.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/user/urls.py	(date 1679120431531)
+@@ -8,7 +8,6 @@
+     path("logout/", views.logout_page, name="logout"),
+     path("register/", views.register, name="register"),
+     path("find_username/", views.find_username, name="find_username"),
+-    path("naver/callback/", views.naver_callback, name="naver_callback")
+ 
+     # static 파일을 서빙할수있는것을 지정하는것.
+     # media_root에 지정한 폴더에서 취급하겠다.
+Index: user/templates/login.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% extends 'base.html' %}\r\n{% load static %}\r\n\r\n{% block title %}\r\n\t로그인\r\n{% endblock %}\r\n\r\n{% block css_files %}\r\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"{% static 'css/login.css' %}\">\r\n{% endblock %}\r\n\r\n\r\n\r\n{% block content %}\r\n\r\n<div class=\"wrapper\">\r\n    <div class=\"wrap\">\r\n        <div class=\"logo_wrap\">\r\n            <span>푸디핏</span>\r\n        </div>\r\n        <div class=\"login_wrap\">\r\n\t\t\t<form action=\"{% url 'login' %}?next=/calorie/\" method=\"POST\">\r\n                {% csrf_token %}\r\n\t\t\t\t<p>로그인</p>\r\n                <div class=\"id_wrap\">\r\n\t                {% if error_msg %}\r\n\t\t\t\t        <p style=\"color:red\">{{ error_msg }}</p>\r\n\t\t\t\t    {% endif %}\r\n\t\t\t\t\t{% if register_success %}\r\n\t\t\t\t\t\t<script>\r\n\t\t\t\t\t\t\talert('{{ register_success }}')\r\n\t\t\t\t\t\t</script>\r\n\t\t\t\t\t{% endif %}\r\n                    <div class=\"id_input_box\">\r\n                        <label>아이디</label>\r\n                        <span class=\"input-style\">\r\n                            <input type=\"text\" name=\"username\" placeholder=\"아이디를 입력하세요\" required/>\r\n                        </span>\r\n                    </div>\r\n                </div>\r\n                <div class=\"pw_wrap\">\r\n                    <div class=\"pw_input_box\">\r\n                        <label>비밀번호</label>\r\n                        <input type=\"password\" name=\"password\" placeholder=\"비밀번호를 입력하세요\" maxlength=\"12\" minlength=\"8\" required/>\r\n                    </div>\r\n                </div>\r\n\t\t\t\t<div class=\"login_button_wrap\">\r\n                    <input type=\"submit\" class=\"login_btn\" value=\"로그인\">\r\n                </div>\r\n            </form>\r\n\r\n            <div class=\"find\">\r\n                <a href=\"{% url 'find_username' %}\" class=\"id-find\">아이디찾기</a>\r\n            </div>\r\n\r\n            <div class=\"join\">\r\n                <a href=\"{% url 'register' %}\">회원가입</a>\r\n            </div>\r\n\r\n            <div class=\"button-container\">\r\n                <div>\r\n                    <a class=\"other_login\" href=\"#none\">카카오 로그인</a>\r\n                    <span><img src=\"JPG\" alt=\"카카오 로그인\"></span>\r\n                </div>\r\n                <div>\r\n                    <a class=\"other_login\" href=\"#none\">구글 로그인</a>\r\n                    <span><img src=\"JPG\" alt=\"구글 로그인\"></span>\r\n                </div>\r\n\t            <div>\r\n\t\t            <script type=\"text/javascript\" src=\"https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js\" charset=\"utf-8\"></script>\r\n                    <script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-1.11.3.min.js\"></script>\r\n                    <!-- 네이버 로그인 버튼 노출 영역 -->\r\n\t\t\t\t    <div id=\"naver_id_login\"></div>\r\n\t\t\t\t    <!-- //네이버 로그인 버튼 노출 영역 -->\r\n\t                <script type=\"text/javascript\" src=\"{% static 'users/js/naver_login.js' %}\"></script>\r\n                </div>\r\n            </div>\r\n        </div>  \r\n    </div>\r\n</div>\r\n\r\n{% endblock %}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/user/templates/login.html b/user/templates/login.html
+--- a/user/templates/login.html	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/user/templates/login.html	(date 1679016014632)
+@@ -12,7 +12,6 @@
+ 
+ 
+ {% block content %}
+-
+ <div class="wrapper">
+     <div class="wrap">
+         <div class="logo_wrap">
+@@ -67,12 +66,8 @@
+                     <span><img src="JPG" alt="구글 로그인"></span>
+                 </div>
+ 	            <div>
+-		            <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+-                    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+-                    <!-- 네이버 로그인 버튼 노출 영역 -->
+-				    <div id="naver_id_login"></div>
+-				    <!-- //네이버 로그인 버튼 노출 영역 -->
+-	                <script type="text/javascript" src="{% static 'users/js/naver_login.js' %}"></script>
++		            <a class="other_login" href="#none">네이버 로그인</a>
++                    <span><img src="JPG" alt="네이버 로그인"></span>
+                 </div>
+             </div>
+         </div>  
+Index: requirements.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>asgiref==3.6.0\ncertifi==2022.12.7\ncffi==1.15.1\ncharset-normalizer==3.1.0\ncryptography==39.0.2\ndefusedxml==0.7.1\nDjango==4.1.7\ndjango-allauth==0.52.0\ndjango-phone-field==1.8.1\nidna==3.4\noauthlib==3.2.2\nphonenumbers==8.13.7\nPillow==9.4.0\npsycopg2-binary==2.9.5\npycodestyle==2.10.0\npycparser==2.21\nPyJWT==2.6.0\npython-dotenv==1.0.0\npython-stdnum==1.18\npython3-openid==3.2.0\nrequests==2.28.2\nrequests-oauthlib==1.3.1\nsix==1.16.0\nsocial-auth-core==4.3.0\nsqlparse==0.4.3\nurllib3==1.26.15\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/requirements.txt b/requirements.txt
+--- a/requirements.txt	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/requirements.txt	(date 1679014535737)
+@@ -21,6 +21,5 @@
+ requests==2.28.2
+ requests-oauthlib==1.3.1
+ six==1.16.0
+-social-auth-core==4.3.0
+ sqlparse==0.4.3
+ urllib3==1.26.15
+Index: calorie/admin.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.contrib import admin\nfrom . import models\n\n# Register your models here.\n\nadmin.site.register(models.FoodImage)\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/calorie/admin.py b/calorie/admin.py
+--- a/calorie/admin.py	(revision 591bc663f202789ca54681e7395695af468d91ea)
++++ b/calorie/admin.py	(date 1679023001232)
+@@ -3,4 +3,4 @@
+ 
+ # Register your models here.
+ 
+-admin.site.register(models.FoodImage)
++# admin.site.register(models.FoodImage)

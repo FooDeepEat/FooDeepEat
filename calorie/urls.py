@@ -11,6 +11,7 @@ urlpatterns = [
     path('calorie/', include([
         path('', views.service, name='service'),
         path('mypage/', views.mypage, name='mypage'),
+        path('mypage/<str:date>/', views.mypage, name='mypage_with_date'),
         path('introduce/', views.introduce, name="introduce"),
     ])),
 

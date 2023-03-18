@@ -268,3 +268,7 @@ pyrightconfig.json
 
 ### MAC OS ###
 .DS_Store
+
+### Migrations 폴더 ###
+/calorie/migrations/
+/user/migrations/
