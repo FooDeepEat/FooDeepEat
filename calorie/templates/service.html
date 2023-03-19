@@ -1,12 +1,107 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	영양정보 확인
 {% endblock %}
 
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'css/service.css' %}">
+{% endblock %}
+
+{% block js_files %}
+<script type="text/javascript" src="{% static 'js/service.js' %}"></script>
+{% endblock %}
+
+
 {% block content %}
 {% include 'header.html' %}
 <div class="wrap">
+
+	<div class="userfood">
+		<form action="" >
+			<!-- img 태그 안의 src attribute에 기본 이미지 삽입-->
+			<label for="file-upload">
+				<img id="preview" src="../img/service_default_bg.jpg"/>
+			</label>
+			<input id="file-upload" type="file" onchange="previewImage(this);">
+			<button type="submit" onclick="">제출하기</button>
+		</form>
+	</div>
+
+	<div class="usereaten">
+		<table>
+			<thead onchange="printFoodInfo();">
+				<tr>
+					<th><img src="../img/부대찌개.jpg" alt="모델을 돌고 분석되어 나온 음식 사진 1" id="foodview"/></th>
+				</tr>				
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="2"></td>
+				</tr>
+				<tr>
+					<td>열량(kcal)</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>탄수화물(g)</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>단백질(g)</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>지방(g)</td>
+					<td></td>
+				</tr>
+				{% comment %} <tr>
+					<td colspan="2">${부대찌개Info.foodname}</td>
+				</tr>
+				<tr>
+					<td>열량(kcal)</td>
+					<td>${부대찌개Info.kcal}</td>
+				</tr>
+				<tr>
+					<td>탄수화물(g)</td>
+					<td>${부대찌개Info.carbonhydrates}</td>
+				</tr>
+				<tr>
+					<td>단백질(g)</td>
+					<td>${부대찌개Info.protein}</td>
+				</tr>
+				<tr>
+					<td>지방(g)</td>
+					<td>${부대찌개Info.fat}</td>
+				</tr> {% endcomment %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">얼마나 드셨나요?(g)</td>
+				</tr>
+				<tr>
+					<td><input type="text" name="#" value="100" id="inputField" readonly required></td>
+					<td><button id="confirmButton" onclick="toggleInputField()">수정하기</button>
+						<button id="editButton" style="display: none;" onclick="toggleInputField()">확인하기</button></td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+	<form action="">
+		<button type="submit">기록하기</button>
+	</form>
+	
+
+
+
+
+
+
+
+
+
 	<div>
 		<h2>사진으로 영양정보 확인하기</h2>
 
