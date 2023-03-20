@@ -1,8 +1,6 @@
 /*footer 관련 속성*/
 footer{     
-  position: absolute;
-  left: 50%;
-  bottom: 0;
+  position: relative;
   max-width: 1920px;
   min-width: 1200px;
   width: 100%;
@@ -11,7 +9,7 @@ footer{
   box-sizing: border-box;
   margin: 100px auto 0;
   background-color: #f9f9f9;
-  transform: translate(-50%);
+  /* transform: translate(-50%); */
 }
 .footer_box{
   width: 100%;

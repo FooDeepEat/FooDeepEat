@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	아이디 찾기
 {% endblock %}
+
+
+
+{% block css_files %}
+{% endblock %}
+
+{% block js_files %}
+	<script type="text/javascript" src="{% static 'js/mypage.js' %}"></script>
+{% endblock %}
+
 
 {% block content %}
 
@@ -16,17 +27,24 @@
 	    {% if error_msg %}
 	        <p style="color:red">{{ error_msg }}</p>
 	    {% endif %}
-        <div>
-	        <label for="name">이름</label>
-	        <input type="text" name="name" required>
-            <label for="email">이메일</label>
-            <input type="email" name="email" required>
-	        <label for="birth_date">생년월일</label>
-	        <input type="date" name="birth_date" required>
-        </div>
-        <button type="submit">아이디 찾기</button>
+		<div>
+			<ul>
+			  <li>
+				이름
+				<input type="text" name="name" placeholder="예시:푸디핏" required>
+			  </li>
+			  <li>
+				생년월일
+				<input class="birth_date" type="text" name="birth_date" placeholder="예시: 1997-11-13" maxlength="10" required>
+			  </li>
+			  <li>
+				이메일
+				<input type="email" name="email" placeholder="예시: foodeepeat@fde.com" required>
+			  </li>
+			</ul>
+		</div>
+		<button type="submit" class="findid" onclick="checkFields()">아이디 찾기</button>
     </form>
-
 {% endif %}
 
 {% endblock %}
