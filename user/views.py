@@ -68,7 +68,7 @@ def login_page(request):
             # request.session['user_id'] = user.id
             # print(request.session)
             # print(user.id)
-            return redirect('home')
+            return redirect('calorie:home')
         else:
             error_msg = "아이디 또는 비밀번호가 틀렸습니다."
             return render(request, "login.html", {"error_msg": error_msg})
@@ -97,4 +97,4 @@ def find_id(request):
 
 def logout_page(request):
     logout(request)
-    return redirect("home")
+    return redirect("calorie:home")
