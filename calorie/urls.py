@@ -3,6 +3,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from . import views
 
+app_name = "calorie"
+
 urlpatterns = [
     # 첫 번째 URL 공간
     path('', views.home, name="home"),

@@ -15,145 +15,111 @@
 
 {% block content %}
 
-<div>
-    <ul class="side-bar">
-        <li class="daily-nutri on"><a href="#">일일 영양정보</a></li>
-        <li class="daily-nutri"><a href="#">회원정보수정</a></li>
-    </ul>
-</div>
+<div class="all-wrap">
+	<div class="side-bar-wrap">
+        <ul>
+            <li class="daily-nutri on"><a href="#">일일 영양정보</a></li>
+            <li class="daily-nutri"><a href="#">회원정보수정</a></li>
+        </ul>
+    </div>
 
-<div class="calendar">
-    <form method="GET">
-		<input type="date" name="date" id="currentDate" value="{{ date }}">
-        <button type="submit">선택</button>
-    </form>
-
-	<section>
-	    <div class="section1">
-	        <div class="pie-nutrients">
-	            <canvas id='canvas'></canvas>
-	        </div>
-	    </div>
-		<div class="section2-1">
-	        <table>
-	            <caption>오늘의 영양정보 요약</caption>
-	            <tr>
-	                <th>열량</th>
-	                <th>:</th>
-	                <td>1000kcal</td>
-	            </tr>
-	            <tr>
-	                <th>탄수화물</th>
-	                <th>:</th>
-	                <td>100g</td>
-	                <td>(400kcal)</td>
-	            </tr>
-	            <tr>
-	                <th>단백질</th>
-	                <th>:</th>
-	                <td>75g</td>
-	                <td>(300kcal)</td>
-	            </tr>
-	            <tr>
-	                <th>지방</th>
-	                <th>:</th>
-	                <td>33.3g</td>
-	                <td>(300kcal)</td>
-	            </tr>
-	        </table>
-	    </div>
-		<div class="section2-2">
-	        <form method="POST">
-	            {% csrf_token %}
-	            {% if not memos %}
-		            <input type="hidden" name="edit_date" value="{{ date }}">
-		            <label>오늘의 한 마디:
-			            <textarea maxlength="300" name="memo_text" placeholder="최대 300자까지 입력 가능합니다."></textarea>
-	                </label>
-		            <button class="submit-button" type="submit">기록하기</button>
-	            {% else %}
-		            <input type="hidden" name="edit_date" value="{{ date }}">
-		            <label>오늘의 한 마디:
-			            <textarea maxlength="300" name="memo_text" placeholder="최대 300자까지 입력 가능합니다.">
-				            {{ memos.description }}
-			            </textarea>
-	                 </label>
-	                <button class="submit-button" type="submit">수정하기</button>
-	            {% endif %}
-	        </form>
-	    </div>
-
-	    <div class="section3">
-	        <div class="foods-list">
-	            <table>
-	                <tr>
-	                    <div class="foods-image">
-	                        <img src="" alt="">
-	                    </div>
-	                </tr>
-	                <caption>영양정보</caption>
-	                <tr>
-	                    <th>탄수화물</th>
-	                    <th>:</th>
-	                    <td>100g</td>
-	                    <td>(400kcal)</td>
-	                </tr>
-	                <tr>
-	                    <th>단백질</th>
-	                    <th>:</th>
-	                    <td>75g</td>
-	                    <td>(300kcal)</td>
-	                </tr>
-	                <tr>
-	                    <th>지방</th>
-	                    <th>:</th>
-	                    <td>33.3g</td>
-	                    <td>(300kcal)</td>
-	                </tr>
-	                <tr>
-	                    <th>열량</th>
-	                    <th>:</th>
-	                    <td>1000kcal</td>
-	                </tr>
-	            </table>
-	        </div>
-	    </div>
-		<div class=section4>
-	        <div class="foods-list">
-	            <table>
-	                <tr>
-	                    <div class="foods-image">
-	                        <img src="" alt="">
-	                    </div>
-	                </tr>
-	                <caption>영양정보</caption>
-	                <tr>
-	                    <th>탄수화물</th>
-	                    <th>:</th>
-	                    <td>100g</td>
-	                    <td>(400kcal)</td>
-	                </tr>
-	                <tr>
-	                    <th>단백질</th>
-	                    <th>:</th>
-	                    <td>75g</td>
-	                    <td>(300kcal)</td>
-	                </tr>
-	                <tr>
-	                    <th>지방</th>
-	                    <th>:</th>
-	                    <td>33.3g</td>
-	                    <td>(300kcal)</td>
-	                </tr>
-	                <tr>
-	                    <th>열량</th>
-	                    <th>:</th>
-	                    <td>1000kcal</td>
-	                </tr>
-	            </table>
-	        </div>
-	    </div>
-	</section>
+	<div class="main-wrap">
+        <div class="summary-wrap">
+			<div class="calendar">
+			    <form method="GET">
+				    <label>날짜
+						<input type="date" name="date" id="currentDate" value="{{ date }}">
+				    </label>
+			    </form>
+			</div>
+			<div class="pie-chart">
+                <canvas id="pie-canvas" width="200" height="200">
+                    <label class="label-carbo">탄수화물
+                        <input type="number" id="pie-carb" value="60">
+                    </label>
+                    <label class="label-protein">단백질
+                        <input type="number" id="pie-protein" value="30">
+                    </label>
+                    <label class="label-fat">지방
+                        <input type="number" id="pie-fat" value="10">
+                    </label>
+                </canvas>
+            </div>
+			<div class="total-nutri">
+                <table>
+                    <caption>오늘의 영양정보 요약</caption>
+                    <tbody>
+                        <tr>
+                            <th>열량</th>
+                            <td>:</td>
+                            <td>1000kcal</td>
+                        </tr>
+                        <tr>
+                            <th>탄수화물</th>
+                            <td>:</td>
+                            <td>100g</td>
+                            <td>(400kcal)</td>
+                        </tr>
+                        <tr>
+                            <th>단백질</th>
+                            <td>:</td>
+                            <td>75g</td>
+                            <td>(300kcal)</td>
+                        </tr>
+                        <tr>
+                            <th>지방</th>
+                            <td>:</td>
+                            <td>33.3g</td>
+                            <td>(300kcal)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="memo">
+		        <form method="POST">
+		            {% csrf_token %}
+		            {% if not memos %}
+			            <input type="hidden" name="edit_date" value="{{ date }}">
+			            <label>오늘의 한 마디:
+				            <textarea maxlength="300" name="memo_text" placeholder="최대 300자까지 입력 가능합니다."></textarea>
+		                </label>
+			            <button class="submit-button" type="submit">기록하기</button>
+		            {% else %}
+			            <input type="hidden" name="edit_date" value="{{ date }}">
+			            <label>오늘의 한 마디:
+				            <textarea maxlength="300" name="memo_text" placeholder="최대 300자까지 입력 가능합니다.">
+					            {{ memos.description }}
+				            </textarea>
+		                 </label>
+		                <button class="submit-button" type="submit">수정하기</button>
+		            {% endif %}
+		        </form>
+		    </div>
+            <div class="record-wrap">
+	            <div class="meal-summary">
+	                <div class="timestamp">
+	                    작성된 시간 입력됨
+	                </div>
+	                <div class="meal-nutri">
+	                    총 열량 / 탄수화물 / 단백질 / 지방
+	                </div>
+	            </div>
+            </div>
+            <div class="what-eat">
+                <div class="meal-photo">
+                    <img src="#음식사진 받아오기" alt="음식사진">
+                </div>
+                <div class="food-list">
+                    <ul>
+                        <li>열량 N kcal</li>
+                        <li>탄수화물 N g</li>
+                        <li>단백질 N g</li>
+                        <li>지방 N g</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

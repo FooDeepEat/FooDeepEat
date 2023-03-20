@@ -7,15 +7,15 @@
 {% block content %}
 	<header class="menu">
 		<nav class="manu_nav">
-			<h1 class="logo"><a href="{% url "home" %}"><img src="{%static 'image/horizontal_logo.png' %}"></a></h1>
+			<h1 class="logo"><a href="{% url "calorie:home" %}"><img src="{%static 'image/horizontal_logo.png' %}"></a></h1>
 			<ul class="nav_menu">
-				<li class="nave_menu_li"><a href="{% url "introduce" %}">푸디핏 사람들</a></li>
-				<li class="nave_menu_li"><a href="{% url "service" %}">영양정보 확인</a></li>
+				<li class="nave_menu_li"><a href="{% url "calorie:introduce" %}">푸디핏 사람들</a></li>
+				<li class="nave_menu_li"><a href="{% url "calorie:service" %}">영양정보 확인</a></li>
 			</ul>
 			
 			<ul class="nav_user">
 				{% if user.is_authenticated %}
-				<li class="nav_user_li"><a href="{% url "mypage" %}">마이페이지</a></li>
+				<li class="nav_user_li"><a href="{% url "calorie:mypage" %}">마이페이지</a></li>
 				<li class="nav_user_li"><a href="{% url "logout" %}">로그아웃</a></li>
 
 				{% else %}

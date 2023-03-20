@@ -10,7 +10,7 @@ from . import models
 
 def register(request):
     if request.method == "POST":
-        #print(request.POST)
+        # print(request.POST)
         user_id = request.POST['userid']
         password = request.POST['password']
         email = request.POST['email']
@@ -42,11 +42,11 @@ def register(request):
         # 2. DB 데이터 삽입
         with transaction.atomic():
             user = models.Account.objects.create_user(user_id, email, password, first_name=first_name,
-                                                   last_name=last_name, birth_date=birth_date,
-                                                   phone_number=phone_number)
+                                                      last_name=last_name, birth_date=birth_date,
+                                                      phone_number=phone_number)
             models.Address.objects.create(postal_code=postal_code, city=city, address=address or None, user=user)
             models.Option.objects.create(height=height or None, weight=weight or None, gender=gender or None,
-                                             user=user)
+                                         user=user)
             models.Agree.objects.create(must_agree=must_agree, option_agree=option_agree, user=user)
             models.ProfileImage.objects.create(profile_img=profile_img, user=user)
 
@@ -65,7 +65,7 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            #request.session['user_id'] = user.id
+            # request.session['user_id'] = user.id
             # print(request.session)
             # print(user.id)
             return redirect('home')
@@ -77,7 +77,7 @@ def login_page(request):
 
 
 # 아이디 찾기
-def find_username(request):
+def find_id(request):
     if request.method == "POST":
         email = request.POST.get("email")
         first_name = request.POST['name'][:1]
@@ -86,13 +86,13 @@ def find_username(request):
         # print(request.POST)
         try:
             user = models.Account.objects.get(email=email, first_name=first_name, last_name=last_name,
-                                           birth_date=birth_date)
-            return render(request, 'find_username.html', {"find_id": user.username})
+                                              birth_date=birth_date)
+            return render(request, 'find_id.html', {"find_id": user.username})
         except models.Account.DoesNotExist:
             error_msg = '등록 된 계정은 없습니다.'
-            return render(request, 'find_username.html', {"error_msg": error_msg})
+            return render(request, 'find_id.html', {"error_msg": error_msg})
 
-    return render(request, 'find_username.html')
+    return render(request, 'find_id.html')
 
 
 def logout_page(request):
