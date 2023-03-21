@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block js_files %}
-	<script type="text/javascript" src="{% static 'js/mypage.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/find_id.js' %}"></script>
 {% endblock %}
 
 
@@ -23,28 +23,33 @@
 	<a href="{% url 'login' %}">로그인 페이지로 이동</a>
 
 {% else %}
-    <form method="POST">
+	<div class="id-post">
+        <h2>FIND ID</h2>
+        <p class="summary">아이디는 가입시 등록한 메일 주소로 알려드립니다.<br/>
+        가입할 때 등록하신 메일 주소를 입력하시고 "아이디 찾기" 버튼을 클릭해주세요.<br/></p>
+    </div>
+    <form name="findform" method="POST">
         {% csrf_token %}
 	    {% if error_msg %}
 	        <p style="color:red">{{ error_msg }}</p>
 	    {% endif %}
 		<div>
 			<ul>
-			  <li>
-				이름
-				<input type="text" name="name" placeholder="예시:푸디핏" required>
-			  </li>
-			  <li>
-				생년월일
-				<input class="birth_date" type="text" name="birth_date" placeholder="예시: 1997-11-13" maxlength="10" required>
-			  </li>
-			  <li>
-				이메일
-				<input type="email" name="email" placeholder="예시: foodeepeat@fde.com" required>
-			  </li>
+				<li>
+					이름
+					<input type="text" name="name" placeholder="예시:푸디핏" required>
+				</li>
+                <li>
+	                생년월일
+	                <input class="birthday" type="text" name="birth_date" placeholder="예시: 1997-11-13" maxlength="10" onkeyup="addHyphen(this)" required>
+                </li>
+				<li>
+					이메일
+					<input type="email" name="email" placeholder="예시: foodeepeat@fde.com" required>
+				</li>
 			</ul>
-		</div>
-		<button type="submit" class="findid" onclick="checkFields()">아이디 찾기</button>
+        </div>
+        <button type="submit" class="findid" onclick="checkFields()">아이디 찾기</button>
     </form>
 {% endif %}
 

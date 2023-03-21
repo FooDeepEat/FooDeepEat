@@ -22,5 +22,5 @@ urlpatterns = [
     path("", include("calorie.urls")),
     path("auth/", include("user.urls")),
     path("privacy/", views.privacy, name="privacy"),
-    path("terms/", views.terms, name="terms")
+    path("terms/", views.terms, name="terms"),
 ]

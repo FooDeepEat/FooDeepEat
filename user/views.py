@@ -4,16 +4,14 @@ from django.core.validators import validate_email
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
-from django.utils import timezone
 from . import models
 
 
 def register(request):
     if request.method == "POST":
-        # print(request.POST)
+        email = request.POST['email']
         username = request.POST['username']
         password = request.POST['password']
-        email = request.POST['email']
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
         birth_date = request.POST['birth_date']
@@ -29,9 +27,10 @@ def register(request):
         profile_img = request.FILES.get('profile_img', None)
         # 파일 업로드 처리 - 중복 방지
         if profile_img:
-            profile_img.name = f"{timezone.now().strftime('%Y%m%d_%H%M%S')}-{username}"
+            image_type = profile_img.name.split(".")[-1].lower()
+            profile_img.name = f"{username}.{image_type}"
 
-        # 1. 데이터 유효성 검사
+        # 패스워드 유효성 검사
         try:
             validate_email(email)
             validate_password(password)
@@ -39,7 +38,7 @@ def register(request):
             error_msg = "이메일 또는 패스워드 형식이 맞지 않습니다."
             return render(request, "register.html", {"error_msg": error_msg})
 
-        # 2. DB 데이터 삽입
+        # DB 데이터 삽입
         with transaction.atomic():
             user = models.Account.objects.create_user(username, email, password, first_name=first_name,
                                                       last_name=last_name, birth_date=birth_date,

@@ -6,15 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/mypage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/static/js/mypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/static/js/mypage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/food_deep_eat/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/privacy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/terms.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/terms.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/food_deep_eat/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/food_deep_eat/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/static/js/find_id.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/user/templates/find_id.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/find_id.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
@@ -30,9 +30,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -98,10 +98,10 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/calorie/templates" />
-      <recent name="$PROJECT_DIR$/calorie/static" />
-      <recent name="$PROJECT_DIR$/user/static" />
+      <recent name="$PROJECT_DIR$/calorie/static/js" />
+      <recent name="$PROJECT_DIR$/user/static/js" />
       <recent name="$PROJECT_DIR$/user/templates" />
-      <recent name="$PROJECT_DIR$/calorie/templates/users" />
+      <recent name="$PROJECT_DIR$/calorie/static" />
     </key>
   </component>
   <component name="RunManager">

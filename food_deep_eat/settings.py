@@ -140,4 +140,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # 로그인 URL
 LOGIN_URL = 'login'
 
+# 이메일 인증
+EMAIL_HOST_USER = "ssd3784@gmail.com"
+
 

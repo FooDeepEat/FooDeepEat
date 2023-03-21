@@ -15,3 +15,15 @@ function checkFields(event) {
       event.preventDefault();
     }
 }
+
+function addHyphen(element) {
+  let ele = element.value.split('-').join('');    // '-' 제거
+  if (ele.length > 4) {
+    ele = ele.substring(0, 4) + '-' + ele.substring(4);
+  }
+  if (ele.length > 7) {
+    ele = ele.substring(0, 7) + '-' + ele.substring(7);
+  }
+  element.value = ele;
+}
+

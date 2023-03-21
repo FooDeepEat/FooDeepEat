@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 import random
 from . import models
 
@@ -35,15 +36,26 @@ def mypage(request, date=None):
 def service(request):
     user = request.user
 
+    food_img = None
+    weight = None
+
     if request.method == "POST":
         if request.GET.get('form') == "userfood":
             food_img = request.FILES.get('user_img', None)
+            if food_img:
+                food_img.name = f"{user.username}.{food_img.name}"
         elif request.GET.get('form') == "usereaten":
             weight = request.POST["user_weight"]
 
         with transaction.atomic():
-            models.UserFoodImage.objects.create(food_img=food_img, user=user)
-            models.UserFood.objects.create(weight=weight, user=user)
+            if food_img:
+                models.UserFoodImage.objects.create(food_img=food_img, user=user)
+            if weight:
+                models.UserFood.objects.create(weight=weight, user=user)
+
+        user_foods = models.UserFood.objects.filter(user_id=user.id).all()
+        food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
+        return render(request, "service.html", {"user_foods": user_foods, "food_img": food_img})
 
     return render(request, "service.html")
 
@@ -58,6 +70,16 @@ def home(request):
         random_img = None
 
     return render(request, "home.html", {"random_food": random_food, "random_img": random_img})
+
+
+def search(request):
+    food_name = request.GET.get('food_name')
+    if food_name:
+        # 검색어를 포함하는 음식 데이터 조회
+        foods = models.Food.objects.filter(Q(name__icontains=food_name) | Q(description__icontains=food_name))
+    else:
+        foods = models.Food.objects.none()
+    return render(request, "search.html", {"food_name": food_name, "foods": foods})
 
 
 def introduce(request):
