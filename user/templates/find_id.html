@@ -18,9 +18,11 @@
 {% block content %}
 
 {% if find_id %}
-	해당 이메일에 등록 된 아이디는 {{ find_id }} 입니다
-	<br>
-	<a href="{% url 'login' %}">로그인 페이지로 이동</a>
+
+	<div>
+		<p>해당 이메일에 등록 된 아이디는 {{ find_id }} 입니다</p>
+		<a href="{% url 'login' %}">로그인 페이지로 이동</a>
+	</div>
 
 {% else %}
 	<div class="id-post">

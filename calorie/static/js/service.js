@@ -2,16 +2,16 @@ function previewImage(input){
     if(input.files && input.files[0]){
         var reader = new FileReader();
         reader.onload = function(e){
-            document.getElementById("preview").src = e.target.result;
+            document.getElementById("showFood").src = e.target.result;
         };
         reader.readAsDataURL(input.files[0]);
     } else{
-        document.getElementById('preview').src="";
+        document.getElementById('showFood').src="";
     }
 }
 
 const inputElement = document.getElementById("file-upload")
-const previewElement = document.getElementById("preview")
+const previewElement = document.getElementById("showFood")
 
 inputElement.addEventListener("change", (e) => {
     const file = e.target.files[0];

@@ -17,61 +17,71 @@
 {% block content %}
 {% include 'header.html' %}
 <div class="wrap">
-
 	<div class="userfood">
 		<form method="POST" enctype="multipart/form-data" action="/service/?form=userfood">
-			<!-- img 태그 안의 src attribute에 기본 이미지 삽입-->
-			<label for="file-upload">
-				<img src="/static/image/service_default_bg.jpg" id="preview" />
-			</label>
-			<input id="file-upload" name="user_img" type="file" onchange="previewImage(this);">
-			<button type="submit" onclick="">제출하기</button>
+			<div class="foodbox">
+				<label for="file-upload" class="pick_food">
+					<input id="file-upload" type="file" onchange="previewImage(this);">
+				</label>
+				<span class="show_food">
+					<img id="showFood" src="/static/image/service_default_bg.jpg"/>			
+				</span>
+				<button type="submit" onclick="" class="btn_style01">영양정보 확인하기</button>
+			</div>			
 		</form>
 	</div>
-
-	<div class="usereaten">
-		<table>
-			<thead onchange="printFoodInfo();">
-				<tr>
-					<th><img src="/static/image/부대찌개.jpg" alt="모델을 돌고 분석되어 나온 음식 사진 1" id="foodview"/></th>
-				</tr>				
-			</thead>
-			<tbody>
-				<tr>
-					<td colspan="2"></td>
-				</tr>
-				<tr>
-					<td>열량(kcal)</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>탄수화물(g)</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>단백질(g)</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>지방(g)</td>
-					<td></td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="2">얼마나 드셨나요?(g)</td>
-				</tr>
-				<tr>
-					<td><input type="text" name="#" value="100" id="inputField" readonly required></td>
-					<td><button id="confirmButton" onclick="toggleInputField()">수정하기</button>
-						<button id="editButton" style="display: none;" onclick="toggleInputField()">확인하기</button></td>
-				</tr>
-			</tfoot>
-		</table>
+	<div class="food_cont">
+		<ul>
+			<li class="food_info">
+				<table class="food_info_table">
+					<colgroup>
+						<col width="50%">
+						<col width="50%">
+					</colgroup>
+		
+					<thead onchange="printFoodInfo();">
+						<tr>
+							<th colspan="2">
+								<div class="thum_box">
+									<p class="thum_img"><img src="/static/image/부대찌개.jpg" alt=""/></p>
+									<p class="thum_txt">[<span class="thum_name">돼지고기메추리알장조림</span>] 100g 기준의 영양정보입니다.</p>
+								</div>	
+							</th>	
+						</tr>				
+					</thead>
+					<tbody>
+						<tr>
+							<td>열량(kcal)</td>
+							<td><span>100</span>kal</td>
+						</tr>
+						<tr>
+							<td>탄수화물(g)</td>
+							<td><span>100</span>g</td>
+						</tr>
+						<tr>
+							<td>단백질(g)</td>
+							<td><span>100</span>g</td>
+						</tr>
+						<tr>
+							<td>지방(g)</td>
+							<td><span>100</span>g</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				{% comment %} 기록하기 {% endcomment %}
+				<form method="POST" name="user_weight" action="/service/?form=usereaten">
+					<div class="eatbox">
+						<p class="eat_txt">얼마나 드셨나요?(g)</p>
+						<span class="eat_input"><input type="text" value="" id="inputField" required></span>
+						<button type="submit" class="btn_style02">기록하기</button>
+					</div>
+				</form>
+			</li>
+		</ul>
 	</div>
-	<form method="POST" name="user_weight" action="/service/?form=usereaten">
-		<button type="submit">기록하기</button>
-	</form>
+
+
 
 </div>
 {% include 'footer.html' %}

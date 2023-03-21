@@ -1,72 +1,122 @@
-#preview{
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        object-fit: cover;
-        align-items: center;
-        overflow:hidden;
-    }
-#file-upload{
-        display: none;
-    }
-
-#foodview{
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        align-items: center;
-        overflow:hidden;
-        padding: 10px;
-        margin-inline-start: 97px;
-    }
-
-
-/*테스트용*/
-body{
-    margin: 0 auto;
-    max-width: 800px;
+/*테이블*/
+.food_cont{
+  width: 100%;
+  position: relative;
+}
+.food_cont ul{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-/*테이블*/
-table {
-    width: 350px;
-    border-collapse: collapse;
-    font-size: 15px;
-  }
+.food_info{  
+  float: left;
+  width: 33.33%;
+  margin: 0 auto;
+  max-width: 325px;
+}
+.food_info:nth-child(5){
+  clear: both;
+}
 
-  th, td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid #ddd;
-  }
+.food_info_table {
+  width: 90%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.food_info_table thead{
+  border: 0;
+}
+.food_info_table td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
 
-  th {
-    background-color: #f2f2f2;
-  }
+.foodbox{
+  position: relative;
+  text-align: center;
+  margin: 40px auto 30px;
+  width: 250px;
+}
+.pick_food{
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+  position: relative;
+  z-index: 10;
+}
+.pick_food input[type="file"]{
+  width: 100%;
+  display: none;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0;
+}
 
-  tfoot td {
-    padding: 20px;
-    text-align: center;
-    background-color: #f2f2f2;
-  }
+.show_food{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  align-items: center;
+  overflow:hidden;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 1px solid #ddd;
+}
 
-  input[type="text"] {
-    border: 1px solid #ddd;
-    padding: 5px;
-    width: 80%;
-    box-sizing: border-box;
-  }
+.show_food img{
+  width: 100%;
+}
 
-  #confirmButton, #editButton {
-    padding: 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.thum_box{
+  margin: 25px 0 20px;
+}
+.thum_img{
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.thum_img img{
+  width: 100%;
+}
+.thum_txt{
+  margin: 12px 0 0;
+  font-size: 13px;
+  text-align: center;
+}
+.thum_name{  
+  color: #206B18;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 4px;
+}
 
-  #editButton {
-    background-color: #2196F3;
-  }
+.eatbox{
+  display: inline-block;
+  padding: 20px 25px;
+  width: 325px;
+  box-sizing: border-box;
+}
+.eat_txt{
+  font-size: 14px;
+  margin: 0 0 10px;
+}
+.eat_input{  
+  padding: 5px 8px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 180px;
+  display: inline-block;
+  box-sizing: border-box;
+  float: left;
+  margin-right: 10px;
+}
