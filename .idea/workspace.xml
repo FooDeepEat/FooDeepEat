@@ -5,6 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/mypage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/food_deep_eat/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/privacy.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/privacy.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/terms.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/terms.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/templates/find_id.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/find_id.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +45,19 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SWAP_SIDES_IN_COMPARE_BRANCHES" value="true" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="25392e78-51a3-4b0f-9dca-eae04ea6e8e2" />
+        <option name="url" value="https://github.com/FooDeepEat/FooDeepEat.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -49,7 +74,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/seok/Documents/tool_collection/food_deep_eat/user/migrations",
+    "last_opened_file_path": "/Users/seok/Documents/tool_collection/food_deep_eat/calorie/templates",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,11 +90,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/calorie/templates" />
       <recent name="$PROJECT_DIR$/user/migrations" />
       <recent name="$PROJECT_DIR$/user/templates" />
       <recent name="$PROJECT_DIR$/static/image" />
       <recent name="$PROJECT_DIR$/calorie/templates/calorie" />
-      <recent name="$PROJECT_DIR$/calorie/static/users/js" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/calorie/templates" />
@@ -143,7 +168,41 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="621b6051-307e-42a4-a16d-e8bf911b508a">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+        <entry key="a78a7018-aba8-4838-a145-8fa6864cd719">
           <value>
             <State>
               <option name="FILTERS">

@@ -11,12 +11,12 @@ from . import models
 def register(request):
     if request.method == "POST":
         # print(request.POST)
-        user_id = request.POST['userid']
+        username = request.POST['username']
         password = request.POST['password']
         email = request.POST['email']
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
-        birth_date = request.POST['birthday']
+        birth_date = request.POST['birth_date']
         phone_number = request.POST['phone_number']
         postal_code = request.POST['postal_code']
         city = request.POST['city']
@@ -29,7 +29,7 @@ def register(request):
         profile_img = request.FILES.get('profile_img', None)
         # 파일 업로드 처리 - 중복 방지
         if profile_img:
-            profile_img.name = f"{timezone.now().strftime('%Y%m%d_%H%M%S')}-{profile_img.name}"
+            profile_img.name = f"{timezone.now().strftime('%Y%m%d_%H%M%S')}-{username}"
 
         # 1. 데이터 유효성 검사
         try:
@@ -41,7 +41,7 @@ def register(request):
 
         # 2. DB 데이터 삽입
         with transaction.atomic():
-            user = models.Account.objects.create_user(user_id, email, password, first_name=first_name,
+            user = models.Account.objects.create_user(username, email, password, first_name=first_name,
                                                       last_name=last_name, birth_date=birth_date,
                                                       phone_number=phone_number)
             models.Address.objects.create(postal_code=postal_code, city=city, address=address or None, user=user)
@@ -50,10 +50,7 @@ def register(request):
             models.Agree.objects.create(must_agree=must_agree, option_agree=option_agree, user=user)
             models.ProfileImage.objects.create(profile_img=profile_img, user=user)
 
-        user = authenticate(username=user_id, password=password)
-        if user is not None:
-            register_success = '회원 가입이 완료되었습니다. 로그인해주세요.'
-            return render(request, 'login.html', {"register_success": register_success})
+        return redirect('login')
 
     return render(request, "register.html")
 
@@ -65,9 +62,6 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            # request.session['user_id'] = user.id
-            # print(request.session)
-            # print(user.id)
             return redirect('calorie:home')
         else:
             error_msg = "아이디 또는 비밀번호가 틀렸습니다."
@@ -79,10 +73,10 @@ def login_page(request):
 # 아이디 찾기
 def find_id(request):
     if request.method == "POST":
-        email = request.POST.get("email")
+        email = request.POST["email"]
         first_name = request.POST['name'][:1]
         last_name = request.POST['name'][1:]
-        birth_date = request.POST.get('birth_date')
+        birth_date = request.POST['birth_date']
         # print(request.POST)
         try:
             user = models.Account.objects.get(email=email, first_name=first_name, last_name=last_name,

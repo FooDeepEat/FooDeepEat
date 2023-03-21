@@ -4,44 +4,52 @@ from user.models import Account
 
 class Food(models.Model):
     name = models.CharField(max_length=20, null=True, blank=True, default=None)
-    weight = models.IntegerField(null=True, blank=True, default=None)
-    energy = models.IntegerField(null=True, blank=True, default=None)
-    carbohydrate = models.IntegerField(null=True, blank=True, default=None)
-    protein = models.IntegerField(null=True, blank=True, default=None)
-    fat = models.IntegerField(null=True, blank=True, default=None)
+    weight = models.FloatField(null=True, blank=True, default=None)
+    energy = models.FloatField(null=True, blank=True, default=None)
+    carbohydrate = models.FloatField(null=True, blank=True, default=None)
+    protein = models.FloatField(null=True, blank=True, default=None)
+    fat = models.FloatField(null=True, blank=True, default=None)
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"음식:{self.name} 탄수화물:{self.carbohydrate} 단백질:{self.protein} 지방:{self.fat}"
+        return f"{self.name}"
 
 
 class FoodImage(models.Model):
     name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='images')
     food_img = models.ImageField(null=True, blank=True, default=None, upload_to="food/")
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"음식:{self.name} 이미지:{self.food_img}"
+        return f"{self.name} {self.food_img} {self.created_at}"
 
 
 class UserFood(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='users')
-    name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='foods')
-    weight = models.IntegerField(null=True, blank=True, default=None)
-    carbohydrate = models.IntegerField(null=True, blank=True, default=None)
-    protein = models.IntegerField(null=True, blank=True, default=None)
-    fat = models.IntegerField(null=True, blank=True, default=None)
-    date = models.DateField(auto_now_add=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='user_foods')
+    name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='user_foods')
+    weight = models.FloatField(null=True, blank=True, default=None)
+    carbohydrate = models.FloatField(null=True, blank=True, default=None)
+    protein = models.FloatField(null=True, blank=True, default=None)
+    fat = models.FloatField(null=True, blank=True, default=None)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"유저:{self.user} 음식:{self.name} 탄수화물:{self.carbohydrate} 단백질:{self.protein} 지방:{self.fat} 날짜:{self.date}"
+        return f"{self.user} {self.name}"
+
+
+class UserFoodImage(models.Model):
+    name = models.ForeignKey(UserFood, on_delete=models.CASCADE, related_name='user_food_images')
+    food_img = models.ImageField(null=True, blank=True, default=None, upload_to="user_food/")
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class UserMemo(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='memos')
+    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='user_memos')
     description = models.TextField(blank=True, null=True)
-    date = models.DateField()
+    created_at = models.DateTimeField()
 
     class Meta:
-        unique_together = ('user', 'date')
+        unique_together = ('user', 'created_at')
 
     def __str__(self):
-        return f"유저:{self.user.username} 메모:{self.description} 날짜:{self.date}"
+        return f"{self.user.username} {self.description} {self.created_at}"

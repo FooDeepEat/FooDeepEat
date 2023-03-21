@@ -19,7 +19,7 @@
 
 	<div>
 		<!-- 파일도 form에서 다룰수 있게 해준다. enctype="multipart/form-data" -->
-		<form action="" method="POST" enctype="multipart/form-data">
+		<form method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			{% if error_msg %}
 				<p style="color:red">{{ error_msg }}</p>
@@ -36,7 +36,7 @@
 					<input type="text" name="lastname" class="getuserlastname" required placeholder="이름을 입력해 주세요.">
 				</label>
 				<label>아이디
-					<input type="text" name="userid" class="getuserid" required placeholder="아이디를 입력해 주세요.">
+					<input type="text" name="username" class="getuserid" required placeholder="아이디를 입력해 주세요.">
 					<button type="submit" name="auth" class="auth_userid" onclick="checkId();">중복체크</button>
 				</label>
 				<label>비밀번호
@@ -57,7 +57,7 @@
 					<button type="submit" class="checkvalidcode">인증코드 확인</button>
 				</label>
 				<label>생년월일
-					<input type="date" min="1900" max="2023" value="2000-01-01" name="birthday" class="birthday">
+					<input type="date" min="1900" max="2023" value="2000-01-01" name="birth_date" class="birthday">
 				</label>
 				<label>휴대폰 번호
 					<input type="tel" name="phone_number" class="getusertel" placeholder="010-1234-1234" maxlength="13"/>

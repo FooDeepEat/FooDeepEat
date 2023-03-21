@@ -61,27 +61,29 @@
             <table class="foodinformation">
                 <thead>
                 <tr>
-                    <td>음식 이름</td>
+                    <td>{{ random_food.name }}</td>
                     <td colspan="2">영양 이름</td>
                 </tr>
                 </thead>
 
                 <tbody>
                 <tr>
-                    <td rowspan="4">음식이미지</td>
-                    <td>열량(Kcal)</td>
+                    <td rowspan="4">
+	                    <img src="{{ random_img.food_img.url }}" alt="{{ random_food.name }}">
+                    </td>
+                    <td>{{ random_food.energy }}(Kcal)</td>
                     <td>영양 정보</td>
                 </tr>
                 <tr>
-                    <td>탄수화물(g)</td>
+                    <td>{{ random_food.carbohydrate }}(g)</td>
                     <td>영양 정보</td>
                 </tr>
                 <tr>
-                    <td>단백질(g)</td>
+                    <td>{{ random_food.protein }}(g)</td>
                     <td>영양 정보</td>
                 </tr>
                 <tr>
-                    <td>지방(g)</td>
+                    <td>{{ random_food.fat }}(g)</td>
                     <td>영양 정보</td>
                 </tr>
                 </tbody>

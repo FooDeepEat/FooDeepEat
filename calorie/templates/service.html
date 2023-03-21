@@ -19,12 +19,12 @@
 <div class="wrap">
 
 	<div class="userfood">
-		<form>
+		<form method="POST" enctype="multipart/form-data" action="/service/?form=userfood">
 			<!-- img 태그 안의 src attribute에 기본 이미지 삽입-->
 			<label for="file-upload">
-				<img id="preview" src="/static/image/service_default_bg.jpg"/>
+				<img src="/static/image/service_default_bg.jpg" id="preview" />
 			</label>
-			<input id="file-upload" type="file" onchange="previewImage(this);">
+			<input id="file-upload" name="user_img" type="file" onchange="previewImage(this);">
 			<button type="submit" onclick="">제출하기</button>
 		</form>
 	</div>
@@ -69,7 +69,7 @@
 			</tfoot>
 		</table>
 	</div>
-	<form>
+	<form method="POST" name="user_weight" action="/service/?form=usereaten">
 		<button type="submit">기록하기</button>
 	</form>
 
