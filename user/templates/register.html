@@ -5,6 +5,10 @@
 	푸디핏 :: 회원가입
 {% endblock %}]
 
+{% block css_files %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+{% endblock %}
+
 {% block js_files %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="{% static 'js/register.js' %}"></script>
@@ -24,63 +28,62 @@
 
 			<div class="signinrequired">
 				<h3>필수정보</h3>
-				<label for="{{ form.profile_img.id_for_label }}">프로필사진</label>
-				<span>{{ form.profile_img }}</span>
 				<label>성</label>
-				<span>{{ form.first_name }}</span>
+				<span>{{ signup_form.first_name }}</span>
 				<label>이름</label>
-				<span>{{ form.last_name }}</span>
+				<span>{{ signup_form.last_name }}</span>
 				<label>아이디</label>
-				<span>{{ form.username }}</span>
-				<button type="submit" name="auth" class="auth_userid" onclick="checkId();">중복체크</button>
+				<span>{{ signup_form.username }}</span> <button type="submit" name="auth" class="auth_userid" formnovalidate>중복체크</button>
+				{% if user_msg %}
+					{{ user_msg }}
+				{% endif %}
 				<label>비밀번호</label>
-				<span>{{ form.password }}</span>
+				<span>{{ signup_form.password1 }}</span>
 				<label>비밀번호확인</label>
-				<span>{{ form.password }}</span>
+				<span>{{ signup_form.password2 }}</span>
+				<label>프로필사진</label>
+				<span>{{ profile_form.profile_img }}</span>
 				<br>
 				<p id="message"></p>
 				<br>
 				<label>이메일	</label>
-				<span>{{ form.email }}</span>
+				<span>{{ signup_form.email }}</span> <p style="color: darkgray">이메일 형식: sesac@coding.com</p>
 				<button type="submit" class="sendvalicode">인증코드 발송</button>
-				<label for="getvalidcode">인증 코드 입력</label>
-				<input type="text" name="emailcheck" class="getvalidcode">
-				<button type="submit" class="checkvalidcode">인증코드 확인</button>
+				<label>인증 코드 입력</label>
+				<input type="text" name="emailcheck" class="getvalidcode"> <button type="submit" class="checkvalidcode">인증코드 확인</button>
 				<label>생년월일</label>
-				<span>{{ form.birth_date }}</span>
+				<span>{{ signup_form.birth_date }}</span>
 				<label>휴대폰 번호</label>
-				<span>{{ form.phone_number }}</span>
+				<span>{{ signup_form.phone_number }}</span>
+				<label>우편번호</label>
+				<span>{{ address_form.postal_code }}</span> <input type="button" onclick="execDaumPostcode();" value="우편번호찾기"/>
 				<label>주소</label>
-				<span>{{ form.postal_code }}</span>
-				<input type="button" onclick="execDaumPostcode();" value="우편번호찾기"/>
-				<span>{{ form.city }}</span>
-				<span>{{ form.address }}</span>
+				<span>{{ address_form.city }}</span>
+				<label>상세 주소</label>
+				<span>{{ address_form.address }}</span>
 			</div>
 
 			<div class="useragreement">
 				<p>필수 개인정보 제공 동의 여부</p>
-				<span>{{ form.must_agree }}동의합니다.</span>
-				<span>{{ form.must_agree }}동의하지않습니다.</span>
+				<span>{{ agree_form.must_agree }}</span>
 			</div>
 
 			<div class="signinoptional">
 				<h3>선택정보</h3>
 				<small>해당 내용은 회원가입 후, 마이페이지에서도 입력하실 수 있습니다.</small>
 				<h4>건강정보제공 서비스를 위한 선택 정보</h4>
-				<label for="{{ form.gender.id_for_label }}">성별</label>
-				{{ form.gender }}
+				<label>성별</label>
+				{{ option_form.gender }}
 				<label for="userheight">키</label>
-				{{ form.height }}
+				{{ option_form.height }}
 				<label for="userweight">몸무게</label>
-				{{ form.weight }}
+				{{ option_form.weight }}
 				<div class="useragreement">
 					<p>선택 개인정보 제공 동의 여부</p>
-					<span>{{ form.option_agree }}동의합니다.</span>
-					<span>{{ form.option_agree }}동의하지않습니다.</span>
+					<span>{{ agree_form.option_agree }}</span>
 				</div>
-
-				<button type="submit" onclick="test();">가입하기</button>
 			</div>
+			<button type="submit">가입하기</button>
 		</form>
 	</div>
 

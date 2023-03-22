@@ -1,39 +1,41 @@
 from django import forms
+from django.forms import DateInput
+from django.utils import timezone
+from django.core.validators import RegexValidator
+from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput
-from .models import Account, Address, Option, Agree, ProfileImage
+from django.contrib.auth.forms import UserCreationForm
+from .models import Account, ProfileImage, Address, Option, Agree
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.validators import RegexValidator
-from django.contrib.auth.password_validation import validate_password
-from django.core.validators import validate_email
-from django.db import transaction
-from django.utils import timezone
 
 
-class RegistrationForm(forms.Form):
-    email = forms.EmailField(required=True)
-    username = forms.CharField(max_length=30)
-    password = forms.CharField(widget=forms.PasswordInput)
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
-    birth_date = forms.DateField(
-        validators=[MinValueValidator(timezone.now().date() - timezone.timedelta(days=365 * 100)),
-                    MaxValueValidator(timezone.now().date())], required=True)
-    phone_number = forms.CharField(
-        validators=[RegexValidator(r'^01\d{1}-\d{3,4}-\d{4}$')],
-        required=True, max_length=15)
-    postal_code = forms.IntegerField(required=True)
-    city = forms.CharField(max_length=30, required=True)
-    address = forms.CharField(max_length=100, required=False)
-    must_agree = forms.BooleanField()
-    option_agree = forms.BooleanField()
-    height = forms.IntegerField(min_value=0, max_value=300, required=True)
-    weight = forms.IntegerField(min_value=0, max_value=300, required=True)
-    gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')], required=False)
-    profile_img = forms.ImageField(
-        required=False,
-        widget=ClearableFileInput(attrs={'accept': 'image/*'})
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(
+        max_length=255,
+        required=True
     )
+    birth_date = forms.DateField(
+        validators=[
+            MinValueValidator(timezone.now().date() - timezone.timedelta(days=365 * 100)),
+            MaxValueValidator(timezone.now().date())
+        ],
+        widget=DateInput(attrs={'type': 'date'}),
+        required=True
+    )
+    phone_number = forms.CharField(
+        max_length=13,
+        help_text='전화번호를 입력하세요. (ex: 010-1234-5678)',
+        validators=[
+            RegexValidator(r'^01[0-9]{1}-[0-9]{3,4}-[0-9]{4}$')
+        ],
+        required=True
+    )
+
+    class Meta:
+        model = Account
+        fields = ('username', 'email', 'first_name', 'last_name',
+                  'birth_date', 'phone_number', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -45,33 +47,85 @@ class RegistrationForm(forms.Form):
             raise ValidationError("이메일 형식이 맞지 않습니다.")
         return email
 
-    def clean_username(self):
-        username = self.cleaned_data.get('username')
-        if Account.objects.filter(username=username).exists():
-            raise ValidationError("아이디가 이미 존재합니다.")
-        return username
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if Account.objects.filter(phone_number=phone_number).exists():
+            raise ValidationError("전화번호가 이미 존재합니다.")
+        return phone_number
 
-    def clean_password(self):
-        password = self.cleaned_data.get('password')
-        try:
-            validate_password(password)
-        except ValidationError:
-            raise ValidationError("비밀번호 형식이 맞지 않습니다.")
-        return password
 
-    def save(self):
-        data = self.cleaned_data
-        with transaction.atomic():
-            user = Account.objects.create_user(username=data['username'], email=data['email'], password=data['password'],
-                                               first_name=data['first_name'], last_name=data['last_name'],
-                                               birth_date=data['birth_date'], phone_number=data['phone_number'])
-            Address.objects.create(postal_code=data['postal_code'], city=data['city'], address=data['address'],
-                                   user=user)
-            Option.objects.create(height=data['height'], weight=data['weight'], gender=data['gender'], user=user)
-            Agree.objects.create(must_agree=data['must_agree'], option_agree=data['option_agree'], user=user)
-            if data['profile_img']:
-                profile_img = ProfileImage(profile_img=data['profile_img'], user=user)
-                profile_img.save()
-            else:
-                ProfileImage.objects.create(user=user)
-            return user
+class ProfileImageForm(forms.ModelForm):
+    profile_img = forms.ImageField(
+        widget=ClearableFileInput(attrs={'accept': 'image/*'}),
+        required=False
+    )
+
+    class Meta:
+        model = ProfileImage
+        fields = ('profile_img',)
+
+    def clean_profile_img(self):
+        profile_img = self.cleaned_data.get('profile_img')
+        if profile_img:
+            if profile_img.size > 5 * 1024 * 1024:  # 5MB
+                raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
+            return profile_img
+        return None
+
+
+class AddressForm(forms.ModelForm):
+    postal_code = forms.IntegerField(
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}),
+        required=True
+    )
+    city = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'readonly': 'readonly'}),
+        required=True
+    )
+    address = forms.CharField(
+        max_length=100,
+        required=False
+    )
+
+    class Meta:
+        model = Address
+        fields = ('postal_code', 'city', 'address')
+
+
+class OptionForm(forms.ModelForm):
+    height = forms.IntegerField(
+        min_value=0,
+        max_value=300,
+        required=False
+    )
+    weight = forms.IntegerField(
+        min_value=0,
+        max_value=300,
+        required=False
+    )
+    gender = forms.ChoiceField(
+        choices=[('M', 'Male'), ('F', 'Female')],
+        required=True
+    )
+
+    class Meta:
+        model = Option
+        fields = ('height', 'weight', 'gender')
+
+
+class AgreeForm(forms.ModelForm):
+    must_agree = forms.ChoiceField(
+        choices=[('agree', '동의합니다.'), ('disagree', '동의하지 않습니다.')],
+        widget=forms.RadioSelect,
+        required=True,
+    )
+    option_agree = forms.ChoiceField(
+        choices=[('agree', '동의합니다.'), ('disagree', '동의하지 않습니다.')],
+        widget=forms.RadioSelect,
+        required=True,
+    )
+
+    class Meta:
+        model = Agree
+        fields = ('must_agree', 'option_agree')

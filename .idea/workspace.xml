@@ -6,19 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/templates/service.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/food_deep_eat/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/food_deep_eat/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/forms.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/static/css/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/css/login.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/static/js/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/user/static/js/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/templates/find_id.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/find_id.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/user/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -33,8 +25,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="Python Script" />
         <option value="HTML File" />
+        <option value="CSS File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -77,6 +70,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/seok/Documents/tool_collection/food_deep_eat/calorie/templates&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -161,7 +155,8 @@
       <workItem from="1679125287946" duration="316000" />
       <workItem from="1679141994938" duration="9276000" />
       <workItem from="1679154568828" duration="2099000" />
-      <workItem from="1679454198476" duration="10747000" />
+      <workItem from="1679454198476" duration="16332000" />
+      <workItem from="1679487953171" duration="15418000" />
     </task>
     <servers />
   </component>
