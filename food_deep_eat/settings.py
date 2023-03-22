@@ -139,8 +139,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # 로그인 URL
 LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'calorie:home'
 
 # 이메일 인증
 EMAIL_HOST_USER = "ssd3784@gmail.com"
 
+# 세션 유효 시간(1시간)
+SESSION_COOKIE_AGE = 60
 

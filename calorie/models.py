@@ -46,7 +46,7 @@ class UserFoodImage(models.Model):
 class UserMemo(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='user_memos')
     description = models.TextField(blank=True, null=True)
-    created_at = models.DateTimeField()
+    created_at = models.DateField()
 
     class Meta:
         unique_together = ('user', 'created_at')

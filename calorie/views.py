@@ -10,7 +10,7 @@ from . import models
 @login_required
 def mypage(request, date=None):
     user = request.user
-    date = request.GET.get('date') or timezone.localdate().strftime("%Y-%m-%d HH:MM:SS")
+    date = request.GET.get('date') or timezone.localdate().strftime("%Y-%m-%d")
 
     if request.method == 'POST':
         memo_text = request.POST.get('memo_text', '')
@@ -54,8 +54,8 @@ def service(request):
                 models.UserFood.objects.create(weight=weight, user=user)
 
         user_foods = models.UserFood.objects.filter(user_id=user.id).all()
-        food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
-        return render(request, "service.html", {"user_foods": user_foods, "food_img": food_img})
+        user_food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
+        return render(request, "service.html", {"user_foods": user_foods, "user_food_img": user_food_img})
 
     return render(request, "service.html")
 

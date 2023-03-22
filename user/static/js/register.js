@@ -26,9 +26,9 @@ function execDaumPostcode(){
                 fullAddr += (extraAddr !== ''? '('+extraAddr+')':'');
             }// if(data.userSelectedType === 'R') end
 
-            document.getElementById('jusocode').value = data.zonecode;
-            document.getElementById('juso1').value = fullAddr;
-            document.getElementById('juso2').focus();
+            document.getElementById('id_postal_code').value = data.zonecode;
+            document.getElementById('id_city').value = fullAddr;
+            document.getElementById('id_address').focus();
         }// oncomplete: function(data) end
     }).open(); // new daum.Postcode end
 }// function daumPostCode() end
