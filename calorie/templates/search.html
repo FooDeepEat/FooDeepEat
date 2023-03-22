@@ -1,5 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+	영양정보 확인
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block js_files %}
+<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+{% endblock %}
 
 
+{% block content %}
+{% include 'header.html' %}
+<div class="wrap">
+	<h2 class="headtxt">검색하기</h2>
 
+	{% comment %} <form method="POST" enctype="multipart/form-data" action="/service/?form=userfood"> {% endcomment %}
+	<form method="POST">
+		<div class="search_box">
+			<span class="search_input">
+				<input type="text" placeholder="검색어를 입력해주세요."/>
+			</span>
+			<button class="search_btn">검색</button>
+		</div>
+	</from>
 
-여기 채워주세요
+	<div class="nutri_info_cont">
+		<ul>
+			<li class="nutri_info_li">
+				{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}
+				{% comment %} <span class="thum_img"><img src="{{ food_img.food_img.url }}" alt=""/></span> {% endcomment %}
+				<span class="nutri_thum_img"><img src="/static/image/부대찌개.jpg" alt=""/></span>
+				<div class="nutri_info">
+					<p class="nutri_txt">[<span class="nutri_food_name">돼지고기메추리알장조림</span>] 영양정보</p>
+					<table class="nutri_info_table">			
+						<thead>
+							<tr>
+								<th>열량(kcal)</th>	
+								<th>탄수화물(g)</th>
+								<th>단백질(g)</th>
+								<th>지방(g)</th>
+								<th>당류(g)</th>
+								<th>콜레스테롤(mg)</th>
+								<th>칼슘(mg)</th>
+								<th>인(mg)</th>
+								<th>나트륨(mg)</th>
+								<th>칼륨(mg)</th>
+								<th>마그네슘(mg)</th>
+								<th>철(mg)</th>
+								<th>아연(mg)</th>
+								<th>트랜스지방(g)</th>
+							</tr>				
+						</thead>
+						<tbody>
+							<tr>
+								<td><span class="num">100</span>kal</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+								<td><span class="num">100</span>g</td>
+							</tr>						
+						</tbody>
+					</table>	
+					<p class="mini_r">* 100g 기준 영양정보입니다.</p>				
+				</div>			
+			</li>			
+		</ul>
+	</div>
+</div>
+{% include 'footer.html' %}
+{% endblock %}
+
