@@ -1,0 +1,107 @@
+.search_box{  
+  /* text-align: center; */
+  margin: 50px 25px 60px;
+}
+.search_input{
+  border: 1px solid #206B18;
+  border-radius: 10px;
+  padding: 8px 16px;
+  width: 980px;
+  display: inline-block;
+  float: left;
+  box-sizing: border-box;
+}
+.search_btn{
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid #206B18;
+  background-color: #206B18;
+  color: #fff;
+  box-sizing: border-box;
+  width: 160px;
+  margin-left: 10px;
+}
+
+
+
+
+.nutri_info_cont{  
+  text-align: center;
+}
+
+.nutri_info_li{
+  padding: 20px 10px;
+  box-sizing: border-box;
+  display: flex;
+  border: 1px solid #c2c2c2;
+  border-radius: 8px;
+  position: relative;
+  width: 1150px;
+}
+.nutri_info_li+.nutri_info_li{
+  margin-top: 20px;
+}
+.close_btn{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  background-image: url(../../../static/image/delete.png);
+  font-size: 0;
+}
+
+.nutri_thum_img{
+  margin: 0 0 0 10px;
+}
+
+.nutri_info{
+  margin: 22px 0 0 15px;
+}
+
+.nutri_txt{
+  text-align: left;
+}
+
+.nutri_info_table{
+  margin: 5px 0;
+}
+.nutri_info_table th, .nutri_info_table td{
+  border: 1px solid #ddd;  
+  font-size: 12px;
+  text-align: center;
+  font-weight: 400;
+  padding: 4px 7px;
+}
+.nutri_info_table th{
+}
+
+.nutri_food_name{
+  color: #206B18;
+  font-weight: 700;
+  margin: 0 5px;
+}
+
+.nutri_info_table .num{  
+  font-size: 14px;
+}
+
+.nutri_thum_img{
+  width: 150px;
+  height: 150px;
+  display: inline-block;
+  float: left;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.nutri_info{
+  float: left;
+}
+
+.mini_r{
+  text-align: right;
+  font-size: 12px;
+  color: #999;
+  font-weight: 100;
+}

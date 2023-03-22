@@ -21,7 +21,6 @@
 
 .food_info_table {
   width: 90%;
-  border-collapse: collapse;
   font-size: 15px;
 }
 .food_info_table thead{
