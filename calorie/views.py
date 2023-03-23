@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 import random
+from django.core.paginator import Paginator
 from . import models
 
 
@@ -54,15 +55,20 @@ def service(request):
 
 
 def home(request):
-    foods = models.Food.objects.all()
-    random_food = random.choice(foods)
-    food_img = models.FoodImage.objects.filter(name=random_food).all()
-    if food_img:
-        random_img = random.choice(food_img)
-    else:
-        random_img = None
+    random_imgs = []
+    foods = list(models.Food.objects.all())
+    random_foods = random.sample(foods, 2)
+    for random_food in random_foods:
+        food_imgs = models.FoodImage.objects.filter(name=random_food).all()
+        if food_imgs:
+            random_img = random.choice(food_imgs)
+        else:
+            random_img = None
+        random_imgs.append(random_img)
 
-    return render(request, "home.html", {"random_food": random_food, "random_img": random_img})
+    random_food_list = zip(random_foods, random_imgs)
+
+    return render(request, "home.html", {"random_food_list": random_food_list})
 
 
 def search(request):
@@ -73,7 +79,16 @@ def search(request):
     else:
         foods = models.Food.objects.all().order_by('name').prefetch_related('images')
 
-    return render(request, "search.html", {"foods": foods})
+    # 한 페이지에 10개씩
+    page_count = 10
+    # foods를 페이징객체로 변환
+    paginator = Paginator(foods, page_count)
+    # 요청받은 페이지 번호 가져오기
+    page = request.GET.get('page', 1)
+    # 페이지에 해당하는 객체 반환
+    paginated_foods = paginator.get_page(page)
+
+    return render(request, "search.html", {"foods": paginated_foods})
 
 
 def introduce(request):

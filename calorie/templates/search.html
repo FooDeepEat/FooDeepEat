@@ -32,7 +32,7 @@
 		<ul>
 			{% for food in foods %}
 				<li class="nutri_info_li">
-					{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}
+{#					{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}#}
 					{% if image %}
 						{% with food.images.all|random as image %}
 	                        <span class="nutri_thum_img"><img src="{{ image.food_img.url }}" alt="{{ food.name }}"/></span>
@@ -87,6 +87,30 @@
 		</ul>
 	</div>
 </div>
+
+<div class="pagination">
+	{#	이전 페이지 존재 #}
+    {% if foods.has_previous %}
+        <a href="?page=1&food={{ request.GET.food }}">&laquo; 처음</a>
+        <a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">&lt; 이전</a>
+    {% endif %}
+
+	{# 요청받는 값 만큼 페이지 수 확인 #}
+    {% for num in foods.paginator.page_range %}
+        {% if num == foods.number %}
+            <strong>{{ num }}</strong>
+        {% else %}
+            <a href="?page={{ num }}&food={{ request.GET.food }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+
+	{# 다음 페이지 존재 #}
+    {% if foods.has_next %}
+        <a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">다음 &gt;</a>
+        <a href="?page={{ foods.paginator.num_pages }}&food={{ request.GET.food }}">마지막 &raquo;</a>
+    {% endif %}
+</div>
+
 {% include 'footer.html' %}
 {% endblock %}
 
