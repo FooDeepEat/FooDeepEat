@@ -12,34 +12,57 @@
 
 
 {% block content %}
-{% include 'header.html' %}
-
 <div class="wrap">
-	<div class="login-container">
-        <p>로그인</p>
-		{% if form.errors %}
+    <div class="login-logo-wrap">
+        <a class="login-logo" href="{% url 'calorie:home' %}"><img src="{%static 'image/horizontal_logo.png' %}"></a>
+        <p class="hello-main">
+            <strong>안녕하세요. 푸디핏 입니다.</strong>
+        </p>
+        <p class="hello-sub">
+            원활한 서비스를 위해 로그인 후 이용해 주세요.</strong>
+        </p>
+    </div>
+    
+    <!-- 아디 비번 로그인버튼 -->
+    <section class="login-wrap">
+        {% if form.errors %}
             <p style="color: red">아이디 또는 비밀번호가 잘못되었습니다.</p>
         {% endif %}
         <form method="POST">
             {% csrf_token %}
-            <label for="id_username">아이디:</label>
-	            {{ form.username }}
-	        <label for="id_password">비밀번호:</label>
-	            {{ form.password }}
-            <div class="login_button_wrap">
-	            <br>
-                <input type="submit" class="login_btn" value="로그인">
+            <div class="login-id-wrap">
+                {% comment %} login-input-id {% endcomment %}
+                {{ form.username }}
+            </div>
+            <div class="login-pw-wrap">
+                {% comment %} login-input-pw {% endcomment %}
+                {{ form.password }}
+            </div>
+            <div class="stay-check">
+                <input id="stay-checkbox" type="checkbox">
+                <label for="stay-checkbox">아이디 저장</label>
+            </div>
+            <div class="login-btn-wrap">
+                <input type="submit" class="login-login-btn" value="로그인">
             </div>
         </form>
-        <div class="join">
-            <a href="{% url 'register' %}">회원가입</a>
-        </div>
+    </section>
 
-		<div class="find">
-            <a href="{% url 'find_id' %}" class="id-find">아이디찾기</a>
+    <!-- 아이디 저장, 아이디 찾기, 비번 찾기 버튼 -->
+    <section class="find-info">
+        <div class="find-signup-wrap">
+            <span class="find">
+                <a href="{% url 'find_id' %}" class="id-find">아이디찾기</a>
+            </span>
+            <span class="find-pw">
+                <a href="#find-pw page" target="_blank">비밀번호 찾기</a>
+            </span>
+            <span class="signup-in-login">
+                <a href="{% url 'register' %}">회원가입</a>
+            </span>
         </div>
-    </div>  
+    </section>
+
 </div>
 
-{% include 'footer.html' %}
 {% endblock %}
