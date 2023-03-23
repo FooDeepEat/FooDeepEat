@@ -4,17 +4,27 @@
   top: 0;
   left: 50%;
   z-index: 99;
-  border-bottom: 2px solid #37BA2A;
+  /* border-bottom: 2px solid #37BA2A; */
   background-color: #fff;
   width: 100%;
   max-width: 1920px;
   height: 70px;
   transform: translate(-50%);
+  background-color: rgba(32, 107, 24, 1);
+
 }
 .manu_nav{
   padding:10px 40px 10px 25px;
   position: relative;
 }
+
+.menu.sticky {
+  background: rgba(30, 31, 33, 0.85);
+  backdrop-filter: blur(30px);
+  box-shadow: none;
+}
+
+
 
 .logo{
   width: 210px;
@@ -43,6 +53,7 @@
 }
 .nave_menu_li a{
   font-size: 20px;
+  color:#fff;
 }
 .nav_menu li+li{
   margin-left: 25px;
@@ -54,6 +65,10 @@
 }
 .nav_user li+li{
   margin-left: 15px;
+}
+.nav_user a{
+  
+  color:#fff;
 }
 
 

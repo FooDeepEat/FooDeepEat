@@ -8,29 +8,110 @@ form {
     margin-bottom: 20px;
 }
 
-form label {
-    display: inline-block;
-    width: 150px;
-    font-weight: bold;
-    margin-bottom: 10px;
+.sign_tit{
+    margin: 50px 0 25px;
+    font-size: 20px;
 }
 
-form input[type="text"], form input[type="password"], form input[type="email"], form input[type="tel"], form select, form input[type="number"], form input[type="date"] {
-    width: 250px;
-    height: 30px;
+.sign_label{
+    display: inline-block;
+    width: 20%;
+    font-weight: bold;
+    float: left;
+    line-height: 42px;
+}
+
+
+.sign_input{
+    width: 80%;
     border-radius: 5px;
     border: 1px solid #ccc;
     padding-left: 5px;
-    margin-bottom: 10px;
+    padding: 8px 16px;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.sign_selcet{
+    width: 80%;
+    border-radius: 5px;
+    border: 0;
+    padding-left: 5px;
+    padding: 2px 0;
+    display: inline-block;
+    box-sizing: border-box;
+}
+#id_gender{
+    padding: 8px 16px;
+    border: 1px solid #ccc;    
+    border-radius: 5px;
 }
 
-form input[type="button"] {
+.input_btngroup .sign_input{
+    float: left;
+    width: 60%;
+}
+.input_btngroup button{
     margin-left: 5px;
-    margin-bottom: 10px;
-    height: 30px;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    width: 115px;
+    height: 44px;
     border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #2ecc71;
+    border: 1px solid #2ecc71;
+    color: #fff;
+    cursor: pointer;
+
+}
+.mini_msg{
+    font-size: 12px;
+    color: red;
+    text-indent: 120px;
+}
+.noti_msg{    
+    font-size: 12px;
+    color: #206B18;
+    text-indent: 120px;
+    margin: 10px 0;
+}
+
+.sign_btn{
+    width: 100%;
+    padding: 8px 16px;
+    background-color: #206B18;
+    border: 1px solid #206B18;
+    color: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    height: 52px;
+    margin: 20px 0;
+    
+}
+
+.noti_box{
+    margin: 10px 0 30px;
+}
+.noti_box p{
+    font-size: 14px;
+}
+
+.useragreement{    
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    margin: 10px 0 20px;
+}
+.useragreement p{
+    margin: 10px 0;
+    font-size: 14px;
+}
+.radio_box li label{
+    font-size: 14px;
+}
+.radio_box li input{
+    width: 15px;
+    margin: 8px 10px 8px 0;
 }
 
 form span {
@@ -38,8 +119,8 @@ form span {
     margin-bottom: 10px;
 }
 
-form button[type="submit"] {
-    margin-top: 20px;
+
+/* form button[type="submit"] {
     height: 40px;
     font-size: 16px;
     font-weight: bold;
@@ -48,8 +129,26 @@ form button[type="submit"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+} */
+
+
+.signinrequired_cont{
+    width: 600px;
+    margin: 50px auto 0; 
 }
 
-form button[type="submit"]:hover {
-    background-color: #27ae60;
+/* 로그인 페이지의 로고 */
+.login-logo-wrap{
+    text-align: center;
+}
+
+.login-logo img {
+    max-width: 50%;
+    max-height: 50%;
+    width: 300px;
+}
+/* 인삿말 */
+.hello-main{
+    font-size: 30px;
+    margin-bottom: -10px;
 }

@@ -1,0 +1,115 @@
+.swiper-wrapper{
+    height: 500px;
+}
+.slick-slider{
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+    overflow: hidden;
+}
+
+.slick-slider img{
+    width: 1000px;
+    margin: 0 auto;
+    display: block;
+}
+.slick-list{
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+.slick-slide{
+    display: none;
+    float: left;
+    min-height: 1px;
+}
+
+.slick-slide.slick-loading img{
+    display: none;
+}
+.slick-slide.dragging img{
+    pointer-events: none;
+}
+.slick-initialized .slick-slide{
+    display: block;
+}
+.slick-loading .slick-slide{
+    visibility: hidden;
+}
+
+
+
+/* 추가 */
+
+.slide-img{
+    display: inline-block;
+    width: 1000px;
+}
+
+.today_cont{
+    height: 300px;
+}
+
+
+.today_box{    
+    display: inline-block;
+    float: left;
+    width: 50%;
+    margin: 20px 0 0;
+}
+
+.today_img{
+    width: 250px;
+    border-radius: 10px;
+    float: left;
+    overflow: hidden;
+    background-color: #fff;
+}
+.today_txtbox{
+    float: left;
+    margin: 0 0 0 50px;
+    background-color: rgba(32, 107, 24, 0.1);
+    border-radius: 10px;
+    padding: 15px 20px;
+    width: 250px;
+    height: 250px;
+    box-sizing: border-box;
+}
+
+
+.today_name{
+    font-size: 22px;
+    font-weight: 700;
+    margin: 10px 0 20px;
+    color: #206B18;
+}
+.today_li span{
+    font-size: 18px;
+}
+.today_li+.today_li{
+    margin-top: 10px;
+}
+.left_txt{
+    width: 100px;
+    display: inline-block;
+    position: relative;
+}
+.left_txt::after{
+    content: ">";
+    position: absolute;
+    right: 8px;
+    font-size: 12px;
+    line-height: 26px;
+
+}
