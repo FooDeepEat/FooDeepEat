@@ -272,3 +272,6 @@ pyrightconfig.json
 ### Migrations 폴더 ###
 /calorie/migrations/
 /user/migrations/
+
+### dump_file ###
+*.dump
