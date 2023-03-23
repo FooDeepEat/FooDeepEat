@@ -141,8 +141,20 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'calorie:home'
 
 # 이메일 인증
-EMAIL_HOST_USER = "ssd3784@gmail.com"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# 메일을 호스트하는 서버
+EMAIL_HOST = 'smtp.gmail.com'
+# TLS 보안 방법
+EMAIL_USE_TLS = True
+# gmail과의 통신하는 포트정
+EMAIL_PORT = '587'
+# 발신할 이메일
+EMAIL_HOST_USER = Environ.EMAIL_HOST_USER
+# 발신할 메일의 비밀번호
+EMAIL_HOST_PASSWORD = Environ.EMAIL_HOST_PASSWORD
+# 사이트와 관련한 자동응답을 받을 이메일 주소
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# 세션 유효 시간(1시간)
-SESSION_COOKIE_AGE = 60
 
+# 세션 유효 시간(1시간) - 초 단위임
+SESSION_COOKIE_AGE = 60 * 60

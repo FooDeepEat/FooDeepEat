@@ -1,8 +1,10 @@
-from django.http import JsonResponse
 from . import models
 from .forms import SignUpForm, ProfileImageForm, AddressForm, OptionForm, AgreeForm
 from django.contrib.auth import logout
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
+    PasswordResetCompleteView
+from django.contrib.auth.forms import PasswordResetForm
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.db import transaction
 
@@ -20,7 +22,6 @@ def create_forms(request):
 
 
 def register(request):
-
     if request.method == 'POST':
         if 'auth' in request.POST:  # 중복 체크 버튼을 눌렀을 때
             username = request.POST.get('username', '')
@@ -70,10 +71,34 @@ def find_id(request):
     return render(request, 'find_id.html')
 
 
+def logout_view(request):
+    logout(request)
+    return redirect("calorie:home")
+
+
 class LoginView(LoginView):
     template_name = 'login.html'
 
 
-def logout_view(request):
-    logout(request)
-    return redirect("calorie:home")
+class PWResetView(PasswordResetView):
+    template_name = 'password_reset/pw_reset.html'
+    form_class = PasswordResetForm
+
+    def form_valid(self, form):
+        email = self.request.POST.get("email")
+        if models.Account.objects.filter(email=email).exists():
+            return super().form_valid(form)
+        else:
+            return render(self.request, 'password_reset/pw_reset_fail.html')
+
+
+class PWResetDoneView(PasswordResetDoneView):
+    template_name = 'password_reset/pw_reset_done.html'
+
+
+class PWResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset/pw_reset_confirm.html'
+
+
+class PWResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset/pw_reset_complete.html'

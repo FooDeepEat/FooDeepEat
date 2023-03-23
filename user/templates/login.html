@@ -14,12 +14,12 @@
 {% block content %}
 <div class="wrap">
     <div class="login-logo-wrap">
-        <a class="login-logo" href="{% url 'calorie:home' %}"><img src="{%static 'image/horizontal_logo.png' %}"></a>
+        <a class="login-logo" href="{% url 'calorie:home' %}"><img src="{% static 'image/horizontal_logo.png' %}" alt=""></a>
         <p class="hello-main">
             <strong>안녕하세요. 푸디핏 입니다.</strong>
         </p>
         <p class="hello-sub">
-            원활한 서비스를 위해 로그인 후 이용해 주세요.</strong>
+            <strong>원활한 서비스를 위해 로그인 후 이용해 주세요.</strong>
         </p>
     </div>
     
@@ -55,7 +55,7 @@
                 <a href="{% url 'find_id' %}" class="id-find">아이디찾기</a>
             </span>
             <span class="find-pw">
-                <a href="#find-pw page" target="_blank">비밀번호 찾기</a>
+                <a href="{% url 'password_reset' %}" target="_blank">비밀번호 찾기</a>
             </span>
             <span class="signup-in-login">
                 <a href="{% url 'register' %}">회원가입</a>

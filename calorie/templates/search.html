@@ -33,11 +33,13 @@
 			{% for food in foods %}
 				<li class="nutri_info_li">
 					{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}
-					{% with food.images.all|random as image %}
-	                    {% if image %}
+					{% if image %}
+						{% with food.images.all|random as image %}
 	                        <span class="nutri_thum_img"><img src="{{ image.food_img.url }}" alt="{{ food.name }}"/></span>
-	                    {% endif %}
-                    {% endwith %}
+                        {% endwith %}
+					{% else %}
+	                    <span class="nutri_thum_img"><img src="{% static 'image/logo.png' %}" alt="{{ food.name }}"/></span>
+                    {% endif %}
 					<div class="nutri_info">
 						<p class="nutri_txt">[<span class="nutri_food_name">{{ food.name }}</span>] 영양정보</p>
 						<table class="nutri_info_table">

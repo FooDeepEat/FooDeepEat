@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	비밀번호변경
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="">
+{% endblock %}
+
+
+{% block content %}
+<div id="container">
+	<form method="POST">
+		<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+		<input type="hidden" name="uidb64" value="{{ uidb64 }}">
+		<input type="hidden" name="token" value="{{ token }}">
+		<fieldset class="">
+		    <input class="hidden" autocomplete="username" value="">
+		    <div class="">
+		        <label>새로운 비밀번호:
+		            <input type="password" name="new_password1" autocomplete="new-password" required id="id_new_password1">
+		        </label>
+		    </div>
+		    <div class="">
+		        <label>새로운 비밀번호 확인:
+		            <input type="password" name="new_password2" autocomplete="new-password" required id="id_new_password2">
+		        </label>
+		    </div>
+		    <input type="submit" value="비밀번호 변경">
+		</fieldset>
+	</form>
+</div>
+{% endblock %}
