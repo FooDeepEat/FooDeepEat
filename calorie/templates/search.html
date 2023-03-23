@@ -91,8 +91,7 @@
 <div class="pagination">
 	{#	이전 페이지 존재 #}
     {% if foods.has_previous %}
-        <a href="?page=1&food={{ request.GET.food }}">&laquo; 처음</a>
-        <a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">&lt; 이전</a>
+        <a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">&lt; Prev</a>
     {% endif %}
 
 	{# 요청받는 값 만큼 페이지 수 확인 #}
@@ -106,8 +105,7 @@
 
 	{# 다음 페이지 존재 #}
     {% if foods.has_next %}
-        <a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">다음 &gt;</a>
-        <a href="?page={{ foods.paginator.num_pages }}&food={{ request.GET.food }}">마지막 &raquo;</a>
+        <a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">Next &gt;</a>
     {% endif %}
 </div>
 
