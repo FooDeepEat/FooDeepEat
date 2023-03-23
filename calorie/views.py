@@ -44,12 +44,10 @@ def service(request):
             food_img = request.FILES.get('user_img', None)
             if food_img:
                 food_img.name = f"{user.username}.{food_img.name}"
+                models.UserFoodImage.objects.create(food_img=food_img, user=user)
+
         elif request.GET.get('form') == "usereaten":
             weight = request.POST["user_weight"]
-
-        with transaction.atomic():
-            if food_img:
-                models.UserFoodImage.objects.create(food_img=food_img, user=user)
             if weight:
                 models.UserFood.objects.create(weight=weight, user=user)
 

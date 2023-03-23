@@ -1,12 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils import timezone
-
+import datetime
 
 
 # 유저 정보 테이블
 class Account(AbstractUser):
-    birth_date = models.DateField(default=timezone.now().date)
+    birth_date = models.DateField(default=datetime.date.today)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(unique=True, max_length=13)
 

@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c73b87c6-c505-4d67-96fb-2758f19fb12f" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/calorie/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/calorie/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,6 +151,7 @@
       <workItem from="1679154568828" duration="2099000" />
       <workItem from="1679454198476" duration="16332000" />
       <workItem from="1679487953171" duration="15909000" />
+      <workItem from="1679529894220" duration="3654000" />
     </task>
     <servers />
   </component>
