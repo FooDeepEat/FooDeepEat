@@ -9,7 +9,18 @@ class Food(models.Model):
     carbohydrate = models.FloatField(null=True, blank=True, default=None)
     protein = models.FloatField(null=True, blank=True, default=None)
     fat = models.FloatField(null=True, blank=True, default=None)
+    sugar = models.FloatField(null=True, blank=True, default=None)
+    cholesterol = models.FloatField(null=True, blank=True, default=None)
+    calcium = models.FloatField(null=True, blank=True, default=None)
+    phosphorus = models.FloatField(null=True, blank=True, default=None)
+    sodium = models.FloatField(null=True, blank=True, default=None)
+    potassium = models.FloatField(null=True, blank=True, default=None)
+    magnesium = models.FloatField(null=True, blank=True, default=None)
+    iron = models.FloatField(null=True, blank=True, default=None)
+    zinc = models.FloatField(null=True, blank=True, default=None)
+    trans_fat = models.FloatField(null=True, blank=True, default=None)
     created_at = models.DateField(auto_now_add=True)
+
 
     def __str__(self):
         return f"{self.name}"

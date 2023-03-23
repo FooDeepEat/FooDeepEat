@@ -73,13 +73,15 @@ def home(request):
 
 
 def search(request):
-    food_name = request.GET.get('food_name')
-    if food_name:
+    food = request.GET.get('food')
+    if food:
         # 검색어를 포함하는 음식 데이터 조회
-        foods = models.Food.objects.filter(Q(name__icontains=food_name) | Q(description__icontains=food_name))
+        foods = models.Food.objects.filter(name__icontains=food).order_by('name').prefetch_related('images')
+        print(foods)
     else:
-        foods = models.Food.objects.none()
-    return render(request, "search.html", {"food_name": food_name, "foods": foods})
+        foods = models.Food.objects.all().order_by('name').prefetch_related('images')
+
+    return render(request, "search.html", {"foods": foods})
 
 
 def introduce(request):

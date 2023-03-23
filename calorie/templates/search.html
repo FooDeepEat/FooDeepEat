@@ -19,65 +19,69 @@
 <div class="wrap">
 	<h2 class="headtxt">검색하기</h2>
 
-	{% comment %} <form method="POST" enctype="multipart/form-data" action="/service/?form=userfood"> {% endcomment %}
-	<form method="POST">
+	<form method="GET">
 		<div class="search_box">
 			<span class="search_input">
-				<input type="text" placeholder="검색어를 입력해주세요."/>
+				<input type="text" name="food" placeholder="검색어를 입력해주세요."/>
 			</span>
 			<button class="search_btn">검색</button>
 		</div>
-	</from>
+	</form>
 
 	<div class="nutri_info_cont">
 		<ul>
-			<li class="nutri_info_li">
-				{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}
-				{% comment %} <span class="thum_img"><img src="{{ food_img.food_img.url }}" alt=""/></span> {% endcomment %}
-				<span class="nutri_thum_img"><img src="/static/image/부대찌개.jpg" alt=""/></span>
-				<div class="nutri_info">
-					<p class="nutri_txt">[<span class="nutri_food_name">돼지고기메추리알장조림</span>] 영양정보</p>
-					<table class="nutri_info_table">			
-						<thead>
-							<tr>
-								<th>열량(kcal)</th>	
-								<th>탄수화물(g)</th>
-								<th>단백질(g)</th>
-								<th>지방(g)</th>
-								<th>당류(g)</th>
-								<th>콜레스테롤(mg)</th>
-								<th>칼슘(mg)</th>
-								<th>인(mg)</th>
-								<th>나트륨(mg)</th>
-								<th>칼륨(mg)</th>
-								<th>마그네슘(mg)</th>
-								<th>철(mg)</th>
-								<th>아연(mg)</th>
-								<th>트랜스지방(g)</th>
-							</tr>				
-						</thead>
-						<tbody>
-							<tr>
-								<td><span class="num">100</span>kal</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-								<td><span class="num">100</span>g</td>
-							</tr>						
-						</tbody>
-					</table>	
-					<p class="mini_r">* 100g 기준 영양정보입니다.</p>				
-				</div>			
-			</li>			
+			{% for food in foods %}
+				<li class="nutri_info_li">
+					{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}
+					{% with food.images.all|random as image %}
+	                    {% if image %}
+	                        <span class="nutri_thum_img"><img src="{{ image.food_img.url }}" alt="{{ food.name }}"/></span>
+	                    {% endif %}
+                    {% endwith %}
+					<div class="nutri_info">
+						<p class="nutri_txt">[<span class="nutri_food_name">{{ food.name }}</span>] 영양정보</p>
+						<table class="nutri_info_table">
+							<thead>
+								<tr>
+									<th>열량(kcal)</th>
+									<th>탄수화물(g)</th>
+									<th>단백질(g)</th>
+									<th>지방(g)</th>
+									<th>당류(g)</th>
+									<th>콜레스테롤(mg)</th>
+									<th>칼슘(mg)</th>
+									<th>인(mg)</th>
+									<th>나트륨(mg)</th>
+									<th>칼륨(mg)</th>
+									<th>마그네슘(mg)</th>
+									<th>철(mg)</th>
+									<th>아연(mg)</th>
+									<th>트랜스지방(g)</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><span class="num">{{ food.energy }}</span>kal</td>
+									<td><span class="num">{{ food.carbohydrate }}</span>g</td>
+									<td><span class="num">{{ food.protein }}</span>g</td>
+									<td><span class="num">{{ food.fat }}</span>g</td>
+									<td><span class="num">{{ food.sugar }}</span>g</td>
+									<td><span class="num">{{ food.cholesterol }}</span>g</td>
+									<td><span class="num">{{ food.calcium }}</span>g</td>
+									<td><span class="num">{{ food.phosphorus }}</span>g</td>
+									<td><span class="num">{{ food.sodium }}</span>g</td>
+									<td><span class="num">{{ food.potassium }}</span>g</td>
+									<td><span class="num">{{ food.magnesium }}</span>g</td>
+									<td><span class="num">{{ food.iron }}</span>g</td>
+									<td><span class="num">{{ food.zinc }}</span>g</td>
+									<td><span class="num">{{ food.trans_fat }}</span>g</td>
+								</tr>
+							</tbody>
+						</table>
+						<p class="mini_r">* 100g 기준 영양정보입니다.</p>
+					</div>
+				</li>
+			{% endfor %}
 		</ul>
 	</div>
 </div>
