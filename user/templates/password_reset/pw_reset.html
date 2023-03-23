@@ -11,10 +11,18 @@
 
 {% block content %}
 <form method="POST">
+
     {% csrf_token %}
-	<p>이메일 작성해주세요.</p>
-    {{ form.as_p }}
-	<p>아이디</p>
+	<label>아이디 작성해주세요.
+        <input type="text" name="username">
+	</label>
+	<label>이메일 작성해주세요.
+        {{ form.email }}
+		<p style="color: darkgray">형식: sesac@coding.com</p>
+	</label>
+	<label>이름을 작성해주세요.
+        <input type="text" name="name">
+	</label>
 
     <button type="submit">비밀번호 찾기</button>
 </form>

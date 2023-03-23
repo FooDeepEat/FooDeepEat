@@ -10,6 +10,12 @@
 
 
 {% block content %}
-	<h1>존재하지 않는 이메일입니다.</h1>
+	{% if email_error %}
+		{{ email_error }}
+	{% elif username_error %}
+		{{ username_error }}
+	{% else %}
+		{{ total_error }}
+	{% endif %}
 	<a href="{% url 'password_reset' %}">비밀번호 찾기 페이지</a>
 {% endblock %}

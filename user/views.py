@@ -86,10 +86,21 @@ class PWResetView(PasswordResetView):
 
     def form_valid(self, form):
         email = self.request.POST.get("email")
-        if models.Account.objects.filter(email=email).exists():
+        username = self.request.POST.get("username")
+        firstname = self.request.POST.get("name")[:1]
+        lastname = self.request.POST.get("name")[1:]
+        if not models.Account.objects.filter(email=email).exists():
+            email_error = "존재하지 않는 이메일입니다."
+            return render(self.request, 'password_reset/pw_reset_fail.html', {"email_error": email_error})
+        if not models.Account.objects.filter(username=username).exists():
+            username_error = "존재하지 않는 아이디입니다."
+            return render(self.request, 'password_reset/pw_reset_fail.html', {"username_error": username_error})
+        if models.Account.objects.filter(email=email, username=username,
+                                         first_name=firstname, last_name=lastname).exists():
             return super().form_valid(form)
         else:
-            return render(self.request, 'password_reset/pw_reset_fail.html')
+            total_error = "이름을 다시 확인해주세요"
+            return render(self.request, 'password_reset/pw_reset_fail.html', {"total_error": total_error})
 
 
 class PWResetDoneView(PasswordResetDoneView):
