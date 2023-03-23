@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import Account
+from django.utils import timezone
 
 
 class Food(models.Model):
@@ -41,7 +42,7 @@ class UserFood(models.Model):
     carbohydrate = models.FloatField(null=True, blank=True, default=None)
     protein = models.FloatField(null=True, blank=True, default=None)
     fat = models.FloatField(null=True, blank=True, default=None)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.user} {self.name}"
