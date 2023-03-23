@@ -162,7 +162,7 @@ max-height: 50%;
 
 
 /* 우선 밑줄을 없애고 색깔을 지정해줬고 */
-.find-signup-wrap .find-id a,
+.find-signup-wrap .find a,
 .find-signup-wrap .find-pw a,
 .find-signup-wrap .signup-in-login a{
 text-decoration: none;

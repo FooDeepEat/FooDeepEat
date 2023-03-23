@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	비밀번호찾기
+{% endblock %}
+
+{% block css_files %}
+<link rel="stylesheet" type="text/css" href="">
+{% endblock %}
+
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+	<p>이메일 작성해주세요.</p>
+    {{ form.as_p }}
+	<p>아이디</p>
+
+    <button type="submit">비밀번호 찾기</button>
+</form>
+
+{% endblock %}

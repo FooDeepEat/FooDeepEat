@@ -16,3 +16,8 @@ class Environ:
     DB_NAME = os.environ.get('DB_NAME')
     DB_PORT = os.environ.get('DB_PORT')
     DB_ENGINE = os.environ.get('DB_ENGINE')
+
+    # 구글 메일 설정
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+

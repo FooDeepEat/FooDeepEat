@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
-from django.db.models import Q
 import random
 from . import models
 
@@ -35,9 +33,6 @@ def mypage(request, date=None):
 @login_required
 def service(request):
     user = request.user
-
-    food_img = None
-    weight = None
 
     if request.method == "POST":
         if request.GET.get('form') == "userfood":
@@ -75,7 +70,6 @@ def search(request):
     if food:
         # 검색어를 포함하는 음식 데이터 조회
         foods = models.Food.objects.filter(name__icontains=food).order_by('name').prefetch_related('images')
-        print(foods)
     else:
         foods = models.Food.objects.all().order_by('name').prefetch_related('images')
 

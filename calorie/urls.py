@@ -19,5 +19,6 @@ urlpatterns = [
     ])),
 
     # static 파일을 서빙할수있는것을 지정하는것.
-    # media_root에 지정한 폴더에서 취급하겠다.
+    # media_root
+    # 에 지정한 폴더에서 취급하겠다.
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
