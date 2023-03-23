@@ -1,44 +1,13 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block title %}
     FooDeepEat
 {% endblock %}
 
-{% block css_files %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
-<link rel="stylesheet" href="{% static 'css/swiper.css' %}">
-{% endblock %}
-
-{% block js_files %}
-<script type="text/javascript" src="{% static 'js/swiper.js' %}"></script>
-
-{% endblock %}
-
-
 {% block content %}	
 {% include 'header.html' %}
 <div class="wrap">
-    <div class="swiper">
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <img src="/static/image/backimg01.jpg" alt="slide01">
-                </div>
-                <div class="swiper-slide">
-                    <img src="/static/image/backimg02.jpg" alt="slide02">
-                </div>
-                <div class="swiper-slide">
-                    <img src="/static/image/backimg03.jpg" alt="slide03">
-                </div>
-            </div>
-        </div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-
-
-    {% comment %} <div class="section" style="white-space: nowrap;">    
+    <div class="section" style="white-space: nowrap;">    
         <input type="radio" name="slide" id="slide01" checked>
         <input type="radio" name="slide" id="slide02">
         <input type="radio" name="slide" id="slide03">
@@ -81,46 +50,49 @@
                 </div>
             </div>
         </div> 
-    </div> {% endcomment %}
+    </div>
 
 
-    <section class="today_cont">
-        <h2 class="headtxt">오늘의 영양정보 !</h2>
-        <div class="today_box">
-            <div class="today_img">
-                <img src="{{ random_img.food_img.url }}" alt="{{ random_food.name }}">
-            </div>
-            <div class="today_txtbox">
-                <ul class="today_ul">
-                    <li class="today_li">
-                        <p class="today_name">{{ random_food.name }}</p>
-                        {% comment %} <span class="left_txt">음식</span>
-                        <span class="right_txt">{{ random_food.name }}</span> {% endcomment %}
-                    </li>
-                    <li class="today_li">
-                        <span class="left_txt">- 열량</span>
-                        <span class="right_txt">{{ random_food.energy }}(Kcal)</span>
-                    </li>
-                    <li class="today_li">
-                        <span class="left_txt">- 탄수화물</span>
-                        <span class="right_txt">{{ random_food.carbohydrate }}(g)</span>
-                    </li>
-                    <li class="today_li">
-                        <span class="left_txt">- 단백질</span>
-                        <span class="right_txt">{{ random_food.protein }}(g)</span>
-                    </li>
-                    <li class="today_li">
-                        <span class="left_txt">- 지방</span>
-                        <span class="right_txt">{{ random_food.fat }}(g)</span>
-                    </li>
-                </ul>
-            </div>            
-        </div>
+    <section>
+        <h2>
+            오늘의 추천 식단!
+        </h2>
+        {% for random_food, random_img in random_food_list %}
+	        <div style="display: inline-block; margin-right: 20px;">
+	            <table class="foodinformation">
+	                <thead>
+	                <tr>
+	                    <td>{{ random_food.name }}</td>
+	                    <td colspan="2">영양 이름</td>
+	                </tr>
+	                </thead>
+
+	                <tbody>
+	                <tr>
+	                    <td rowspan="4">
+	                        <img src="{{ random_img.food_img.url }}" alt="{{ random_food.name }}">
+	                    </td>
+	                    <td>{{ random_food.energy }}(Kcal)</td>
+	                    <td>영양 정보</td>
+	                </tr>
+	                <tr>
+	                    <td>{{ random_food.carbohydrate }}(g)</td>
+	                    <td>영양 정보</td>
+	                </tr>
+	                <tr>
+	                    <td>{{ random_food.protein }}(g)</td>
+	                    <td>영양 정보</td>
+	                </tr>
+	                <tr>
+	                    <td>{{ random_food.fat }}(g)</td>
+	                    <td>영양 정보</td>
+	                </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    {% endfor %}
     </section>
 </div>
-
-
-<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% include 'footer.html' %}
 {% endblock %}
 
