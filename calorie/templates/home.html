@@ -53,10 +53,8 @@
     </div>
 
 
-    <section>
-        <h2>
-            오늘의 추천 식단!
-        </h2>
+    <section class="today_cont">
+        <h2 class="headtxt">오늘의 영양정보 !</h2>
         {% for random_food, random_img in random_food_list %}
 	        <div style="display: inline-block; margin-right: 20px;">
 	            <table class="foodinformation">
@@ -93,6 +91,7 @@
 	    {% endfor %}
     </section>
 </div>
+
 {% include 'footer.html' %}
 {% endblock %}
 
