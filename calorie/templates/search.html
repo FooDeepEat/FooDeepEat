@@ -33,7 +33,7 @@
 			{% for food in foods %}
 				<li class="nutri_info_li">
 {#					{% comment %} <a href="#none" class="close_btn">닫기</a> {% endcomment %}#}
-					{% if food.images.all %}
+					{% if image %}
 						{% with food.images.all|random as image %}
 	                        <span class="nutri_thum_img"><img src="{{ image.food_img.url }}" alt="{{ food.name }}"/></span>
                         {% endwith %}
@@ -91,21 +91,27 @@
 <div class="pagination">
 	{#	이전 페이지 존재 #}
     {% if foods.has_previous %}
-        <a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">&lt; Prev</a>
-    {% endif %}
+	<span class="paging prev_btn">
+        <a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">Prev</a>
+    </span>
+		{% endif %}
 
 	{# 요청받는 값 만큼 페이지 수 확인 #}
     {% for num in foods.paginator.page_range %}
         {% if num == foods.number %}
-            <strong>{{ num }}</strong>
+            <span class="active paging_txt">{{ num }}</span>
         {% else %}
+		<span class="paging_txt">
             <a href="?page={{ num }}&food={{ request.GET.food }}">{{ num }}</a>
+		</span>
         {% endif %}
     {% endfor %}
 
 	{# 다음 페이지 존재 #}
     {% if foods.has_next %}
-        <a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">Next &gt;</a>
+	<span class="paging next_btn">
+        <a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">Next</a>
+	</span>
     {% endif %}
 </div>
 

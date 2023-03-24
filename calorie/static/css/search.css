@@ -126,6 +126,8 @@
 .pagination>span{
   float: left;
 }
+
+
 .paging{
   position: relative;  
   display: inline-block;
@@ -150,10 +152,21 @@
   background-image: url(../../../static/image/icon_prev_page.png);
   left: 0;
 }
+.prev_btn a:hover{
+  background-image: url(../../../static/image/icon_prev_page_active.png);
+
+}
 .next_btn a{
   background-image: url(../../../static/image/icon_next_page.png);
   right: 0;
 }
+.next_btn a:hover{
+  background-image: url(../../../static/image/icon_next_page_active.png);
+}
+
+
+
+
 
 .paging_txt{
   display: inline-block;
