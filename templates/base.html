@@ -13,12 +13,11 @@
     <link rel="stylesheet" href="{% static 'css/header_footer.css' %}" type="text/css">
 	
 	{% block css_files %}{% endblock %}
-	{% block js_files %}{% endblock %}
 
 </head>
 
 <body>
 	{% block content %}{% endblock %}
 </body>
-
+	{% block js_files %}{% endblock %}
 </html>

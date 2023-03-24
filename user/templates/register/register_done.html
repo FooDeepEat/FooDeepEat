@@ -12,11 +12,17 @@
 {% block content %}
 {% include 'header.html' %}
 <div class="wrap">
-	<h2 class="headtxt">회원가입</h2>
-	<div class="donemsg">
-		<p> <strong>회원가입이 완료되었습니다.</strong> </p>
-        <p>푸디핏과 함께 건강한 식생활 라이프스타일을 누려보세요.</p>
-		<button class="tologinpagebtn"><a href="{% url 'login' %}">로그인 페이지로 이동</a></button>
+	<div class="narrow_wrap">
+		<div class="login-logo-wrap">
+			<a class="login-logo" href="{% url 'calorie:home' %}"><img src="{% static 'image/horizontal_logo.png' %}" alt=""></a>
+			<p class="hello-main">안녕하세요. 푸디핏 입니다.</p>
+		</div>
+	
+		<div class="txt_cont">
+			<p class="txt_sub">회원가입이 완료되었습니다</p>
+			<p class="txt_sub">푸디핏과 함께 건강한 식생활 라이프스타일을 누려보세요.</p>
+			<a href="{% url 'login' %}" class="go_btn">로그인 페이지로 이동</a>
+		</div>
 	</div>
 </div>
 {% include 'footer.html' %}

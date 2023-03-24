@@ -1,20 +1,44 @@
-.wrap {
-    max-width: 800px;
-    margin: 10px auto;
-  }
-  
-  .donemsg {
-    text-align: center;
-    margin: 10px;
-  }
-
- .tologinpagebtn{
-    background-color: greenyellow;
-    border-color: green;
-    padding: 10px 20px;
-    border-radius: 5px;
+.narrow_wrap {
+  max-width: 800px;
+  height: auto;
+  margin: 10px auto;
+  position: relative;
+  top: 50%;
 }
-.tologinpagebtn a{
-    color: inherit;
-    text-decoration: none;
+
+/* 로그인 페이지의 로고 */
+.login-logo-wrap{
+text-align: center;
+}
+
+.login-logo img {
+max-width: 50%;
+max-height: 50%;
+width: 300px;
+}
+/* 인삿말 */
+.hello-main{
+font-size: 30px;
+margin-bottom: -10px;
+}
+
+.txt_cont{
+margin: 100px auto 0;
+text-align: center;
+}
+.txt_sub{
+font-size: 18px;
+margin: 10px 0;
+}
+.go_btn{
+font-size: 20px;
+width: 300px;
+border: 1px solid #206B18;  
+background-color: #206B18;
+color:#fff;
+font-weight: 700;
+display: inline-block;
+padding: 16px 8px;
+border-radius: 10px;
+margin: 150px 0 0;
 }
