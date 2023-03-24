@@ -28,7 +28,7 @@ def register(request):
             user_exists = models.Account.objects.filter(username=username).exists()
             user_msg = '이미 사용중인 유저네임입니다.' if user_exists else '사용 가능한 유저네임입니다.'
             # user_msg를 딕셔너리에 추가해서 보내기 위해 **create_forms 새로운 딕셔너리 생성
-            return render(request, 'register.html', {**create_forms(request), 'user_msg': user_msg})
+            return render(request, 'register/register.html', {**create_forms(request), 'user_msg': user_msg})
 
         else:
             forms = create_forms(request)
@@ -49,7 +49,7 @@ def register(request):
                         errors = form.errors
                         print(errors)
     # 새롭게 딕셔너리를 생성하지 않고 있는 그대로 보냄
-    return render(request, 'register.html', create_forms(request))
+    return render(request, 'register/register.html', create_forms(request))
 
 
 # 아이디 찾기
