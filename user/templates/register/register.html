@@ -61,7 +61,7 @@
 				<label class="sign_label">이메일</label>		
 				<span class="input_btngroup">
 					<span class="sign_input">{{ signup_form.email }}</span> 
-					<button type="submit" class="sendvalicode">인증코드 발송</button>
+					<button type="submit" name="auth_code" class="sendvalicode">인증코드 발송</button>
 				</span>
 				<p class="noti_msg">이메일 형식: sesac@coding.com</p>	
 				
@@ -69,7 +69,7 @@
 				<label class="sign_label">인증 코드 입력</label>
 				<span class="input_btngroup">
 					<span class="sign_input"><input type="text" name="emailcheck" class="getvalidcode"></span>
-					<button type="submit" class="checkvalidcode">인증코드 확인</button>
+					<button type="submit"  name="code_check" class="checkvalidcode">인증코드 확인</button>
 				</span>
 				
 				<label class="sign_label">생년월일</label>
