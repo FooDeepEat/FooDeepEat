@@ -4,7 +4,6 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
 from django.contrib.auth.forms import PasswordResetForm
-from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.db import transaction
 
