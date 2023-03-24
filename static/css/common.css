@@ -88,9 +88,10 @@ img{
   border: 1px solid #206B18;
   background-color: #206B18;
   color: #fff;
-  margin: 15px auto;
+  margin: 15px auto 0;
   box-sizing: border-box;
   width: 170px;
+  cursor: pointer;
 }
 
 .btn_style02{
@@ -100,6 +101,7 @@ img{
   background-color: #ddd;
   box-sizing: border-box;
   width: 85px;
+  cursor: pointer;
 }
 
 
