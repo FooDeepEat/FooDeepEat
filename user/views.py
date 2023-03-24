@@ -18,17 +18,31 @@ def generate_code(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 
-def create_forms(request):
-    initial_values = {}
-    for key, value in request.POST.items():
-        initial_values[key] = value
+def create_forms(request, initial_values):
+    initial_dict = {}
+    for key, value in initial_values.items():
+        initial_dict[key] = value
+
+    profile_form_initial = {'profile_img': request.FILES.get('profile_img', '')}
+    address_form_initial = {
+        'postal_code': initial_dict.get('postal_code', ''),
+        'city': initial_dict.get('city', ''),
+        'address': initial_dict.get('address', ''),
+    }
+    option_form_initial = {'height': initial_dict.get('height', ''), 'weight': initial_dict.get('weight', ''),
+                           'gender': initial_dict.get('gender', ''),
+                           }
+    agree_form_initial = {'must_agree': initial_dict.get('must_agree', ''),
+                          'option_agree': initial_dict.get('option_agree', '')
+                          }
+
     return {
-        'signup_form': SignUpForm(initial=initial_values),
-        'profile_form': ProfileImageForm(request.FILES, initial=initial_values) if 'auth' not in request.POST
-        else ProfileImageForm(request.FILES),
-        'address_form': AddressForm(initial=initial_values),
-        'option_form': OptionForm(initial=initial_values),
-        'agree_form': AgreeForm(initial=initial_values),
+        'signup_form': SignUpForm(initial=initial_dict),
+        'profile_form': ProfileImageForm(request.FILES, initial=profile_form_initial) if 'auth' not in initial_values
+        else ProfileImageForm(initial=profile_form_initial),
+        'address_form': AddressForm(initial=address_form_initial),
+        'option_form': OptionForm(initial=option_form_initial),
+        'agree_form': AgreeForm(initial=agree_form_initial),
     }
 
 
@@ -38,12 +52,13 @@ def register(request):
             username = request.POST.get('username', '')
             if username == '':
                 user_msg = "아이디를 입력해주세요."
-                return render(request, 'register/register.html', {**create_forms(request), 'user_msg': user_msg})
+                return render(request, 'register/register.html',
+                               {**create_forms(request, initial_values=request.POST), 'user_msg': user_msg})
             user_exists = models.Account.objects.filter(username=username).exists()
             user_msg = '이미 사용중인 유저네임입니다.' if user_exists else '사용 가능한 유저네임입니다.'
             # user_msg를 딕셔너리에 추가해서 보내기 위해 **create_forms 새로운 딕셔너리 생성
-            return render(request, 'register/register.html', {**create_forms(request), 'user_msg': user_msg})
-
+            return render(request, 'register/register.html', {**create_forms(request, initial_values=request.POST),
+                                                              'user_msg': user_msg})
 
         elif 'auth_code' in request.POST:
             email = request.POST.get('email')
@@ -54,13 +69,16 @@ def register(request):
             request.session['auth_code'] = code
             message = code
             EmailMessage(subject=subject, body=message, to=to, from_email=from_email).send()
-
+            code_msg = "인증코드가 발송되었습니다."
+            return render(request, 'register/register.html', {**create_forms(request, initial_values=request.POST),
+                                                              'code_msg': code_msg})
 
         elif 'code_check' in request.POST:
             check_code = request.POST.get('emailcheck')
-            code_msg = "인증코드가 맞습니다." if check_code == request.session['auth_code'] else "인증코드가 맞지 않습니다."
+            check_code_msg = "인증코드가 맞습니다." if check_code == request.session['auth_code'] else "인증코드가 맞지 않습니다."
             # code_msg 딕셔너리에 추가해서 보내기 위해 **create_forms 새로운 딕셔너리 생성
-            return render(request, 'register/register.html', {**create_forms(request), 'code_msg': code_msg})
+            return render(request, 'register/register.html', {**create_forms(request, initial_values=request.POST),
+                                                              'check_code_msg': check_code_msg})
 
         else:
             forms = create_forms(request)
@@ -73,8 +91,8 @@ def register(request):
                             form_object = form.save(commit=False)
                             form_object.user = user
                             form_object.save()
-
                 return render(request, 'register/register_done.html')
+
             else:
                 for form_name, form in forms.items():
                     if not form.is_valid():
