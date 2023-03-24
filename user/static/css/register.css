@@ -58,11 +58,11 @@ form {
     box-sizing: border-box;
     font-size: 14px;
     font-weight: bold;
-    background-color: #2ecc71;
-    border: 1px solid #2ecc71;
+    background-color: #37BA2A;
+    border: 1px solid #37BA2A;
     color: #fff;
     cursor: pointer;
-
+    font-weight: 400;
 }
 .mini_msg{
     font-size: 12px;
@@ -71,7 +71,7 @@ form {
 }
 .noti_msg{    
     font-size: 12px;
-    color: #206B18;
+    color: #37BA2A;
     text-indent: 120px;
     margin: 10px 0;
 }
@@ -86,8 +86,7 @@ form {
     box-sizing: border-box;
     font-size: 16px;
     height: 52px;
-    margin: 20px 0;
-    
+    margin: 20px 0;    
 }
 
 .noti_box{
@@ -124,7 +123,7 @@ form span {
     height: 40px;
     font-size: 16px;
     font-weight: bold;
-    background-color: #2ecc71;
+    background-color: #37BA2A;
     color: #fff;
     border: none;
     border-radius: 5px;
