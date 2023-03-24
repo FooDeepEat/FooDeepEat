@@ -13,12 +13,6 @@ a{
   transition: color 0.2s ease-in-out;
   font-size: 16px;
 }
-/* 마우스를 올렸을 때의 스타일 */
-a:hover{
-  color : #37BA2A; 
-  /* 포인트색 1 : 옅은초록 */
-  transition: color 0.3s ease-in-out;
-}
 
 body{
   width: 100%;
@@ -29,7 +23,8 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;  
-  font-family: "Noto Sans KR", sans-serif;
+  /* font-family: "Noto Sans KR", sans-serif; */
+  font-family: 'Noto Sans KR', sans-serif;
 }
 table{
   border-collapse: collapse;
@@ -73,7 +68,7 @@ img{
 }
 .wrap{
   max-width: 1200px;
-  padding: 72px 0 0;
+  padding: 70px 0 0;
   margin: 0 auto;
 }
 

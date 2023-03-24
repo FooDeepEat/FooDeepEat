@@ -28,6 +28,9 @@
 .nutri_info_cont{  
   text-align: center;
 }
+.nutri_info_cont.search{
+  display: none;
+}
 
 .nutri_info_li{
   padding: 20px 10px;
@@ -94,6 +97,7 @@
   float: left;
   border-radius: 50%;
   overflow: hidden;
+  border: 1px solid #ddd;
 }
 .nutri_info{
   float: left;
@@ -104,4 +108,71 @@
   font-size: 12px;
   color: #999;
   font-weight: 100;
+}
+
+.pagination{
+  height: 24px;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%,0);
+  display: inline-block;
+  margin: 35px auto 0;
+}
+.pagination:after{
+  content: "";
+  display: block;
+  clear: both;
+}
+.pagination>span{
+  float: left;
+}
+.paging{
+  position: relative;  
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+.paging a{
+  font-size: 0;  
+  content: "";
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  position: absolute;
+  font-family: 'Roboto';
+}
+.paging_txt a:hover{
+  color: #206B18;
+  font-weight: 700;
+
+}
+.prev_btn a{
+  background-image: url(../../../static/image/icon_prev_page.png);
+  left: 0;
+}
+.next_btn a{
+  background-image: url(../../../static/image/icon_next_page.png);
+  right: 0;
+}
+
+.paging_txt{
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  text-align: center;
+  line-height: 23px;
+  font-family: 'Roboto';
+  margin: 0 5px;
+}
+.paging_txt.active{
+  font-weight: 700;
+  color:#fff;
+  background-color: #206B18;
+  border-radius: 5px;
+}
+.paging_txt a{
+  display: inline-block;
+  width: 100%;
+  font-size: 14px;
 }

@@ -1,3 +1,4 @@
+
 /*header*/
 .menu{
   position: fixed;
@@ -5,7 +6,6 @@
   left: 50%;
   z-index: 99;
   /* border-bottom: 2px solid #37BA2A; */
-  background-color: #fff;
   width: 100%;
   max-width: 1920px;
   height: 70px;
@@ -16,12 +16,6 @@
 .manu_nav{
   padding:10px 40px 10px 25px;
   position: relative;
-}
-
-.menu.sticky {
-  background: rgba(30, 31, 33, 0.85);
-  backdrop-filter: blur(30px);
-  box-shadow: none;
 }
 
 
@@ -55,6 +49,13 @@
   font-size: 20px;
   color:#fff;
 }
+.nave_menu_li a:hover{
+  color : #37BA2A; 
+  /* 포인트색 1 : 옅은초록 */
+  transition: color 0.3s ease-in-out;
+}
+
+
 .nav_menu li+li{
   margin-left: 25px;
 }
@@ -109,6 +110,12 @@ footer{
 .footer_li a{
   cursor: pointer;
 }
+.footer_li a:hover{
+  color : #37BA2A; 
+  /* 포인트색 1 : 옅은초록 */
+  transition: color 0.3s ease-in-out;
+}
+
 .footer_menu li+li{
   margin-left: 25px;
 }
