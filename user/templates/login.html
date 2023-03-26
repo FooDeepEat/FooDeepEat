@@ -31,10 +31,12 @@
         <form method="POST">
             {% csrf_token %}
             <div class="login-id-wrap">
+	            <label>이메일</label>
                 {% comment %} login-input-id {% endcomment %}
                 {{ form.username }}
             </div>
             <div class="login-pw-wrap">
+	            <label>비밀번호</label>
                 {% comment %} login-input-pw {% endcomment %}
                 {{ form.password }}
             </div>
@@ -52,7 +54,7 @@
     <section class="find-info">
         <div class="find-signup-wrap">
             <span class="find">
-                <a href="{% url 'find_id' %}" class="id-find">아이디찾기</a>
+                <a href="{% url 'find_username' %}" class="id-find">아이디찾기</a>
             </span>
             <span class="find-pw">
                 <a href="{% url 'password_reset' %}" target="_blank">비밀번호 찾기</a>

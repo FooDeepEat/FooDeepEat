@@ -1,12 +1,3 @@
-// 필수 개인정보 제공 동의 라디오박스 동의하지 않을 경우 메시지 출력
-
-const radio = document.getElementById("must_agree");
-
-if (radio.checked) {
-  alert("필수 개인정보 제공에 동의해 주세요.");
-}
-
-
 // 다음 API 이용해서 주소 가져오기
     
 function execDaumPostcode(){

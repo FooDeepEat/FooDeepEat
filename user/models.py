@@ -5,12 +5,15 @@ import datetime
 
 # 유저 정보 테이블
 class Account(AbstractUser):
+    username = models.CharField(
+        unique=True,
+        max_length=150
+    )
     birth_date = models.DateField(default=datetime.date.today)
-    email = models.EmailField(unique=True)
     phone_number = models.CharField(unique=True, max_length=13)
 
     def __str__(self):
-        return f"{self.email} {self.username} {self.password}"
+        return f"{self.username} {self.first_name+self.last_name}"
 
 
 # 유저 프로필 사진
