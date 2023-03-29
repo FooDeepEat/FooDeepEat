@@ -86,34 +86,37 @@
 			{% endfor %}
 		</ul>
 	</div>
-</div>
-
-<div class="pagination">
-	{#	이전 페이지 존재 #}
-    {% if foods.has_previous %}
-	<span class="paging prev_btn">
-        <a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">Prev</a>
-    </span>
-		{% endif %}
-
-	{# 요청받는 값 만큼 페이지 수 확인 #}
-    {% for num in foods.paginator.page_range %}
-        {% if num == foods.number %}
-            <span class="active paging_txt">{{ num }}</span>
-        {% else %}
-		<span class="paging_txt">
-            <a href="?page={{ num }}&food={{ request.GET.food }}">{{ num }}</a>
+	
+	<div class="pagination">
+		{#	이전 페이지 존재 #}
+		{% if foods.has_previous %}
+		<span class="paging prev_btn">
+			<a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">Prev</a>
 		</span>
-        {% endif %}
-    {% endfor %}
+			{% endif %}
 
-	{# 다음 페이지 존재 #}
-    {% if foods.has_next %}
-	<span class="paging next_btn">
-        <a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">Next</a>
-	</span>
-    {% endif %}
+		{# 요청받는 값 만큼 페이지 수 확인 #}
+		{% for num in foods.paginator.page_range %}
+		{% if num >= foods.number|add:-5 and num <= foods.number|add:5 %}
+			{% if num == foods.number %}
+				<span class="active paging_txt">{{ num }}</span>
+			{% else %}
+			<span class="paging_txt">
+				<a href="?page={{ num }}&food={{ request.GET.food }}">{{ num }}</a>
+			</span>
+			{% endif %}			
+		{% endif %}
+		{% endfor %}
+
+		{# 다음 페이지 존재 #}
+		{% if foods.has_next %}
+		<span class="paging next_btn">
+			<a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">Next</a>
+		</span>
+		{% endif %}
+	</div>
 </div>
+
 
 {% include 'footer.html' %}
 {% endblock %}
