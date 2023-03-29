@@ -27,6 +27,7 @@
     height: 100%;
     border-right: 1px solid rgba(32, 107, 24, 1);
     position: fixed;
+    top:70px;
 
 }
 .sidebar-wrap ul{
@@ -265,7 +266,7 @@
 
 .food-list{
     display: inline-block;
-    width: 800px;
+    width: 100%;
     height: auto;
     border-radius: 7px;
     
