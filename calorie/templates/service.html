@@ -18,15 +18,16 @@
 {% include 'header.html' %}
 <div class="wrap">
 	<div class="userfood">
-		<form method="POST" enctype="multipart/form-data" action="/service/?form=userfood">
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
 			<div class="foodbox">
 				<label for="file-upload" class="pick_food">
-					<input id="file-upload" type="file" onchange="previewImage(this);">
+					<input id="file-upload" name="user_food" type="file" multiple onchange="previewImage(this);">
 				</label>
 				<span class="show_food">
-					<img id="showFood" src="/static/image/service_default_bg.jpg"/>			
+					<img id="showFood" name="user_food" src="/static/image/service_default_bg.jpg"/>
 				</span>
-				<button type="submit" onclick="" class="btn_style01">영양정보 확인하기</button>
+				<button type="submit" class="btn_style01">영양정보 확인하기</button>
 			</div>			
 		</form>
 	</div>
@@ -70,10 +71,13 @@
 				</table>
 				
 				{% comment %} 기록하기 {% endcomment %}
-				<form method="POST" name="user_weight" action="/service/?form=usereaten">
+				<form method="POST" name="user_weight">
+					{% csrf_token %}
 					<div class="eatbox">
 						<p class="eat_txt">얼마나 드셨나요?(g)</p>
-						<span class="eat_input"><input type="text" value="" id="inputField" required></span>
+						<span class="eat_input">
+							<input type="text" value="" name="user_info" id="inputField" required>
+						</span>
 						<button type="submit" class="btn_style02">기록하기</button>
 					</div>
 				</form>

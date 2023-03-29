@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 import random
 from django.core.paginator import Paginator
 from . import models
+import requests
+import base64
+import time
 
 
 @login_required
@@ -34,22 +37,56 @@ def mypage(request, date=None):
 @login_required
 def service(request):
     user = request.user
-
     if request.method == "POST":
-        if request.GET.get('form') == "userfood":
-            food_img = request.FILES.get('user_img', None)
-            if food_img:
-                food_img.name = f"{user.username}.{food_img.name}"
-                models.UserFoodImage.objects.create(food_img=food_img, user=user)
+        if 'user_food' in request.FILES:
+            # 전송할 데이터 설정 (multipart/form-data 형태)
+            user_foods = request.FILES.getlist('user_food')
+            file_bytes_list = []
+            for user_food in user_foods:
+                file_bytes = user_food.read()  # 파일 내용을 바이너리로 읽어옴
+                file_bytes_list.append(file_bytes)  # 바이너리를 바이트 리스트에 추가함
+            # FastAPI 서버 URL 설정
+            url = 'http://127.0.0.1:10000/cnn_model'
+            uploaded_files = [('uploaded_files', file_bytes) for file_bytes in file_bytes_list]
+            response = requests.post(url, files=uploaded_files)
+            print(response)
 
-        elif request.GET.get('form') == "usereaten":
-            weight = request.POST["user_weight"]
-            if weight:
-                models.UserFood.objects.create(weight=weight, user=user)
+            if response.status_code == 200:
+            #     # FastAPI에서 반환한 JSON에서 이미지와 결과를 추출하고 저장
+                image_with_results = None
+                while True:
+                    try:
+                        image_with_results = response.json()
+                        print("모델 분석 완료")
+                        break
+                    except:
+            #             # 결과가 아직 도착하지 않았으면 1초 대기 후 다시 요청
+                        time.sleep(1)
+                        response = requests.post(url, files=uploaded_files)
+                        continue
+            #
+                if image_with_results is not None:
+                    for image_with_result in image_with_results:
+                        food_img = image_with_result['image']
+                        food_name = image_with_result['food_name']
+                        user_name = user.first_name + user.last_name
+        # #             # 바이너리 이미지를 디코딩
+                        decoded_img = base64.b64decode(food_img)
+        # #             # 이미지를 파일로 저장
+                        with open(f'media/user_food/{user_name}-{food_name}-{timezone.now().date()}.jpg', 'wb') as f:
+                            f.write(decoded_img)
+                        print("사진 저장 완료")
+                else:
+                    print("이미지 없음")
 
-        user_foods = models.UserFood.objects.filter(user_id=user.id).all()
-        user_food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
-        return render(request, "service.html", {"user_foods": user_foods, "user_food_img": user_food_img})
+        # elif request.GET.get('form') == "usereaten":
+        #     weight = request.POST["user_weight"]
+        #     if weight:
+        #         models.UserFood.objects.create(weight=weight, user=user)
+        #
+        # user_foods = models.UserFood.objects.filter(user_id=user.id).all()
+        # user_food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
+        # return render(request, "service.html", {"user_foods": user_foods, "user_food_img": user_food_img})
 
     return render(request, "service.html")
 

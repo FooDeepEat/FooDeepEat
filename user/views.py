@@ -31,7 +31,6 @@ def create_forms(request):
     }
 
 
-
 class CleandForm:
     def __init__(self, request):
         self.request = request
