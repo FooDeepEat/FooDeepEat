@@ -85,22 +85,22 @@ function arcMaker(radius, begin, end, color){
 
 
 var drawed = false;
-canvas.addEventListener('mousemove', function (event) {
-    var x1 = event.clientX - canvas.offsetLeft;
-    var y1 = event.clientY - canvas.offsetTop;
-    var inn = isInsideArc(x1, y1);
-    if(inn.index > -1){
-        drawed = true;
-        hoverCanvas(inn.index);
-        makeText(inn.index);
-    } else {
-        if(drawed){
-            hoverCanvas(-1);
-            makeText(-1);
-        }
-        drawed = false;
-    }
-}); 
+// canvas.addEventListener('mousemove', function (event) {
+//     var x1 = event.clientX - canvas.offsetLeft;
+//     var y1 = event.clientY - canvas.offsetTop;
+//     var inn = isInsideArc(x1, y1);
+//     if(inn.index > -1){
+//         drawed = true;
+//         hoverCanvas(inn.index);
+//         makeText(inn.index);
+//     } else {
+//         if(drawed){
+//             hoverCanvas(-1);
+//             makeText(-1);
+//         }
+//         drawed = false;
+//     }
+// }); 
 
 function isInsideArc(x1, y1){
     var result1 = false;
@@ -128,23 +128,23 @@ function isInsideArc(x1, y1){
 }
 
 
-function hoverCanvas(index){
-    ctx.clearRect(0,0,width, height);
-    for (var i = 0; i < conv_array.length; i++) {
-        var item = conv_array[i];
-        var innRadius = radius;
-        if(index == i){  
-            innRadius = radius * 1.1;
-        }
-        if (i == 0) {
-            arcMaker(innRadius, 0, item, colorArray[i])
-            degree = item;
-        } else {
-            arcMaker(innRadius, degree, degree + item, colorArray[i])
-            degree = degree + item;
-        }
-    }
-}
+// function hoverCanvas(index){
+//     ctx.clearRect(0,0,width, height);
+//     for (var i = 0; i < conv_array.length; i++) {
+//         var item = conv_array[i];
+//         var innRadius = radius;
+//         if(index == i){  
+//             innRadius = radius * 1.1;
+//         }
+//         if (i == 0) {
+//             arcMaker(innRadius, 0, item, colorArray[i])
+//             degree = item;
+//         } else {
+//             arcMaker(innRadius, degree, degree + item, colorArray[i])
+//             degree = degree + item;
+//         }
+//     }
+// }
 
 function degreesToRadians(degrees) {
     const pi = Math.PI;
@@ -163,11 +163,11 @@ function makeText(index){
         var minus = ctx.measureText(txt).width / 2;
         ctx.save();
         if(index == idx){
-            ctx.font = "normal bold 18px sans-serif";
-            ctx.fillStyle = '#5a5a5a';
+            ctx.font = "100 14px Roboto";
+            ctx.fillStyle = '#1a1a1a';
         } else {
-            ctx.font = "normal 14px sans-serif";
-            ctx.fillStyle = 'white';
+            ctx.font = "100 14px Roboto";
+            ctx.fillStyle = '#1a1a1a';
         }
         ctx.fillText(txt, xx - minus, yy);
         var txt2 = value[idx].number;
@@ -195,9 +195,9 @@ function middelMaker(){
     value.forEach( (arg)=> total+=arg.number);
     var minus = ctx.measureText(total).width; 
     ctx.save();
-    ctx.font = "normal 20px sans-serif";
-    ctx.fillStyle = '#5a5a5a';
+    ctx.font = "400 16px Roboto";
+    ctx.fillStyle = '#1a1a1a';
     ctx.fillText("열량", width/2 - ctx.measureText("열량").width/2, height/2);
-    ctx.fillText(total, width/2 - minus, height/2 * 1.1);
+    ctx.fillText(total, width/2 - 0.8*minus, height/2 * 1.1);
     ctx.restore();
 }
