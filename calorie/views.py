@@ -16,6 +16,7 @@ def mypage(request, date=None):
 
     if request.method == 'POST':
         memo_text = request.POST.get('memo_text', '')
+        print(memo_text)
 
         if memo_text:
             memos, created = models.UserMemo.objects.get_or_create(user_id=user.id, created_at=date,
@@ -31,6 +32,7 @@ def mypage(request, date=None):
 
     memos = models.UserMemo.objects.filter(user_id=user.id, created_at=date).first()
     foods = models.UserFood.objects.filter(user_id=user.id, created_at=date).first()
+
     return render(request, "mypage.html", {"user": user, "memos": memos, "date": date, "foods": foods})
 
 
