@@ -1,3 +1,7 @@
+import io
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -7,12 +11,13 @@ from . import models
 import requests
 import base64
 import time
+from django.core.files import File
 
 
 @login_required
 def mypage(request, date=None):
     user = request.user
-    date = request.GET.get('date') or timezone.localdate().strftime("%Y-%m-%d")
+    date = request.GET.get('date') or timezone.now().strftime("%Y-%m-%d")
 
     if request.method == 'POST':
         memo_text = request.POST.get('memo_text', '')
@@ -38,11 +43,11 @@ def mypage(request, date=None):
 
 @login_required
 def service(request):
-    user = request.user
     if request.method == "POST":
         if 'user_food' in request.FILES:
             # 전송할 데이터 설정 (multipart/form-data 형태)
             user_foods = request.FILES.getlist('user_food')
+
             file_bytes_list = []
             for user_food in user_foods:
                 file_bytes = user_food.read()  # 파일 내용을 바이너리로 읽어옴
@@ -51,10 +56,9 @@ def service(request):
             url = 'http://127.0.0.1:10000/cnn_model'
             uploaded_files = [('uploaded_files', file_bytes) for file_bytes in file_bytes_list]
             response = requests.post(url, files=uploaded_files)
-            print(response)
 
             if response.status_code == 200:
-            #     # FastAPI에서 반환한 JSON에서 이미지와 결과를 추출하고 저장
+                # FastAPI에서 반환한 JSON에서 이미지와 결과를 추출하고 저장
                 image_with_results = None
                 while True:
                     try:
@@ -62,33 +66,65 @@ def service(request):
                         print("모델 분석 완료")
                         break
                     except:
-            #             # 결과가 아직 도착하지 않았으면 1초 대기 후 다시 요청
+                        # 결과가 아직 도착하지 않았으면 1초 대기 후 다시 요청
                         time.sleep(1)
                         response = requests.post(url, files=uploaded_files)
                         continue
-            #
-                if image_with_results is not None:
-                    for image_with_result in image_with_results:
-                        food_img = image_with_result['image']
-                        food_name = image_with_result['food_name']
-                        user_name = user.first_name + user.last_name
-        # #             # 바이너리 이미지를 디코딩
-                        decoded_img = base64.b64decode(food_img)
-        # #             # 이미지를 파일로 저장
-                        with open(f'media/user_food/{user_name}-{food_name}-{timezone.now().date()}.jpg', 'wb') as f:
-                            f.write(decoded_img)
-                        print("사진 저장 완료")
-                else:
-                    print("이미지 없음")
 
-        # elif request.GET.get('form') == "usereaten":
-        #     weight = request.POST["user_weight"]
-        #     if weight:
-        #         models.UserFood.objects.create(weight=weight, user=user)
-        #
-        # user_foods = models.UserFood.objects.filter(user_id=user.id).all()
-        # user_food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
-        # return render(request, "service.html", {"user_foods": user_foods, "user_food_img": user_food_img})
+                if image_with_results is not None:
+                    user = request.user
+
+                    user_food_list = []
+                    for image_with_result in image_with_results:
+                        # 음식 이름 가져오고 user_food 테이블에 저장하기
+                        result_name = image_with_result['food_name']
+                        food = models.Food.objects.filter(name=result_name).first()
+
+                        # 음식 사진 가져오고 이미지 객체 변환
+                        result_img = image_with_result['image']
+                        user_name = user.first_name + user.last_name
+                        # 바이너리 이미지를 디코딩
+                        decoded_img = base64.b64decode(result_img)
+                        # BytesIO 객체화
+                        image_io = io.BytesIO(decoded_img)
+                        # InMemoryUploadedFile 객체 생성(메모리에서 생성된 파일 객체)
+                        image_file = InMemoryUploadedFile(image_io,
+                                                          None,
+                                                          f'{user_name}-'
+                                                          f'{food.name}-'
+                                                          f'{timezone.now().strftime("%Y-%m-%d")}.jpeg',
+                                                          'image/jpeg',
+                                                          image_io.getbuffer().nbytes,
+                                                          None
+                                                          )
+                        # InMemoryUploadedFile 객체를 File 객체로 변환
+                        image_file = File(image_file)
+                        print(image_file)
+
+                        with transaction.atomic():
+                            user_food_obj = models.UserFood.objects.create(user_id=user.id,
+                                                                           name_id=food.id,
+                                                                           weight=food.weight,
+                                                                           carbohydrate=food.carbohydrate,
+                                                                           protein=food.protein,
+                                                                           fat=food.fat)
+                            user_food_img_obj = models.UserFoodImage.objects.create(food_img=image_file,
+                                                                                    name_id=user_food_obj.id)
+
+                        confirm_food = {"image": user_food_img_obj.food_img, "user_food": user_food_obj, "food": food}
+                        user_food_list.append(confirm_food)
+                    return render(request, 'service.html', {"user_food_list": user_food_list})
+
+        elif 'user_weight' in request.POST:
+            print("여기로 왔나?")
+            #     user = request.user
+            #     weight = request.POST["user_weight"]
+            #     if weight:
+            #         models.UserFood.objects.create(weight=weight, user=user)
+            #
+            # user_foods = models.UserFood.objects.filter(user_id=user.id).all()
+            # user_food_img = models.UserFoodImage.objects.filter(name=user_foods).all()
+            # return render(request, "service.html", {"user_foods": user_foods, "user_food_img": user_food_img})
 
     return render(request, "service.html")
 

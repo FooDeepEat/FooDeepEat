@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator, MinLengthValidator, MaxLength
 from django.contrib.auth.forms import UserCreationForm
 from .models import Account, Address, Option, Agree, ProfileImage
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 
 class SignUpForm(UserCreationForm):
@@ -114,10 +115,10 @@ class ProfileImageForm(forms.ModelForm):
         model = ProfileImage
         fields = ('profile_img',)
 
-    # def clean_profile_img(self):
-    #     profile_img = self.cleaned_data.get('profile_img')
-    #     if profile_img:
-    #         if profile_img.size > 5 * 1024 * 1024:  # 5MB
-    #             raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
-    #         return profile_img
-    #     return None
+    def clean_profile_img(self):
+        profile_img = self.cleaned_data.get('profile_img')
+        if profile_img:
+            if profile_img.size > 5 * 1024 * 1024:  # 5MB
+                raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
+            return profile_img
+        return None

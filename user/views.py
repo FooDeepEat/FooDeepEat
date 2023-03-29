@@ -112,7 +112,6 @@ def register(request):
             phone_error = CleandForm(request).phone()
             pw_error = CleandForm(request).password()
             if phone_error or pw_error:
-                print("여기까지 왔니?")
                 return render(request, 'register/register.html', {**create_forms(request),
                                                                   "phone_error": phone_error or None,
                                                                   "pw_error": pw_error or None})

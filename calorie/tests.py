@@ -30,3 +30,29 @@ from django.test import TestCase
 #     else:
 #         valid_message = "인증 실패"
 #     return render(request, "register.html", {"error_msg": valid_message})
+
+
+from django import forms
+# from django.forms import ClearableFileInput
+# from django.core.exceptions import ValidationError
+#
+# from calorie.models import UserFoodImage
+#
+#
+# class UserFoodImageForm(forms.ModelForm):
+#     user_food_img = forms.ImageField(
+#         widget=ClearableFileInput(attrs={'accept': 'image/*'}),
+#         required=False
+#     )
+#
+#     class Meta:
+#         model = UserFoodImage
+#         fields = ('food_img',)
+#
+#     def clean_food_img(self):
+#         food_img = self.cleaned_data.get('food_img')
+#         if food_img:
+#             if food_img.size > 5 * 1024 * 1024:  # 5MB
+#                 raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
+#             return food_img
+#         return None

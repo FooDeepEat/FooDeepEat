@@ -18,14 +18,14 @@
 {% include 'header.html' %}
 <div class="wrap">
 	<div class="userfood">
-		<form method="POST" enctype="multipart/form-data">
+		<form method="POST" name="user_food" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="foodbox">
 				<label for="file-upload" class="pick_food">
 					<input id="file-upload" name="user_food" type="file" multiple onchange="previewImage(this);">
 				</label>
 				<span class="show_food">
-					<img id="showFood" name="user_food" src="/static/image/service_default_bg.jpg"/>
+					<img id="showFood" src="/static/image/service_default_bg.jpg"/>
 				</span>
 				<button type="submit" class="btn_style01">영양정보 확인하기</button>
 			</div>			
@@ -33,55 +33,58 @@
 	</div>
 	<div class="food_cont">
 		<ul>
-			<li class="food_info">
-				<table class="food_info_table">
-					<colgroup>
-						<col width="50%">
-						<col width="50%">
-					</colgroup>
-		
-					<thead onchange="printFoodInfo();">
-						<tr>
-							<th colspan="2">
-								<div class="thum_box">
-									<p class="thum_img"><img src="{{ food_img.food_img.url }}" alt=""/></p>
-									<p class="thum_txt">[<span class="thum_name">돼지고기메추리알장조림</span>] 100g 기준의 영양정보입니다.</p>
-								</div>	
-							</th>	
-						</tr>				
-					</thead>
-					<tbody>
-						<tr>
-							<td>열량(kcal)</td>
-							<td><span>100</span>kal</td>
-						</tr>
-						<tr>
-							<td>탄수화물(g)</td>
-							<td><span>100</span>g</td>
-						</tr>
-						<tr>
-							<td>단백질(g)</td>
-							<td><span>100</span>g</td>
-						</tr>
-						<tr>
-							<td>지방(g)</td>
-							<td><span>100</span>g</td>
-						</tr>
-					</tbody>
-				</table>
-				
-				{% comment %} 기록하기 {% endcomment %}
-				<form method="POST" name="user_weight">
-					{% csrf_token %}
-					<div class="eatbox">
-						<p class="eat_txt">얼마나 드셨나요?(g)</p>
-						<span class="eat_input">
-							<input type="text" value="" name="user_info" id="inputField" required>
-						</span>
-						<button type="submit" class="btn_style02">기록하기</button>
-					</div>
-				</form>
-			</li>
+			{% for food in user_food_list %}
+				<li class="food_info">
+					<table class="food_info_table">
+						<colgroup>
+							<col width="50%">
+							<col width="50%">
+						</colgroup>
+						<thead onchange="printFoodInfo();">
+							<tr>
+								<th colspan="2">
+									<div class="thum_box">
+										<p class="thum_img"><img src="{{ food.image.url }}" alt=""/></p>
+										<p class="thum_txt">[<span class="thum_name">{{ food.food.name }}</span>] 100g 기준의 영양정보입니다.</p>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>열량(kcal)</td>
+								<td><span>{{ food.food.energy }}</span>kal</td>
+							</tr>
+							<tr>
+								<td>탄수화물(g)</td>
+								<td><span>{{ food.user_food.carbohydrate }}</span>g</td>
+							</tr>
+							<tr>
+								<td>단백질(g)</td>
+								<td><span>{{ food.user_food.protein }}</span>g</td>
+							</tr>
+							<tr>
+								<td>지방(g)</td>
+								<td><span>{{ food.user_food.fat }}</span>g</td>
+							</tr>
+
+						</tbody>
+					</table>
+					<p>{{ food.user_food.created_at }}</p>
+					{% comment %} 기록하기 {% endcomment %}
+
+					<form method="POST" name="user_weight">
+						{% csrf_token %}
+						<div class="eatbox">
+							<p class="eat_txt">얼마나 드셨나요?(g)</p>
+							<span class="eat_input">
+								<input type="text" value="" name="user_weight" id="inputField" required>
+							</span>
+							<button type="submit" class="btn_style02">기록하기</button>
+						</div>
+					</form>
+				</li>
+			{% endfor %}
 		</ul>
 	</div>
 
