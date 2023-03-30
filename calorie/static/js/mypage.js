@@ -1,3 +1,10 @@
+
+const energy = document.getElementById("total_energy").innerHTML;
+const carbohydrate = document.getElementById('total_carbohydrate').innerHTML;
+const protein = document.getElementById('total_protein').innerHTML;
+const fat = document.getElementById('total_fat').innerHTML;
+
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -5,10 +12,13 @@ var width = canvas.clientWidth;
 var height = canvas.clientHeight;
 
 var value = [
-    {number : 600, text : '탄수화물'},
-    {number : 300, text : '단백질'},
-    {number : 100, text : '지방'},
+    {number : parseInt(carbohydrate), text : '탄수화물'},
+    {number : parseInt(protein), text : '단백질'},
+    {number : parseInt(fat), text : '지방'},
 ];
+
+console.log(value);
+
 var degree = 360;
 var radius = width * 0.7 / 2;
 
@@ -201,3 +211,7 @@ function middelMaker(){
     ctx.fillText(total, width/2 - 0.8*minus, height/2 * 1.1);
     ctx.restore();
 }
+
+
+
+
