@@ -8,14 +8,16 @@
   /* display: flex;
   flex-wrap: wrap; */
 }
+.food_info_div{
 
+}
 .food_info{
   float: left;
   width: 33.33%;
   margin: 0 auto;
   /* max-width: 325px; */
 }
-.food_info:nth-child(4n){
+.food_info_div .food_info:nth-child(4n){
   clear: both;
   float: none;
 }

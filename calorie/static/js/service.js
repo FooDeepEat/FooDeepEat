@@ -1,6 +1,19 @@
 const fileInput = document.getElementById('file-upload');
 const previewContainer = document.querySelector('.preview-container');
 
+
+
+var maxFileSize=5*1024*1024;
+
+fileInput.addEventListener('change',function(){
+    var fileSize=this.files[0].size;
+    if(fileSize>maxFileSize){
+        alert('파일 용량이 제한을 초과했습니다. 5MB 이하의 파일을 선택해주세요.');
+        this.value="";
+    }
+});
+
+
 fileInput.addEventListener('change', (event) => {
   previewContainer.innerHTML = '';
 
@@ -65,6 +78,8 @@ function deleteInfo(btn){
 
 
 
+
+
 const previewImage = document.querySelector('.preview-container');
 const imagePreview = document.querySelector('#showFood');
 
@@ -93,3 +108,9 @@ function showImage(imgSrc){
     imagePreview.src=imgSrc;
     document.getElementById('showFood').src=imgSrc;
 }
+
+
+
+
+
+

@@ -1,9 +1,7 @@
-
-const energy = document.getElementById("total_energy").innerHTML;
-const carbohydrate = document.getElementById('total_carbohydrate').innerHTML;
-const protein = document.getElementById('total_protein').innerHTML;
-const fat = document.getElementById('total_fat').innerHTML;
-
+const carbohydrate = parseInt(document.getElementById('total_carbohydrate').innerHTML);
+const protein = parseInt(document.getElementById('total_protein').innerHTML);
+const fat = parseInt(document.getElementById('total_fat').innerHTML);
+const energy = carbohydrate*4 + protein*4 + fat*9
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -12,9 +10,9 @@ var width = canvas.clientWidth;
 var height = canvas.clientHeight;
 
 var value = [
-    {number : parseInt(carbohydrate), text : '탄수화물'},
-    {number : parseInt(protein), text : '단백질'},
-    {number : parseInt(fat), text : '지방'},
+    {number : carbohydrate, text : '탄수화물'},
+    {number : protein, text : '단백질'},
+    {number : fat, text : '지방'},
 ];
 
 console.log(value);
@@ -28,8 +26,11 @@ if(radius > height * 0.7 / 2){
 
 const colorArray = ['#F38181', '#FCE38A', '#95E1D3'];
 
-var sum = 0;
+var sum = 1;
 value.forEach( arg=> sum+= arg.number);
+
+
+
 
 var conv_array = value.slice().map((data)=>{
     var rate = data.number / sum;
@@ -208,7 +209,7 @@ function middelMaker(){
     ctx.font = "400 16px Roboto";
     ctx.fillStyle = '#1a1a1a';
     ctx.fillText("열량", width/2 - ctx.measureText("열량").width/2, height/2);
-    ctx.fillText(total, width/2 - 0.8*minus, height/2 * 1.1);
+    ctx.fillText(energy, width/2 - 0.8*minus, height/2 * 1.1);
     ctx.restore();
 }
 
