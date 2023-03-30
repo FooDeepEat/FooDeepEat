@@ -44,7 +44,8 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = Account
-        fields = ('username', 'first_name', 'last_name', 'birth_date', 'phone_number', 'password1', 'password2', 'email')
+        fields = (
+        'username', 'first_name', 'last_name', 'birth_date', 'phone_number', 'password1', 'password2', 'email')
 
 
 class AddressForm(forms.ModelForm):
@@ -104,21 +105,20 @@ class AgreeForm(forms.ModelForm):
         model = Agree
         fields = ('must_agree', 'option_agree')
 
-
-class ProfileImageForm(forms.ModelForm):
-    profile_img = forms.ImageField(
-        widget=ClearableFileInput(attrs={'accept': 'image/*'}),
-        required=False
-    )
-
-    class Meta:
-        model = ProfileImage
-        fields = ('profile_img',)
-
-    def clean_profile_img(self):
-        profile_img = self.cleaned_data.get('profile_img')
-        if profile_img:
-            if profile_img.size > 5 * 1024 * 1024:  # 5MB
-                raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
-            return profile_img
-        return None
+# class ProfileImageForm(forms.ModelForm):
+#     profile_img = forms.ImageField(
+#         widget=ClearableFileInput(attrs={'accept': 'image/*'}),
+#         required=False
+#     )
+#
+#     class Meta:
+#         model = ProfileImage
+#         fields = ('profile_img',)
+#
+#     def clean_profile_img(self):
+#         profile_img = self.cleaned_data.get('profile_img')
+#         if profile_img:
+#             if profile_img.size > 5 * 1024 * 1024:  # 5MB
+#                 raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
+#             return profile_img
+#         return None

@@ -143,18 +143,42 @@ def register(request):
 def register_edit(request):
     user = request.user
 
+    account = models.Account.objects.filter(username=user.username).first()
+    address = models.Address.objects.filter(user_id=account.id).first()
+    option = models.Option.objects.filter(user_id=account.id).first()
+    agree = models.Agree.objects.filter(user_id=account.id).first()
+
     if request.method == "POST":
         if 'delete_user' in request.POST:
             user.delete()
             return redirect('logout')
 
         elif 'edit_user' in request.POST:
-            pass
+            with transaction.atomic():
+                account.phone_number = request.POST['phone_number']
+                account.birth_date = request.POST['birth_date']
+                address.postal_code = request.POST['postal_code']
+                address.city = request.POST['city']
+                address.address = request.POST['address']
+                agree.must_agree = request.POST['must_agree']
+                option.gender = request.POST['gender']
+                option.height = request.POST['height']
+                option.weight = request.POST['weight']
+                agree.option_agree = request.POST['option_agree']
 
-    account = models.Account.objects.filter(username=user.username).first()
-    address = models.Address.objects.filter(user_id=account.id).first()
-    form = SignUpForm(instance=account)
-    return render(request, "register/register_edit.html", {"user_info": user_info, "form":form})
+                account.save()
+                address.save()
+                agree.save()
+                option.save()
+            return redirect('calorie:mypage')
+
+    form={
+        'signup_form': SignUpForm(instance=account),
+        'address_form': AddressForm(instance=address),
+        'option_form': OptionForm(instance=option),
+        'agree_form': AgreeForm(instance=agree)
+    }
+    return render(request, "register/register_edit.html", {"form": form, "account": account})
 
 
 # 아이디 찾기

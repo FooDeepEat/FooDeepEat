@@ -23,21 +23,26 @@
 				<strong>안녕하세요. 푸디핏 입니다.</strong>
 			</p>
 		</div>
-
 		<div class="signinrequired_cont">
 			<form method="POST" name="edit_user">
 				{% csrf_token %}
 				<div class="signinrequired">
 					<h3 class="sign_tit">필수정보</h3>
 					<label class="sign_label">성</label>
-					<span class="sign_input">{{ form.signup_form.first_name }}</span>
+					<span class="sign_input">
+						<input type="text" style="background-color: grey" value="{{ account.first_name }}" readonly>
+					</span>
 					
 					<label class="sign_label">이름</label>
-					<span class="sign_input">{{ form.signup_form.last_name }}</span>
+					<span class="sign_input">
+						<input type="text" style="background-color: grey" value="{{ account.last_name }}" readonly>
+					</span>
 
 					<label class="sign_label">이메일</label>
 					<span class="input_btngroup">
-						<span class="sign_input">{{ form.signup_form.username }}</span>
+						<span class="sign_input">
+							<input type="text" style="background-color: grey" value="{{ account.username }}" readonly>
+						</span>
 					</span>
 
 					<label class="sign_label">생년월일</label>
@@ -104,7 +109,6 @@
 				<button class="delete_user" type="submit">탈퇴하기</button>
 			</form>
 		</div>
-
 	</div>
 </div>
 
