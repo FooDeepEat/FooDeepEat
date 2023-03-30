@@ -114,25 +114,23 @@
                 <ul class="today_ul">
                     <li class="today_li">
                         <p class="today_name">{{ random_food.name }}</p>
-                        {% comment %} <span class="left_txt">음식</span>
-                        <span class="right_txt">{{ random_food.name }}</span> {% endcomment %}
                     </li>
                     <li class="today_li">
                         <span class="left_txt">- 열량</span>
                         <span class="right_txt">
-                            {{ random_food.energy }}(Kcal)</span>
+                            {{ random_food.energy|floatformat:1 }}(Kcal)</span>
                     </li>
                     <li class="today_li">
                         <span class="left_txt">- 탄수화물</span>
-                        <span class="right_txt">{{ random_food.carbohydrate }}(g)</span>
+                        <span class="right_txt">{{ random_food.carbohydrate|floatformat:1 }}(g)</span>
                     </li>
                     <li class="today_li">
                         <span class="left_txt">- 단백질</span>
-                        <span class="right_txt">{{ random_food.protein }}(g)</span>
+                        <span class="right_txt">{{ random_food.protein|floatformat:1 }}(g)</span>
                     </li>
                     <li class="today_li">
                         <span class="left_txt">- 지방</span>
-                        <span class="right_txt">{{ random_food.fat }}(g)</span>
+                        <span class="right_txt">{{ random_food.fat|floatformat:1 }}(g)</span>
                     </li>
                 </ul>
             </div>

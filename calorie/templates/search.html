@@ -64,20 +64,20 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td><span class="num">{{ food.energy }}</span>kal</td>
-									<td><span class="num">{{ food.carbohydrate }}</span>g</td>
-									<td><span class="num">{{ food.protein }}</span>g</td>
-									<td><span class="num">{{ food.fat }}</span>g</td>
-									<td><span class="num">{{ food.sugar }}</span>g</td>
-									<td><span class="num">{{ food.cholesterol }}</span>g</td>
-									<td><span class="num">{{ food.calcium }}</span>g</td>
-									<td><span class="num">{{ food.phosphorus }}</span>g</td>
-									<td><span class="num">{{ food.sodium }}</span>g</td>
-									<td><span class="num">{{ food.potassium }}</span>g</td>
-									<td><span class="num">{{ food.magnesium }}</span>g</td>
-									<td><span class="num">{{ food.iron }}</span>g</td>
-									<td><span class="num">{{ food.zinc }}</span>g</td>
-									<td><span class="num">{{ food.trans_fat }}</span>g</td>
+									<td><span class="num">{{ food.energy|floatformat:1 }}</span>kal</td>
+									<td><span class="num">{{ food.carbohydrate|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.protein|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.fat|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.sugar|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.cholesterol|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.calcium|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.phosphorus|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.sodium|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.potassium|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.magnesium|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.iron|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.zinc|floatformat:1 }}</span>g</td>
+									<td><span class="num">{{ food.trans_fat|floatformat:1 }}</span>g</td>
 								</tr>
 							</tbody>
 						</table>
