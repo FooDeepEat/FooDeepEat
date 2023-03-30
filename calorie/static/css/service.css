@@ -138,8 +138,8 @@
 }
 
 .info_del{
-   content: "";
-   position: absolute;
+	content: "";
+	position: absolute;
   right: -5px;
   top: -5px;
   background-size: cover;

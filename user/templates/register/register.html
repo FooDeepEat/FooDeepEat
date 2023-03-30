@@ -12,127 +12,161 @@
 {% block js_files %}
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="{% static 'js/register.js' %}"></script>
+
+
+<script>
+	$(document).ready(function() {
+		$('#id_password1, #id_password2').keyup(function(){
+			var pw1=$('#id_password1').val();
+			var pw2=$('#id_password2').val();
+		
+			if(pw1==pw2){
+				$('.error_msg').addClass('green').html("비밀번호가 일치합니다");
+				$('.error_msg').removeClass('red');
+		
+			}else{
+				$('.error_msg').addClass('red').html("비밀번호가 일치하지않습니다");
+				$('.error_msg').removeClass('green');
+			}	
+			
+			
+			var passwordField = $('#id_password1');
+			if (pw1.length < 8) {	
+				$('.error_msg').addClass('red').html("비밀번호는 8자 이상이어야합니다.");
+				$('.error_msg').removeClass('green');	
+	
+			} else if (pw1.length > 12) {
+				$('.error_msg').addClass('red').html("비밀번호는 12자 이하이어야합니다.");
+				$('.error_msg').removeClass('green');	
+				passwordField.val(pw1.substr(0, 12));	
+			}
+		});
+	
+	});
+</script>
 {% endblock %}
 
 {% block content %}
 <div class="wrap">
-    <div class="login-logo-wrap">
-        <a class="login-logo" href="{% url 'calorie:home' %}"><img src="{%static 'image/horizontal_logo.png' %}"></a>
-        <p class="hello-main">
-            <strong>안녕하세요. 푸디핏 입니다.</strong>
-        </p>
-    </div>
-
-	<div class="signinrequired_cont">
-		<form method="POST">
-			{% csrf_token %}
-			<div class="signinrequired">
-				<h3 class="sign_tit">필수정보</h3>
-				<label class="sign_label">성</label>
-				<span class="sign_input">{{ signup_form.first_name }}</span>
-				
-				<label class="sign_label">이름</label>
-				<span class="sign_input">{{ signup_form.last_name }}</span>
-
-				<label class="sign_label">이메일</label>
-				<span class="input_btngroup">
-					<span class="sign_input">{{ signup_form.username }}</span>
-					<button type="submit" name="auth_code" class="sendvalicode"
-					        formnovalidate>인증코드 발송</button>
-				</span>
-				{% if email_error %}
-					<p class="mini_error_msg">{{ email_error }}</p>
-				{% else %}
-					<p class="mini_success_msg">{{ email_success }}</p>
-				{% endif %}
-				<p class="noti_msg">* 이메일 형식: sesac@coding.com</p>
-
-				<label class="sign_label">인증 코드 입력</label>
-				<span class="input_btngroup">
-					<span class="sign_input">
-						<input type="text" name="emailcheck" class="getvalidcode" value="{{ valid_code }}" required>
-					</span>
-					<button type="submit"  name="check_code" class="checkvalidcode"
-					        formnovalidate>인증코드 확인</button>
-				</span>
-				{% if valid_error %}
-					<p class="mini_error_msg">{{ valid_error }}</p>
-				{% else %}
-					<p class="mini_success_msg">{{ valid_success }}</p>
-				{% endif %}
-
-				<label class="sign_label">비밀번호</label>
-				<span class="sign_input">{{ signup_form.password1 }}</span>
-				<p class="noti_msg">* (영문,숫자,특수문자)포함 된 비밀번호</p>
-				
-				<label class="sign_label">비밀번호확인</label>
-				<span class="sign_input">{{ signup_form.password2 }}</span>
-				{% if pw_error %}
-					<p class="mini_error_msg">{{ pw_error }}</p>
-				{% endif %}
-
-				<label class="sign_label">생년월일</label>
-				<span class="sign_input">{{ signup_form.birth_date }}</span>
-
-				<label class="sign_label">휴대폰 번호</label>
-				<span class="sign_input">{{ signup_form.phone_number }}</span>
-				{% if phone_error %}
-					<p class="mini_error_msg">{{ phone_error }}</p>
-				{% endif %}
-				<p class="noti_msg">* 휴대폰 번호 형식: 010-1234-5678</p>
-
-				<label class="sign_label">우편번호</label>
+	<div class="wrap_box">
+		<div class="login-logo-wrap">
+			<a class="login-logo" href="{% url 'calorie:home' %}"><img src="{%static 'image/horizontal_logo.png' %}"></a>
+			<p class="hello-main">
+				안녕하세요. 푸디핏 입니다.
+			</p>
+			<p class="hello-sub">
+				함께하는 식생활 라이프스타일 서포터 푸디핏입니다.<br>
+				원활한 홈페이지 이용을 위한 회원가입 부탁드립니다.
+			</p>
+		</div>
+	
+		<div class="signinrequired_cont">
+			<form method="POST">
+				{% csrf_token %}
+				<div class="signinrequired">
+					<h3 class="sign_tit">필수정보</h3>
+					<label class="sign_label">성</label>
+					<span class="sign_input">{{ signup_form.first_name }}</span>
+					
+					<label class="sign_label">이름</label>
+					<span class="sign_input">{{ signup_form.last_name }}</span>
+	
+					<label class="sign_label">이메일</label>
 					<span class="input_btngroup">
+						<span class="sign_input">{{ signup_form.username }}</span>
+						<button type="submit" name="auth_code" class="sendvalicode"
+								formnovalidate>인증코드 발송</button>
 					</span>
-
-				<span class="input_btngroup">
-					<span class="sign_input">{{ address_form.postal_code }}</span>
-					<button type="button" onclick="execDaumPostcode();">우편번호 찾기</button>
-				</span>
-
-				<label class="sign_label">주소</label>
-				<span class="sign_input">{{ address_form.city }}</span>
-
-				<label class="sign_label">상세 주소</label>
-				<span class="sign_input">{{ address_form.address }}</span>
-			</div>
-
-			<div class="useragreement">
-				<p>* 필수 개인정보 제공 동의 여부</p>
-				<span class="radio_box">{{ agree_form.must_agree }}</span>
-				{% if agree_error %}
-					{{ agree_error }}
-				{% endif %}
-			</div>
-
-
-			<div class="signinoptional">
-				<h3 class="sign_tit">선택정보</h3>
-
-				<div class="noti_box">
-					<p>건강정보제공 서비스를 위한 선택 정보</p>
-					<p>해당 내용은 회원가입 후, 마이페이지에서도 입력하실 수 있습니다.</p>
+					{% if email_error %}
+						<p class="red_msg">{{ email_error }}</p>
+					{% else %}
+						<p class="green_msg">{{ email_success }}</p>
+					{% endif %}
+					<p class="noti_msg">* 이메일 형식: sesac@coding.com</p>
+	
+					<label class="sign_label">인증 코드 입력</label>
+					<span class="input_btngroup">
+						<span class="sign_input">
+							<input type="text" name="emailcheck" class="getvalidcode" value="{{ valid_code }}" required>
+						</span>
+						<button type="submit"  name="check_code" class="checkvalidcode"
+								formnovalidate>인증코드 확인</button>
+					</span>
+					{% if valid_error %}
+						<p class="red_msg margin">{{ valid_error }}</p>
+					{% else %}
+						<p class="green_msg margin">{{ valid_success }}</p>
+					{% endif %}
+	
+					<label class="sign_label">비밀번호</label>
+					<span class="sign_input">{{ signup_form.password1 }}</span>
+					<p class="noti_msg">* (영문,숫자,특수문자)포함 된 비밀번호</p>
+					
+					<label class="sign_label">비밀번호확인</label>
+					<span class="sign_input">{{ signup_form.password2 }}</span>
+					{% if pw_error %}
+						<p class="red_msg">{{ pw_error }}</p>
+					{% endif %}
+	
+					<label class="sign_label">생년월일</label>
+					<span class="sign_input">{{ signup_form.birth_date }}</span>
+	
+					<label class="sign_label">휴대폰 번호</label>
+					<span class="sign_input">{{ signup_form.phone_number }}</span>
+					{% if phone_error %}
+						<p class="red_msg">{{ phone_error }}</p>
+					{% endif %}
+					<p class="noti_msg">* 휴대폰 번호 형식: 010-1234-5678</p>
+	
+					<label class="sign_label">우편번호</label>
+					<span class="input_btngroup">
+						<span class="sign_input">{{ address_form.postal_code }}</span>
+						<button type="button" onclick="execDaumPostcode();">우편번호 찾기</button>
+					</span>
+	
+					<label class="sign_label">주소</label>
+					<span class="sign_input">{{ address_form.city }}</span>
+	
+					<label class="sign_label">상세 주소</label>
+					<span class="sign_input">{{ address_form.address }}</span>
 				</div>
-
-				<label class="sign_label">성별</label>
-				<span class="sign_selcet">{{ option_form.gender }}</span>
-
-				<label  class="sign_label" for="userheight">키</label>
-				<span class="sign_input">{{ option_form.height }}</span>
-
-				<label  class="sign_label" for="userweight">몸무게</label>
-				<span class="sign_input">{{ option_form.weight }}</span>
-
+	
 				<div class="useragreement">
-					<p>* 선택 개인정보 제공 동의 여부</p>
-					<p>* 비동의시 추가적인 서비스 제공이 어렵습니다.</p>
-					<span class="radio_box">{{ agree_form.option_agree }}</span>
+					<p>* 필수 개인정보 제공 동의 여부</p>
+					<span class="radio_box">{{ agree_form.must_agree }}</span>
+					{% if agree_error %}
+						{{ agree_error }}
+					{% endif %}
 				</div>
-			</div>
-			<button class="sign_btn" type="submit">가입하기</button>
-		</form>
-	</div>
-
+	
+	
+				<div class="signinoptional">
+					<h3 class="sign_tit">선택정보</h3>
+	
+					<div class="noti_box">
+						<p>건강정보제공 서비스를 위한 선택 정보</p>
+						<p>해당 내용은 회원가입 후, 마이페이지에서도 입력하실 수 있습니다.</p>
+					</div>
+	
+					<label class="sign_label">성별</label>
+					<span class="sign_selcet">{{ option_form.gender }}</span>
+	
+					<label  class="sign_label" for="userheight">키</label>
+					<span class="sign_input">{{ option_form.height }}</span>
+	
+					<label  class="sign_label" for="userweight">몸무게</label>
+					<span class="sign_input">{{ option_form.weight }}</span>
+	
+					<div class="useragreement">
+						<p>* 선택 개인정보 제공 동의 여부</p>
+						<p>* 비동의시 추가적인 서비스 제공이 어렵습니다.</p>
+						<span class="radio_box">{{ agree_form.option_agree }}</span>
+					</div>
+				</div>
+				<button class="sign_btn" type="submit">가입하기</button>
+			</form>
+		</div>
+	</div>  
 </div>
 
 {% endblock %}

@@ -11,8 +11,26 @@
 {% endblock %}
 
 {% block js_files %}
-<script type="text/javascript" src="{% static 'js/swiper.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/swiper.js' %}" sourceMap="false"></script>
+<script type="text/javascript" src="{% static 'js/swiper-bundle.min.js' %}" sourceMap="false"></script>
 
+<script>    
+ var mySwiper = new Swiper('.swiper-container', {
+	navigation: {
+		prevEl: '.swiper-button-prev',
+		nextEl: '.swiper-button-next',
+	  },
+	    autoplay: {
+ 	    delay: 1500,
+		disableOnInteraction: false,
+	   },
+	  slidesPerView: 1, // 보여지는 슬라이드 수
+	  spaceBetween: 30, // 슬라이드 간의 거리(px 단위)
+	  loop: true, // 슬라이드 무한 반복
+	  touchRatio: 0,//드래그 금지
+ });
+</script>
 {% endblock %}
 
 
@@ -101,7 +119,8 @@
                     </li>
                     <li class="today_li">
                         <span class="left_txt">- 열량</span>
-                        <span class="right_txt">{{ random_food.energy }}(Kcal)</span>
+                        <span class="right_txt">
+                            {{ random_food.energy }}(Kcal)</span>
                     </li>
                     <li class="today_li">
                         <span class="left_txt">- 탄수화물</span>
@@ -124,6 +143,5 @@
 </div>
 
 
-<script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 {% include 'footer.html' %}
 {% endblock %}

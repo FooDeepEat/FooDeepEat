@@ -1,0 +1,65 @@
+/* ===================================================== */
+
+
+
+.forget{
+  padding-bottom: 20px;
+}
+
+.findform{
+    border-radius: 10px;
+}
+
+.user-info{
+  margin: 15px;
+  padding: 10px 15px;
+  border: solid 1px #ccc;
+  border-radius: 5px; 
+  background: #fff;
+}
+
+.tag{
+  font-size: 13px;
+  color: gray;
+}
+
+.tagform{
+    border: none;
+    outline:none;
+    width:100%;
+}
+
+.find-pw-btn{
+  padding: 8px 16px;
+  background-color: #37BA2A;
+  border: 1px solid #37BA2A;
+  color: #fff;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  height: 52px;
+  margin: 20px 15px;
+
+}
+
+#verification-container {
+  margin-top: 10px;
+}
+
+#verification-container label,
+#verification-container input,
+#verification-container button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+
+input::placeholder {
+  font-size: 14px;
+  color: rgb(185, 185, 185);
+}
+
+#btn-wrap{
+  width: 100%;
+  display: grid;
+}

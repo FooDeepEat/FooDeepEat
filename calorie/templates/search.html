@@ -38,6 +38,7 @@
 	                        <span class="nutri_thum_img"><img src="{{ image.food_img.url }}" alt="{{ food.name }}"/></span>
                         {% endwith %}
 					{% else %}
+
 	                    <span class="nutri_thum_img"><img src="{% static 'image/logo.png' %}" alt="{{ food.name }}"/></span>
                     {% endif %}
 					<div class="nutri_info">
@@ -80,7 +81,7 @@
 								</tr>
 							</tbody>
 						</table>
-						<p class="mini_r">* {{ food.weight }}g 기준 영양정보입니다.</p>
+						<p class="mini_r">* 100g 기준 영양정보입니다.</p>
 					</div>
 				</li>
 			{% endfor %}
@@ -91,9 +92,12 @@
 		{#	이전 페이지 존재 #}
 		{% if foods.has_previous %}
 		<span class="paging prev_btn">
+			<a href="?page=1&food={{ request.GET.food }}">First</a>
+		</span>
+		<span class="paging prev_btn">
 			<a href="?page={{ foods.previous_page_number }}&food={{ request.GET.food }}">Prev</a>
 		</span>
-			{% endif %}
+		{% endif %}
 
 		{# 요청받는 값 만큼 페이지 수 확인 #}
 		{% for num in foods.paginator.page_range %}
@@ -112,7 +116,14 @@
 		{% if foods.has_next %}
 		<span class="paging next_btn">
 			<a href="?page={{ foods.next_page_number }}&food={{ request.GET.food }}">Next</a>
-		</span>
+		</span>	
+
+		{# 마지막 페이지 존재 #}
+		{% if foods.paginator.num_pages > 1 and foods.number <= foods.paginator.num_pages|add:-1 %}
+			<span class="paging next_btn">
+				<a href="?page={{ foods.paginator.num_pages }}&food={{ request.GET.food }}">Last</a>
+			</span>
+		{% endif %}
 		{% endif %}
 	</div>
 </div>

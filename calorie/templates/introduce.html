@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	푸디핏 사람들
 {% endblock %}
 
 
+{% block css_files %}
+<link rel="stylesheet" href="{% static 'css/introduce.css' %}">
+{% endblock %}
+
+
 {% block content %}
 {% include 'header.html' %}
 <div class="wrap">
-    <section>
+    {% comment %} <section>
         <h2>
             함께하는 식생활 라이프스타일 서포터 <em>푸디핏</em>입니다.
         </h2>
@@ -37,7 +43,103 @@
             <p>푸디핏 친구들</p>
             <p>맡은 역할과 이름, 컨택트</p>
         </div>
-    </section>
+    </section> {% endcomment %}
+
+    {% comment %} 팀소개 {% endcomment %}
+    <div class="by_team">
+        <ul>
+            <li class="team_li one">
+                <div class="team_box">
+                    <span class="team_img"><img src={% static 'image/구름달.jpg' %}></span>
+                </div>
+                <div class="team_bg">
+                    <span class="team_txt">
+                        한마디 어쩌구 저쩌구<br>
+                        쏼랏솰라<br>
+                        모르겠다 힘들다<br>
+                        어떻게 디자인하지 모르겠다
+                    </span>
+                </div>
+            </li>
+            <li class="team_li two">
+                <div class="team_box">
+                    <span class="team_img"><img src={% static 'image/구름달.jpg' %}></span>
+                </div>
+                <div class="team_bg">
+                    <span class="team_txt">
+                        한마디 어쩌구 저쩌구<br>
+                        쏼랏솰라<br>
+                        모르겠다 힘들다<br>
+                        어떻게 디자인하지 모르겠다
+                    </span>
+                </div>
+            </li>
+            <li class="team_li three">
+                <div class="team_box">
+                    <span class="team_img"><img src={% static 'image/구름달.jpg' %}></span>
+                </div>
+                <div class="team_bg">
+                    <span class="team_txt">
+                        한마디 어쩌구 저쩌구<br>
+                        쏼랏솰라<br>
+                        모르겠다 힘들다<br>
+                        어떻게 디자인하지 모르겠다
+                    </span>
+                </div>
+            </li>
+            <li class="team_li four">
+                <div class="team_box">
+                    <span class="team_img"><img src={% static 'image/구름달.jpg' %}></span>
+                </div>
+                <div class="team_bg">
+                    <span class="team_txt">
+                        한마디 어쩌구 저쩌구<br>
+                        쏼랏솰라<br>
+                        모르겠다 힘들다<br>
+                        어떻게 디자인하지 모르겠다
+                    </span>
+                </div>
+            </li>
+            <li class="team_li five">
+                <div class="team_box">
+                    <span class="team_img"><img src={% static 'image/구름달.jpg' %}></span>
+                </div>
+                <div class="team_bg">
+                    <span class="team_txt">
+                        한마디 어쩌구 저쩌구<br>
+                        쏼랏솰라<br>
+                        모르겠다 힘들다<br>
+                        어떻게 디자인하지 모르겠다
+                    </span>
+                </div>
+            </li>
+            <li class="team_li six">
+                <div class="team_box">
+                    <span class="team_img"><img src={% static 'image/구름달.jpg' %}></span>
+                </div>
+                <div class="team_bg">
+                    <span class="team_txt">
+                        한마디 어쩌구 저쩌구<br>
+                        쏼랏솰라<br>
+                        모르겠다 힘들다<br>
+                        어떻게 디자인하지 모르겠다
+                    </span>
+                </div>
+            </li>
+        </ul>
+        <div class="team_bg">
+            <span class="team_txt">
+                한마디 어쩌구 저쩌구<br>
+                쏼랏솰라<br>
+                모르겠다 힘들다<br>
+                어떻게 디자인하지 모르겠다
+            </span>
+        </div>
+
+    </div>
+
+
+
 </div>
 {% include 'footer.html' %}
 {% endblock %}

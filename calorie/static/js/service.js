@@ -44,11 +44,23 @@ fileInput.addEventListener('change', (event) => {
   }
 });
 
+const defaultImg = document.querySelector('#showFood').src;
 
 function deleteInfo(btn){
     const infoLi = btn.parentNode;
+    const deletingImg = infoLi.querySelector('img').src;
+
+    // 현재 이미지와 지우는 이미지가 같을 때만 기본 이미지로 변경
+    if (deletingImg === document.querySelector('#showFood').src) {
+        document.querySelector('#showFood').src = defaultImg;
+    }
     infoLi.parentNode.removeChild(infoLi);
 }
+
+// 이미지 변경이 발생할 때마다 defaultImg를 업데이트
+// document.querySelector('#showFood').addEventListener('load', () => {
+//   defaultImg = document.querySelector('#showFood').src;
+// });
 
 
 

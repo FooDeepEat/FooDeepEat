@@ -292,20 +292,21 @@
     text-align: center;
     margin: 10px;
 }
-
-.food-card-main img{
+.food-card-img{
+    width: 185px;
+    height: 185px;
+    display: inline-block;
     border: 1px solid gray;
     border-radius: 50%;
+    overflow: hidden;
+}
+
+.food-card-img img{
     width: 100%;
     display: block;
     margin: 0 auto;
+    min-height: 100%;
 }
-.food-card-img{
-    width: 200px;
-    height: 200px;
-    display: inline-block;
-}
-
 
 .food-card-sub {
     border: 1px solid gray;
@@ -347,4 +348,10 @@
 
 .food-number td+td{
     margin-left: 10px;
+}
+.upload-time{
+    color: #aaa;
+    font-size: 15px;
+    float: right;
+    margin-top: 5px;
 }

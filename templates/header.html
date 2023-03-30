@@ -1,5 +1,6 @@
 {% load static %}
 
+
 {% block content %}
 	<header class="menu">
 		<nav class="manu_nav">
@@ -11,7 +12,10 @@
 			</ul>
 			
 			<ul class="nav_user">
-				{% if user.is_authenticated %}
+				{% if user.is_authenticated %}	
+							
+				{% comment %} <li class="nav_user_li" id="session-timer"> {{ session_expiration }}초</li> {% endcomment %}
+
 				<li class="nav_user_li"><a href="{% url "calorie:mypage" %}">마이페이지</a></li>
 				<li class="nav_user_li"><a href="{% url "logout" %}">로그아웃</a></li>
 
@@ -22,4 +26,5 @@
 			</ul>
 		</nav>
 	</header>
+	
 {% endblock %}

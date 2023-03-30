@@ -1,0 +1,93 @@
+
+
+/* 팀원 소개 */
+.by_team{	
+    width: 100%;
+    height: 780px;
+	position: relative;
+    margin: 50px 0 0;
+	text-align: center;
+}
+
+.by_team ul{
+    display: block;
+	width: 100%;
+}
+.team_li{
+    width: 220px;
+    height: 220px;
+    background-color: rgba(190,224,199,0.2);
+    display: inline-block;
+    border-radius: 50%;
+    border: 5px solid rgba(190,224,199,1);
+    position: absolute;
+}
+
+.team_li.one{
+	top: 15%;
+	left: 10%;
+}
+.team_li.two{
+	top: 0px;
+	left: 40%;
+}
+
+.team_li.three{
+	top: 15%;
+	right: 10%;
+}
+
+.team_li.four{
+	bottom: 10%;
+	left: 10%;
+}
+
+.team_li.five{
+	bottom: 0;
+	left: 40%;
+}
+
+.team_li.six{
+	bottom: 15%;
+	right: 10%;
+}
+
+
+
+.team_box{
+    width: 100%;
+    height: 100%;
+}
+
+.team_img{
+    width: 100%;
+    height: 100%;
+	display: inline-block;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+
+.team_bg::after{
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	/* background-image: url();
+	background-size: cover; */
+}
+
+.dim{
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	width: 100%;
+	height: 100%;
+}
+.team_bg{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%);
+}

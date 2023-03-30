@@ -8,46 +8,67 @@
 
 
 {% block css_files %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/find_username.css' %}">
 {% endblock %}
 
 {% block js_files %}
-	<script type="text/javascript" src="{% static 'js/find_id.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/find_username.js' %}"></script>
 {% endblock %}
 
 
 {% block content %}
 
-{% if find_username %}
+{% if find_id %}
 	<div>
-		<p>해당 이메일에 등록 된 아이디는 {{ find_username }} 입니다</p>
+		<p>등록 된 아이디는 {{ find_id }} 입니다</p>
 		<a href="{% url 'login' %}">로그인 페이지로 이동</a>
 	</div>
 
 {% else %}
-	<div class="id-post">
-        <h2>FIND ID</h2>
-        <p class="summary">아이디는 가입시 등록한 메일 주소로 알려드립니다.<br/>
-        가입할 때 등록하신 메일 주소를 입력하시고 "아이디 찾기" 버튼을 클릭해주세요.<br/></p>
-    </div>
-    <form name="findform" method="POST">
-        {% csrf_token %}
-	    {% if error_msg %}
-	        <p style="color:red">{{ error_msg }}</p>
-	    {% endif %}
-		<div>
-			<ul>
-				<li>
-					이름
-					<input type="text" name="name" placeholder="예시:푸디핏" required>
-				</li>
-                <li>
-	                생년월일
-	                <input class="birthday" type="text" name="birth_date" placeholder="예시: 1997-11-13" maxlength="10" onkeyup="addHyphen(this)" required>
-                </li>
-			</ul>
-        </div>
-        <button type="submit" class="findid" onclick="checkFields()">아이디 찾기</button>
-    </form>
+<div class="wrap">
+	<div class="center_wrap">		
+		<div class="login-logo-wrap">
+			<a class="login-logo" href="{% url 'calorie:home' %}"><img src="{%static 'image/horizontal_logo.png' %}"></a>
+			<div class="forget">
+				<p class="hello-main">
+					아이디 찾기
+				</p>
+				<p class="hello-sub">
+					가입하신 정보로 아이디를 확인하실 수 있습니다.<br>
+					가입할 때 등록하신 정보를 입력하시고 "아이디 찾기" 버튼을 클릭해주세요.		
+				</p>
+			</div>
+		</div>
+		<form name="findform" method="POST">
+			{% csrf_token %}
+			{% if error_msg %}
+				<p style="color:red">{{ error_msg }}</p>
+			{% endif %}
+			<div class="user-info">
+				<label for="user-name" class="tag">이름</label>
+				<input type="text" name="name" class="user-name tagform" placeholder="푸디핏" required>
+			</div>
+			<div class="user-info">
+				<label for="birthday" class="tag">생년월일</label>
+				<input class="birthday tagform" type="text" name="birth_date" placeholder="2023-03-30" maxlength="10" onkeyup="addHyphenBirth(this)" required>
+			</div>
+
+			<div class="user-info">
+				<label for="tel" class="tag">휴대폰 번호</label>
+				<input class="tel tagform" type="text" name="number" placeholder="010-1234-5678" maxlength="13" onkeyup="addHyphenTel(this)" required>
+			</div>
+
+			<!-- showVerfication을 해야 btn-wrap이 verification-cantainer로 바뀜 !! -->
+			<div id="btn-wrap">
+				<button class="find-pw-btn" type="submit" onclick="checkFields();">아이디 찾기</button>
+			</div>       
+		</form>
+
+		<div class="copy">
+			<p>Copyright © FooDeepEat Corp. All Rights Reserved.</p>
+		</div>
+	</div>
+</div>
 {% endif %}
 
 {% endblock %}

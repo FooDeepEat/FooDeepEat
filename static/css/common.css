@@ -14,10 +14,9 @@ a{
   font-size: 16px;
 }
 
-input{
+input, textarea{
   outline: 0;
   padding: 0;
-
 }
 body{
   width: 100%;
@@ -30,6 +29,8 @@ body{
   align-items: center;  
   /* font-family: "Noto Sans KR", sans-serif; */
   font-family: 'Noto Sans KR', sans-serif;
+  max-height: 1080px;
+  overflow-y: scroll;
 }
 table{
   border-collapse: collapse;
@@ -73,11 +74,20 @@ img{
 }
 .wrap{
   max-width: 1200px;
+  min-height: 900px;
   padding: 70px 0 0;
   margin: 0 auto;
+  /* background-color: #f9f9f9; */
+}
+.wrap.wide{
+  max-width: 1920px;
+  position: relative;
 }
 
-
+.wrap_box {
+  width: 600px;
+  margin: 0 auto;
+}
 
 .headtxt{
   font-size: 26px;
@@ -108,6 +118,47 @@ img{
   width: 85px;
   cursor: pointer;
 }
+
+/* 로고 */
+.login-logo-wrap{
+  text-align: center;
+}
+
+.login-logo img {
+  max-width: 50%;
+  max-height: 50%;
+  width: 300px;
+}
+/* 인삿말 */
+.hello-main{
+  font-size: 22px;
+  margin: 20px 0 10px;
+}
+.hello-sub{
+  color: #5c5c5c;
+  margin-bottom: 40px;
+}
+
+.copy{
+  text-align: center;
+  padding: 20px
+}
+.copy p{
+  font-size: 10px;
+  color: gray;
+}
+/* 로그인,아이디찾기,비밀번호찾기 가운데 */
+.center_wrap{
+  width: 600px;
+  margin: 0 auto;    
+  background-color: #fff;
+  position: absolute;
+  top: calc(50% - 70px);
+  transform: translate(-50%,-50%);
+  left: 50%;
+}
+
+
 
 
 
