@@ -15,7 +15,9 @@
 <div class="wrap">    
 	<div class="center_wrap">
         <div class="login-logo-wrap">
-            <a class="login-logo" href="{% url 'calorie:home' %}"><img src="{% static 'image/horizontal_logo.png' %}" alt=""></a>
+            <a class="login-logo" href="{% url 'calorie:home' %}">
+	            <img src="{% static 'image/horizontal_logo.png' %}" alt="">
+            </a>
             <p class="hello-main">
                 안녕하세요. 푸디핏 입니다.
             </p>
@@ -58,7 +60,7 @@
                     <a href="{% url 'find_username' %}" class="id-find">아이디찾기</a>
                 </span>
                 <span class="find-pw">
-                    <a href="{% url 'password_reset' %}" target="_blank">비밀번호 찾기</a>
+                    <a href="{% url 'password_reset' %}">비밀번호 찾기</a>
                 </span>
                 <span class="signup-in-login">
                     <a href="{% url 'register' %}">회원가입</a>

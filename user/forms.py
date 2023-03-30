@@ -44,7 +44,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = Account
-        fields = ('username', 'first_name', 'last_name', 'birth_date', 'phone_number', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'birth_date', 'phone_number', 'password1', 'password2', 'email')
 
 
 class AddressForm(forms.ModelForm):
@@ -122,17 +122,3 @@ class ProfileImageForm(forms.ModelForm):
                 raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
             return profile_img
         return None
-
-
-class PWResetForm(PasswordResetForm):
-    first_name = forms.CharField(max_length=30)
-    last_name = forms.CharField(max_length=30)
-
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        first_name = cleaned_data.get('first_name')
-        last_name = cleaned_data.get('last_name')
-
-        if not Account.objects.filter(username=email, first_name=first_name, last_name=last_name).exists():
-            raise forms.ValidationError("이메일 또는 이름을 다시 확인해주세요.")

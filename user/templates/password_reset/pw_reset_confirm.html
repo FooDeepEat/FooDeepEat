@@ -1,34 +1,63 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	비밀번호변경
 {% endblock %}
 
 {% block css_files %}
-<link rel="stylesheet" type="text/css" href="">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/pw_reset_confirm.css' %}">
+{% endblock %}
+
+{% block js_files %}
+	<script src="{% static 'js/pw_reset_confirm.js' %}"></script>
 {% endblock %}
 
 
 {% block content %}
-<div id="container">
-	<form method="POST">
+<div class="container">
+
+	<div class="logo-wrap">
+        <a class="logo" href="{% url 'calorie:home' %}" target="_self">
+	        <img src="{% static 'image/horizontal_logo.png' %}">
+        </a>
+
+        <div class="change">
+			<p class="change-main">
+				비밀번호 재설정
+			</p>
+			<p class="change-sub">
+				새로운 비밀번호를 설정해주세요.
+			</p>
+		</div>
+
+    </div>
+
+
+	<form class="password-reset-form" method="POST">
 		<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 		<input type="hidden" name="uidb64" value="{{ uidb64 }}">
 		<input type="hidden" name="token" value="{{ token }}">
-		<fieldset class="">
-		    <input class="hidden" autocomplete="username" value="">
-		    <div class="">
-		        <label>새로운 비밀번호:
-		            <input type="password" name="new_password1" autocomplete="new-password" required id="id_new_password1">
-		        </label>
-		    </div>
-		    <div class="">
-		        <label>새로운 비밀번호 확인:
-		            <input type="password" name="new_password2" autocomplete="new-password" required id="id_new_password2">
-		        </label>
-		    </div>
-		    <input type="submit" value="비밀번호 변경">
-		</fieldset>
+	    <input class="hidden" autocomplete="email" value="">
+
+	    <div class="input_pw">
+			<label for="new_password1" class="tag">새 비밀번호</label>
+			<input type="password" name="new_password1" id="new_password1" class="tagform" maxlength="12" required oninput="checkPassword();" placeholder="비밀번호를 입력하세요.">
+			<div id="password-message"></div>
+		</div>
+
+		 <div class="input_pw">
+			<label for="new_password2" class="tag">비밀번호 재확인</label>
+			<input type="password" name="new_password2" id="new_password2" class="tagform" maxlength="12" required oninput="checkPassword();" placeholder="비밀번호를 입력하세요.">
+			<div id="password-match-message"></div>
+		</div>
+
+		<input class="submit_new_pw" type="submit" value="비밀번호 변경" disabled>
 	</form>
+
+	<div class="copy">
+        <p>Copyright © FooDeepEat Corp. All Rights Reserved.</p>
+    </div>
+
 </div>
 {% endblock %}

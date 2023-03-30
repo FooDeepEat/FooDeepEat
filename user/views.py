@@ -1,7 +1,7 @@
-import requests
+from django.urls import reverse_lazy
 
 from . import models
-from .forms import SignUpForm, AddressForm, OptionForm, AgreeForm, PWResetForm
+from .forms import SignUpForm, AddressForm, OptionForm, AgreeForm
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
@@ -76,15 +76,15 @@ def register(request):
     if request.method == 'POST':
         # 이메일 인증코드 발송 기능
         if 'auth_code' in request.POST:
-            email = CleandForm(request).email()
-            if '@' not in email:
+            username = CleandForm(request).email()
+            if '@' not in username:
                 return render(request, 'register/register.html',
-                              {**create_forms(request), 'email_error': email})
+                              {**create_forms(request), 'email_error': username})
             else:
                 subject = '푸디핏 회원가입 인증코드입니다.'
                 from_email = settings.EMAIL_HOST_USER
                 # 이메일을 받을 수신자의 리스트
-                recipient_list = [email]
+                recipient_list = [username]
                 auth_code = generate_code(6)
                 request.session['auth_code'] = auth_code
                 message = '안녕하세요. 푸디핏입니다.'
@@ -119,7 +119,9 @@ def register(request):
             forms = create_forms(request)
             if all(form.is_valid() for form in forms.values()):
                 with transaction.atomic():
-                    user = forms['signup_form'].save()
+                    user = forms['signup_form'].save(commit=False)
+                    user.email = user.username
+                    user.save()
                     for form_name, form in forms.items():
                         if form_name != 'signup_form':
                             form_object = form.save(commit=False)
@@ -141,7 +143,8 @@ def register(request):
 def register_edit(request):
     user = request.user
     user_info = models.Account.objects.filter(username=user.username)
-    return render(request, "register/register_edit.html", {"user_info": user_info})
+    form = create_forms(request)
+    return render(request, "register/register_edit.html", {"user_info": user_info, "form":form})
 
 
 # 아이디 찾기
@@ -172,9 +175,25 @@ class MyLoginView(LoginView):
 
 class PWResetView(PasswordResetView):
     template_name = 'password_reset/pw_reset.html'
-    form_class = PWResetForm
     email_template_name = 'password_reset/pw_reset_email.html'
-    from_email = request.POST.get("email")
+    subject_template_name = 'password_reset/pw_reset_email.txt'
+
+    def form_valid(self, form):
+        email = self.request.POST.get('email')
+        first_name = self.request.POST.get('name')[:1]
+        last_name = self.request.POST.get('name')[1:]
+        birth_date = self.request.POST.get("birth_date")
+        phone_number = self.request.POST.get("number")
+
+        if not models.Account.objects.filter(email=email,
+                                             first_name=first_name,
+                                             last_name=last_name,
+                                             phone_number=phone_number,
+                                             birth_date=birth_date).exists():
+            error_msg = "이메일 또는 이름을 다시 확인해주세요."
+            return render(self.request, 'password_reset/pw_reset.html', {"error_msg": error_msg})
+        else:
+            return super().form_valid(form)
 
 
 class PWResetDoneView(PasswordResetDoneView):

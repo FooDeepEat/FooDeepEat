@@ -18,9 +18,9 @@
 
 {% block content %}
 
-{% if find_id %}
+{% if find_username %}
 	<div>
-		<p>등록 된 아이디는 {{ find_id }} 입니다</p>
+		<p>등록 된 아이디는 {{ find_username }} 입니다</p>
 		<a href="{% url 'login' %}">로그인 페이지로 이동</a>
 	</div>
 

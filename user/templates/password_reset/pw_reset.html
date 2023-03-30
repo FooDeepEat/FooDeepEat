@@ -1,23 +1,64 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	비밀번호찾기
 {% endblock %}
 
+{% block css_files %}
+    <link rel="stylesheet" href="{% static 'css/find_pw.css' %}">
+{% endblock %}
+
+{% block js_files %}
+	<script src="{% static 'js/find_pw.js' %}"></script>
+{% endblock %}
 
 {% block content %}
-	<h2>비밀번호 재설정</h2>
-	<form method="POST">
+<div class="all-findpw-wrap">
+	<div class="login-logo-wrap">
+        <a class="login-logo" href="click to home" target="_blank"><img src="{% static 'image/horizontal_logo.png' %}"></a>
+        <div class="forget">
+            <p class="forget-main">
+                비밀번호 찾기
+            </p>
+            <p class="forget-sub">
+                회원가입정보 인증 후 비밀번호를 변경하실 수 있습니다.
+            </p>
+        </div>
+    </div>
+
+	<form method="POST" class="findform" name="findform">
 	    {% csrf_token %}
-		{{ form.as_p }}
-{#		<label>이메일 작성해주세요.#}
-{#	        {{ form.email }}#}
-{#			<p style="color: darkgray">형식: sesac@coding.com</p>#}
-{#		</label>#}
-{#		<label>이름을 작성해주세요.#}
-{#	        <input type="text" name="name">#}
-{#		</label>#}
-	    <button type="submit">비밀번호 찾기</button>
+		{% if error_msg %}
+			<p style="color: red">{{ error_msg }}</p>
+		{% endif %}
+		<div class="user-info">
+            <label for="user-name" class="tag">이름
+                <input class="user-name tagform" type="text" name="name" placeholder="예시: 푸디핏" required>
+            </label>
+		</div>
+		<div class="user-info">
+            <label for="birthday" class="tag">생년월일
+                <input class="birthday tagform" type="text" name="birth_date" placeholder="예시: 1997-11-13" maxlength="10" onkeyup="addHyphenBirth(this)" required>
+            </label>
+		</div>
+		<div class="user-info">
+            <label for="tel" class="tag">휴대폰 번호
+                <input class="tel tagform" type="text" name="number" placeholder="예시: 010-2023-0331" maxlength="13" onkeyup="addHyphenTel(this)" required>
+            </label>
+		</div>
+		<div class="user-info">
+            <label for="email" class="tag">이메일
+                <input class="email tagform" type="email" name="email" placeholder="예시: foodeepeat@sesac.com" required>
+            </label>
+		</div>
+		<div id="btn-wrap">
+            <button class="send-code-btn find-pw-btn" type="submit">비밀번호 찾기</button>
+        </div>
 	</form>
 
+	<div class="copy">
+        <p>Copyright © FooDeepEat Corp. All Rights Reserved.</p>
+    </div>
+</div>
 {% endblock %}
