@@ -71,10 +71,14 @@
 
 .today_img{
     width: 250px;
+    height: 250px;
     border-radius: 10px;
     float: left;
     overflow: hidden;
     background-color: #fff;
+}
+.today_img img{
+    height: 100%;
 }
 .today_txtbox{
     float: left;

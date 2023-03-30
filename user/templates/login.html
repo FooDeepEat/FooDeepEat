@@ -28,9 +28,6 @@
         
         <!-- 아디 비번 로그인버튼 -->
         <section class="login-wrap">
-            {% if form.errors %}
-                <p style="color: red">아이디 또는 비밀번호가 잘못되었습니다.</p>
-            {% endif %}
             <form method="POST">
                 {% csrf_token %}
                 <div class="login-input-wrap">
@@ -43,10 +40,9 @@
                     {% comment %} login-input-pw {% endcomment %}
                     {{ form.password }}
                 </div>
-                <div class="stay-check">
-                    <input id="stay-checkbox" type="checkbox">
-                    <label for="stay-checkbox">아이디 저장</label>
-                </div>
+                {% if form.errors %}
+                    <p class="error">아이디 또는 비밀번호가 잘못되었습니다.</p>
+                {% endif %}
                 <div class="login-btn-wrap">
                     <input type="submit" class="login-login-btn" value="로그인">
                 </div>

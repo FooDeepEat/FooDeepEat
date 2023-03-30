@@ -6,6 +6,7 @@
 {% endblock %}]
 
 {% block css_files %}
+	<link rel="stylesheet" href="{% static 'css/mypage.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
 {% endblock %}
 
@@ -15,101 +16,109 @@
 {% endblock %}
 
 {% block content %}
-<div class="wrap">
-	<div class="wrap_box">
-		<div class="login-logo-wrap">
-			<a class="login-logo" href="{% url 'calorie:home' %}"><img src="{%static 'image/horizontal_logo.png' %}"></a>
-			<p class="hello-main">
-				<strong>안녕하세요. 푸디핏 입니다.</strong>
-			</p>
-		</div>
-		<div class="signinrequired_cont">
-			<form method="POST" name="edit_user">
-				{% csrf_token %}
-				<div class="signinrequired">
-					<h3 class="sign_tit">필수정보</h3>
-					<label class="sign_label">성</label>
-					<span class="sign_input">
-						<input type="text" style="background-color: grey" value="{{ account.first_name }}" readonly>
-					</span>
-					
-					<label class="sign_label">이름</label>
-					<span class="sign_input">
-						<input type="text" style="background-color: grey" value="{{ account.last_name }}" readonly>
-					</span>
+{% include 'header.html' %}
+<div class="wrap wide">
+    <div class="all-content">
+        <div class="sidebar-wrap">
+            <ul>
+                <li><a class="daily-nutri" href="{% url "calorie:mypage" %}">일일 영양정보</a></li>
+                <li><a class="daily-nutri" href="{% url "register_edit" %}">회원정보수정</a></li>
+            </ul>
+        </div>
 
-					<label class="sign_label">이메일</label>
-					<span class="input_btngroup">
+        <div class="main-wrap">
+            
+            <div class="mypage-intro">
+                <ul>
+                    <li class="mypage-intro-main">마이페이지</li>
+                    <li class="mypage-intro-sub">회원정보수정</li>
+                </ul>
+            </div>
+			<div class="signinrequired_cont">
+				<form method="POST" name="edit_user">
+					{% csrf_token %}
+					<div class="signinrequired">
+						<h3 class="sign_tit">필수정보</h3>
+						<label class="sign_label">성</label>
 						<span class="sign_input">
-							<input type="text" style="background-color: grey" value="{{ account.username }}" readonly>
+							<input type="text"value="{{ account.first_name }}" readonly disabled>
+						</span>						
+						<label class="sign_label">이름</label>
+						<span class="sign_input">
+							<input type="text" value="{{ account.last_name }}" readonly disabled>
 						</span>
-					</span>
 
-					<label class="sign_label">생년월일</label>
-					<span class="sign_input">{{ form.signup_form.birth_date }}</span>
+						<label class="sign_label">이메일</label>
+						<span class="sign_input">
+							<input type="text" value="{{ account.username }}" readonly disabled>
+						</span>
 
-					<label class="sign_label">휴대폰 번호</label>
-					<span class="sign_input">{{ form.signup_form.phone_number }}</span>
-					{% if phone_error %}
-						<p class="red_msg">{{ phone_error }}</p>
-					{% endif %}
-					<p class="noti_msg">* 휴대폰 번호 형식: 010-1234-5678</p>
+						<label class="sign_label">생년월일</label>
+						<span class="sign_input">{{ form.signup_form.birth_date }}</span>
 
-					<label class="sign_label">우편번호</label>
-					<span class="input_btngroup">
-						<span class="sign_input">{{ form.address_form.postal_code }}</span>
-						<button type="button" onclick="execDaumPostcode();">우편번호 찾기</button>
-					</span>
+						<label class="sign_label">휴대폰 번호</label>
+						<span class="sign_input">{{ form.signup_form.phone_number }}</span>
+						{% if phone_error %}
+							<p class="red_msg">{{ phone_error }}</p>
+						{% endif %}
+						<p class="noti_msg">* 휴대폰 번호 형식: 010-1234-5678</p>
 
-					<label class="sign_label">주소</label>
-					<span class="sign_input">{{ form.address_form.city }}</span>
+						<label class="sign_label">우편번호</label>
+						<span class="input_btngroup">
+							<span class="sign_input">{{ form.address_form.postal_code }}</span>
+							<button type="button" onclick="execDaumPostcode();">우편번호 찾기</button>
+						</span>
 
-					<label class="sign_label">상세 주소</label>
-					<span class="sign_input">{{ form.address_form.address }}</span>
-				</div>
+						<label class="sign_label">주소</label>
+						<span class="sign_input">{{ form.address_form.city }}</span>
 
-				<div class="useragreement">
-					<p>* 필수 개인정보 제공 동의 여부</p>
-					<span class="radio_box">{{ form.agree_form.must_agree }}</span>
-					{% if agree_error %}
-						{{ agree_error }}
-					{% endif %}
-				</div>
-
-
-				<div class="signinoptional">
-					<h3 class="sign_tit">선택정보</h3>
-
-					<div class="noti_box">
-						<p>건강정보제공 서비스를 위한 선택 정보</p>
-						<p>해당 내용은 회원가입 후, 마이페이지에서도 입력하실 수 있습니다.</p>
+						<label class="sign_label">상세 주소</label>
+						<span class="sign_input">{{ form.address_form.address }}</span>
 					</div>
-
-					<label class="sign_label">성별</label>
-					<span class="sign_selcet">{{ form.option_form.gender }}</span>
-
-					<label  class="sign_label" for="userheight">키</label>
-					<span class="sign_input">{{ form.option_form.height }}</span>
-
-					<label  class="sign_label" for="userweight">몸무게</label>
-					<span class="sign_input">{{ form.option_form.weight }}</span>
 
 					<div class="useragreement">
-						<p>* 선택 개인정보 제공 동의 여부</p>
-						<p>* 비동의시 추가적인 서비스 제공이 어렵습니다.</p>
-						<span class="radio_box">{{ form.agree_form.option_agree }}</span>
+						<p>* 필수 개인정보 제공 동의 여부</p>
+						<span class="radio_box">{{ form.agree_form.must_agree }}</span>
+						{% if agree_error %}
+							{{ agree_error }}
+						{% endif %}
 					</div>
-				</div>
-				<input type="hidden" name="edit_user">
-				<button class="sign_btn" type="submit">수정하기</button>
-			</form>
-			<form method="POST" name="delete_user">
-				{% csrf_token %}
-				<input type="hidden" name="delete_user">
-				<button class="delete_user" type="submit">탈퇴하기</button>
-			</form>
+
+
+					<div class="signinoptional">
+						<h3 class="sign_tit">선택정보</h3>
+
+						<div class="noti_box">
+							<p>건강정보제공 서비스를 위한 선택 정보</p>
+							<p>해당 내용은 회원가입 후, 마이페이지에서도 입력하실 수 있습니다.</p>
+						</div>
+
+						<label class="sign_label">성별</label>
+						<span class="sign_selcet">{{ form.option_form.gender }}</span>
+
+						<label  class="sign_label" for="userheight">키</label>
+						<span class="sign_input">{{ form.option_form.height }}</span>
+
+						<label  class="sign_label" for="userweight">몸무게</label>
+						<span class="sign_input">{{ form.option_form.weight }}</span>
+
+						<div class="useragreement">
+							<p>* 선택 개인정보 제공 동의 여부</p>
+							<p>* 비동의시 추가적인 서비스 제공이 어렵습니다.</p>
+							<span class="radio_box">{{ form.agree_form.option_agree }}</span>
+						</div>
+					</div>
+					<input type="hidden" name="edit_user">
+					<button class="sign_btn" type="submit">수정하기</button>
+				</form>
+				<form method="POST" name="delete_user">
+					{% csrf_token %}
+					<input type="hidden" name="delete_user">
+					<button class="delete_user" type="submit">탈퇴하기</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
-
+{% include 'footer.html' %}
 {% endblock %}

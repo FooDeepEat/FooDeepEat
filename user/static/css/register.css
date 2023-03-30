@@ -30,6 +30,9 @@ form {
     box-sizing: border-box;
     margin-bottom: 10px;
 }
+.sign_input input:disabled{
+    color:#ccc;
+}
 .sign_selcet{
     width: 80%;
     border-radius: 5px;

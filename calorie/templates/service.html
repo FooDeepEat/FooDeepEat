@@ -88,21 +88,18 @@
 				{% endfor %}
 				{% if user_food_list %}
 				<div class="food_write_box">
-					<select name="food_time">
+					<select name="food_time" class="food_time">
 						<option value="간식" selected>간식</option>
 						<option value="저녁" selected>저녁</option>
 						<option value="점심" selected>점심</option>
 						<option value="아침" selected>아침</option>
 					</select>
-					<button type="submit" class="btn_style02">기록하기</button>
+					<button type="submit" class="write_btn">기록하기</button>
 				</div>
 				{% endif %}
 			</form>
-		</div>
+		</div>			
 	</div>
-
-
-
 </div>
 {% include 'footer.html' %}
 {% endblock %}
