@@ -142,8 +142,18 @@ def register(request):
 @login_required
 def register_edit(request):
     user = request.user
-    user_info = models.Account.objects.filter(username=user.username)
-    form = create_forms(request)
+
+    if request.method == "POST":
+        if 'delete_user' in request.POST:
+            user.delete()
+            return redirect('logout')
+
+        elif 'edit_user' in request.POST:
+            pass
+
+    account = models.Account.objects.filter(username=user.username).first()
+    address = models.Address.objects.filter(user_id=account.id).first()
+    form = SignUpForm(instance=account)
     return render(request, "register/register_edit.html", {"user_info": user_info, "form":form})
 
 

@@ -25,7 +25,7 @@
 		</div>
 
 		<div class="signinrequired_cont">
-			<form method="POST">
+			<form method="POST" name="edit_user">
 				{% csrf_token %}
 				<div class="signinrequired">
 					<h3 class="sign_tit">필수정보</h3>
@@ -95,7 +95,13 @@
 						<span class="radio_box">{{ form.agree_form.option_agree }}</span>
 					</div>
 				</div>
+				<input type="hidden" name="edit_user">
 				<button class="sign_btn" type="submit">수정하기</button>
+			</form>
+			<form method="POST" name="delete_user">
+				{% csrf_token %}
+				<input type="hidden" name="delete_user">
+				<button class="delete_user" type="submit">탈퇴하기</button>
 			</form>
 		</div>
 
