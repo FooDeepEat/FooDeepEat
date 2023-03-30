@@ -17,10 +17,7 @@
 {% include 'header.html' %}
 
 <div class="wrap wide">
-
-
     <div class="all-content">
-        <!-- side-bar -->
         <div class="sidebar-wrap">
             <ul>
                 <li><a class="daily-nutri" href="#">일일 영양정보</a></li>
@@ -37,9 +34,9 @@
             </div>
             <div class="summary-wrap">
                 <div class="calendar">
-                    <form method="GET" action="#">
+                    <form method="GET">
                         <label>
-                            <input type="date" name="date" id="currentDate" value="">
+                            <input type="date" name="date" id="currentDate" value="{{ date }}">
                         </label>
                         <button type="submit" class="date_btn">선택</button>
                     </form>
@@ -57,25 +54,22 @@
                                 <tr>
                                     <th>열량</th>
                                     <td>|</td>
-                                    <td>1000&nbsp;kcal</td>
+                                    <td>{{ food_nutri.total_energy }}&nbsp;kcal</td>
                                 </tr>
                                 <tr>
                                     <th>탄수화물</th>
                                     <td>|</td>
-                                    <td>100&nbsp;g</td>
-                                    <td>(400kcal)</td>
+                                    <td>{{ food_nutri.total_carbohydrate }}&nbsp;g</td>
                                 </tr>
                                 <tr>
                                     <th>단백질</th>
                                     <td>|</td>
-                                    <td>75&nbsp;g</td>
-                                    <td>(300kcal)</td>
+                                    <td>{{ food_nutri.total_protein }}&nbsp;g</td>
                                 </tr>
                                 <tr>
                                     <th>지방</th>
                                     <td>|</td>
-                                    <td>33.3&nbsp;g</td>
-                                    <td>(300kcal)</td>
+                                    <td>{{ food_nutri.total_fat }}&nbsp;g</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -101,29 +95,29 @@
             </div>
 
 
-            
+
             <div class="record-wrap">
                 <div class="meal-summary">
                     <table class="sum-table">
                         <tr>
-                        <td class="timestamp">23:21</td>
+                        <td class="timestamp">{{ food_time }}</td>
                         <td class="meal-nutri">
                             <span>
                                 총 열량
-                                (<span>1000</span>kcal)
+                                (<span>{{ food_nutri.total_energy }}</span>kcal)
                             </span>
                             <span>
                                 탄수화물
-                                (<span>1000</span>g)
+                                (<span>{{ food_nutri.total_carbohydrate }}</span>g)
                             </span>
                             <span>
                                 단백질
-                                (<span>1000</span>g)
+                                (<span>{{ food_nutri.total_protein }}</span>g)
                             </span>
                             <span>
                                 지방
-                                (<span>1000</span>g)
-                            </span>                
+                                (<span>{{ food_nutri.total_fat }}</span>g)
+                            </span>
                         </td>
                         </tr>
                     </table>
@@ -133,122 +127,59 @@
                     <div class="food-list">
                         <table class="food-number">
                             <tr>
-                                <td>
-                                    <div class="food-card-main">
-                                        <span class="food-card-img"><img src="{% static 'image/testfood.jpg' %}" alt=""></span>
-
-                                        <div class="food-card-sub">
-                                            <table class="food-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="4">음식</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th>열량</th>
-                                                        <td>|</td>
-                                                        <td>1000kcal</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>탄수화물</th>
-                                                        <td>|</td>
-                                                        <td>100g</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>단백질</th>
-                                                        <td>|</td>
-                                                        <td>75g</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>지방</th>
-                                                        <td>|</td>
-                                                        <td>33.3g</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="food-card-main">
-                                        <span class="food-card-img"><img src="{% static 'image/testfood.jpg' %}" alt=""></span>
-
-                                        <div class="food-card-sub">
-                                            <table class="food-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="4">음식</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th>열량</th>
-                                                        <td>|</td>
-                                                        <td>1000kcal</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>탄수화물</th>
-                                                        <td>|</td>
-                                                        <td>100g</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>단백질</th>
-                                                        <td>|</td>
-                                                        <td>75g</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>지방</th>
-                                                        <td>|</td>
-                                                        <td>33.3g</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="food-card-main">
-                                        <span class="food-card-img"><img src="{% static 'image/testfood.jpg' %}" alt=""></span>
-                                        <div class="food-card-sub">
-                                            <table class="food-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th colspan="4">음식</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <th>열량</th>
-                                                        <td>|</td>
-                                                        <td>1000kcal</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>탄수화물</th>
-                                                        <td>|</td>
-                                                        <td>100g</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>단백질</th>
-                                                        <td>|</td>
-                                                        <td>75g</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>지방</th>
-                                                        <td>|</td>
-                                                        <td>33.3g</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>                            
+	                            {% for food in foods %}
+	                                <td>
+	                                    <div class="food-card-main">
+                                            {% if food.user_food_images.exists %}
+                                            <span class="food-card-img">
+	                                            <img src="{{ food.user_food_images.first.food_img.url }}" alt="">
+                                            </span>
+                                            {% else %}
+                                            <span class="food-card-img">
+	                                            <img src="{% static 'image/service_default_bg.jpg' %}" alt="">
+                                            </span>
+		                                    {% endif %}
+		                                    <div class="food-card-sub">
+	                                            <table class="food-table">
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th colspan="4">{{ food.name.name }}</th>
+	                                                    </tr>
+	                                                </thead>
+	                                                <tbody>
+	                                                    <tr>
+	                                                        <th>열량</th>
+	                                                        <td>|</td>
+	                                                        <td>{{ food.energy }}kcal</td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>탄수화물</th>
+	                                                        <td>|</td>
+	                                                        <td>{{ food.carbohydrate }}g</td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>단백질</th>
+	                                                        <td>|</td>
+	                                                        <td>{{ food.protein }}g</td>
+	                                                    </tr>
+	                                                    <tr>
+	                                                        <th>지방</th>
+	                                                        <td>|</td>
+	                                                        <td>{{ food.fat }}g</td>
+	                                                     </tr>
+	                                                </tbody>
+	                                            </table>
+	                                        </div>
+	                                    </div>
+	                                <p class="upload-time">*작성시간: {{ food.created_at }}</p>
+	                                </td>
+	                            {% endfor %}
+                            </tr>
                         </table>
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@ from django import forms
 from django.forms import DateInput, ClearableFileInput
 from django.utils import timezone
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from .models import Account, Address, Option, Agree, ProfileImage
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
@@ -122,3 +122,17 @@ class ProfileImageForm(forms.ModelForm):
                 raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
             return profile_img
         return None
+
+
+class PWResetForm(PasswordResetForm):
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        if not Account.objects.filter(username=email, first_name=first_name, last_name=last_name).exists():
+            raise forms.ValidationError("이메일 또는 이름을 다시 확인해주세요.")

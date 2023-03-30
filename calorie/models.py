@@ -38,6 +38,7 @@ class UserFood(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='user_foods')
     name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='user_foods')
     weight = models.FloatField(null=True, blank=True, default=None)
+    energy = models.FloatField(null=True, blank=True, default=None)
     carbohydrate = models.FloatField(null=True, blank=True, default=None)
     protein = models.FloatField(null=True, blank=True, default=None)
     fat = models.FloatField(null=True, blank=True, default=None)
@@ -50,6 +51,12 @@ class UserFood(models.Model):
 class UserFoodImage(models.Model):
     name = models.ForeignKey(UserFood, on_delete=models.CASCADE, related_name='user_food_images')
     food_img = models.ImageField(null=True, blank=True, default=None, upload_to="user_food/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class UserFoodTime(models.Model):
+    name = models.ForeignKey(UserFood, on_delete=models.CASCADE, related_name='user_food_time')
+    food_time = models.CharField(null=True, blank=True, max_length=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

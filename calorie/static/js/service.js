@@ -1,4 +1,3 @@
-
 const fileInput = document.getElementById('file-upload');
 const previewContainer = document.querySelector('.preview-container');
 
@@ -36,9 +35,8 @@ fileInput.addEventListener('change', (event) => {
         const del = document.createElement('a');
         del.classList.add('info_del');
         del.setAttribute('href', '#none');
+        del.setAttribute('onclick', 'deleteInfo(this)');
         divElement.appendChild(del);
-
-
 
         previewContainer.appendChild(divElement);
       };
@@ -47,11 +45,39 @@ fileInput.addEventListener('change', (event) => {
 });
 
 
-const infoDelBtn = document.querySelectorAll('.info_del');
-
-for(let i=0; i<infoDelBtn.length; i++) {
-  infoDelBtn[i].addEventListener('click', function() {
-    const infoLi = this.parentNode;
+function deleteInfo(btn){
+    const infoLi = btn.parentNode;
     infoLi.parentNode.removeChild(infoLi);
-  });
+}
+
+
+
+
+const previewImage = document.querySelector('.preview-container');
+const imagePreview = document.querySelector('#showFood');
+
+
+previewImage.addEventListener('click',function(event){
+    const target = event.target;
+
+    if(target.classList.contains('info_img')){
+        const imgSrc = target.querySelector('img').src;
+        showImage(imgSrc); 
+    }else{             
+        const imgSrc = target.src;
+        let parentNode = target.parentNode
+        while(parentNode && !imgSrc){
+            if(parentNode.querySelector('img')){
+                return false;
+            }else{
+                parentNode=parentNode.parentNode;
+            }
+        }      
+        showImage(imgSrc);
+    }
+});
+
+function showImage(imgSrc){    
+    imagePreview.src=imgSrc;
+    document.getElementById('showFood').src=imgSrc;
 }

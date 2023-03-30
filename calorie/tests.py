@@ -33,6 +33,8 @@ from django.test import TestCase
 
 
 from django import forms
+from django.utils import timezone
+
 # from django.forms import ClearableFileInput
 # from django.core.exceptions import ValidationError
 #
@@ -56,3 +58,5 @@ from django import forms
 #                 raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
 #             return food_img
 #         return None
+
+print(timezone.now().strftime("%Y-%m-%d"))

@@ -158,3 +158,20 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # 세션 유효 시간(1시간) - 초 단위임
 SESSION_COOKIE_AGE = 60 * 60
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}

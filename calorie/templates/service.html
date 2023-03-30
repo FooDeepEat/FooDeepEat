@@ -22,69 +22,80 @@
 			{% csrf_token %}
 			<div class="foodbox">
 				<label for="file-upload" class="pick_food">
-					<input id="file-upload" name="user_food" type="file" multiple onchange="previewImage(this);">
+					<input id="file-upload" name="user_food" type="file" multiple>
 				</label>
 				<span class="show_food">
-					<img id="showFood" src="/static/image/service_default_bg.jpg"/>
+					<img id="showFood" src="/static/image/service_default_bg.jpg" alt=""/>
 				</span>
 				<button type="submit" class="btn_style01">영양정보 확인하기</button>
-			</div>			
+			</div>
+			<div class="previe-cont">
+				<ul class="preview-container"></ul>
+			</div>
 		</form>
 	</div>
+
 	<div class="food_cont">
 		<ul>
-			{% for food in user_food_list %}
-				<li class="food_info">
-					<table class="food_info_table">
-						<colgroup>
-							<col width="50%">
-							<col width="50%">
-						</colgroup>
-						<thead onchange="printFoodInfo();">
-							<tr>
-								<th colspan="2">
-									<div class="thum_box">
-										<p class="thum_img"><img src="{{ food.image.url }}" alt=""/></p>
-										<p class="thum_txt">[<span class="thum_name">{{ food.food.name }}</span>] 100g 기준의 영양정보입니다.</p>
-									</div>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>열량(kcal)</td>
-								<td><span>{{ food.food.energy }}</span>kal</td>
-							</tr>
-							<tr>
-								<td>탄수화물(g)</td>
-								<td><span>{{ food.user_food.carbohydrate }}</span>g</td>
-							</tr>
-							<tr>
-								<td>단백질(g)</td>
-								<td><span>{{ food.user_food.protein }}</span>g</td>
-							</tr>
-							<tr>
-								<td>지방(g)</td>
-								<td><span>{{ food.user_food.fat }}</span>g</td>
-							</tr>
-
-						</tbody>
-					</table>
-					<p>{{ food.user_food.created_at }}</p>
-					{% comment %} 기록하기 {% endcomment %}
-
-					<form method="POST" name="user_weight">
-						{% csrf_token %}
+			<li class="food_info">
+				<form method="POST" name="user_weight">
+					{% csrf_token %}
+                    {% for food in user_food_list %}
+						<table class="food_info_table">
+							<colgroup>
+								<col width="50%">
+								<col width="50%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th colspan="2">
+										<div class="thum_box">
+											<p class="thum_img"><img src="{{ food.image.url }}" alt=""/></p>
+											<p class="thum_txt">[<span class="thum_name">{{ food.food.name }}</span>] {{ food.weight }}g 기준의 영양정보입니다.</p>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>열량(kcal)</td>
+									<td><span>{{ food.user_food.energy }}</span>kal</td>
+								</tr>
+								<tr>
+									<td>탄수화물(g)</td>
+									<td><span>{{ food.user_food.carbohydrate }}</span>g</td>
+								</tr>
+								<tr>
+									<td>단백질(g)</td>
+									<td><span>{{ food.user_food.protein }}</span>g</td>
+								</tr>
+								<tr>
+									<td>지방(g)</td>
+									<td><span>{{ food.user_food.fat }}</span>g</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>{{ food.user_food.created_at }}</p>
+	                    <input type="hidden" name="created_at_{{ forloop.counter }}" value="{{ food.user_food.created_at }}">
+                        <input type="hidden" name="food_name_{{ forloop.counter }}" value="{{ food.food.name }}">
 						<div class="eatbox">
 							<p class="eat_txt">얼마나 드셨나요?(g)</p>
 							<span class="eat_input">
-								<input type="text" value="" name="user_weight" id="inputField" required>
+								<input type="text" value="" name="user_weight_{{ forloop.counter }}" id="inputField" required>
 							</span>
-							<button type="submit" class="btn_style02">기록하기</button>
 						</div>
-					</form>
-				</li>
-			{% endfor %}
+					{% endfor %}
+					{% if user_food_list %}
+						<select name="food_time">
+							<option value="간식" selected>간식</option>
+							<option value="저녁" selected>저녁</option>
+							<option value="점심" selected>점심</option>
+							<option value="아침" selected>아침</option>
+						</select>
+						<button type="submit" class="btn_style02">기록하기</button>
+					{% endif %}
+				</form>
+			</li>
 		</ul>
 	</div>
 

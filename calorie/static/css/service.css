@@ -36,14 +36,15 @@
   position: relative;
   text-align: center;
   margin: 40px auto 30px;
-  width: 250px;
+  width: 200px;
 }
 .pick_food{
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   display: inline-block;
   position: relative;
   z-index: 10;
+  cursor: pointer;
 }
 .pick_food input[type="file"]{
   width: 100%;
@@ -56,8 +57,8 @@
 }
 
 .show_food{
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
   align-items: center;
@@ -70,15 +71,18 @@
 }
 
 .show_food img{
-  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .thum_box{
-  margin: 25px 0 20px;
+  margin: 15px 0;
 }
 .thum_img{
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   overflow: hidden;
   margin: 0 auto;
@@ -118,4 +122,73 @@
   box-sizing: border-box;
   float: left;
   margin-right: 10px;
+}
+
+.info_li{
+  float: left;
+  height: 140px;
+  text-align: center;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 10px;
+  width: 150px;
+}
+
+.info_del{
+   content: "";
+   position: absolute;
+  right: -5px;
+  top: -5px;
+  background-size: cover;
+  background-image: url(../../../static/image/delete.png);
+  font-size: 0;  
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  z-index: 99;
+}
+
+
+.info_img{
+  height: 60px;
+  padding: 0;
+  display: inline-block;
+  cursor: pointer;
+
+}
+.info_img img{
+  width: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.info_li{  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.info_txt{
+  /* overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; */
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  max-height: 40px;
+  white-space: normal;
+  word-wrap: break-word;
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 10px;
+  cursor: default;
+}
+
+.previe-cont{
+  text-align: center;
 }

@@ -1,9 +1,10 @@
+import requests
+
 from . import models
-from .forms import SignUpForm, AddressForm, OptionForm, AgreeForm
+from .forms import SignUpForm, AddressForm, OptionForm, AgreeForm, PWResetForm
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, \
     PasswordResetCompleteView
-from django.contrib.auth.forms import PasswordResetForm
 from django.shortcuts import render, redirect
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -146,12 +147,11 @@ def register_edit(request):
 # 아이디 찾기
 def find_username(request):
     if request.method == "POST":
-        username = request.POST["username"]
         first_name = request.POST['name'][:1]
         last_name = request.POST['name'][1:]
         birth_date = request.POST['birth_date']
         try:
-            user = models.Account.objects.get(username=username, first_name=first_name, last_name=last_name,
+            user = models.Account.objects.get(first_name=first_name, last_name=last_name,
                                               birth_date=birth_date)
             return render(request, 'find_username.html', {"find_username": user.username})
         except models.Account.DoesNotExist:
@@ -172,20 +172,9 @@ class MyLoginView(LoginView):
 
 class PWResetView(PasswordResetView):
     template_name = 'password_reset/pw_reset.html'
-    form_class = PasswordResetForm
-
-    def form_valid(self, form):
-        username = self.request.POST.get("username")
-        firstname = self.request.POST.get("name")[:1]
-        lastname = self.request.POST.get("name")[1:]
-        if not models.Account.objects.filter(username=username).exists():
-            username_error = "존재하지 않는 이메일입니다."
-            return render(self.request, 'password_reset/pw_reset_fail.html', {"username_error": username_error})
-        if models.Account.objects.filter(username=username, first_name=firstname, last_name=lastname).exists():
-            return super().form_valid(form)
-        else:
-            total_error = "이름을 다시 확인해주세요"
-            return render(self.request, 'password_reset/pw_reset_fail.html', {"total_error": total_error})
+    form_class = PWResetForm
+    email_template_name = 'password_reset/pw_reset_email.html'
+    from_email = request.POST.get("email")
 
 
 class PWResetDoneView(PasswordResetDoneView):

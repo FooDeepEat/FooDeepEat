@@ -17,9 +17,9 @@
 
 {% block content %}
 
-{% if find_id %}
+{% if find_username %}
 	<div>
-		<p>해당 이메일에 등록 된 아이디는 {{ find_id }} 입니다</p>
+		<p>해당 이메일에 등록 된 아이디는 {{ find_username }} 입니다</p>
 		<a href="{% url 'login' %}">로그인 페이지로 이동</a>
 	</div>
 
@@ -44,10 +44,6 @@
 	                생년월일
 	                <input class="birthday" type="text" name="birth_date" placeholder="예시: 1997-11-13" maxlength="10" onkeyup="addHyphen(this)" required>
                 </li>
-				<li>
-					이메일
-					<input type="email" name="email" placeholder="예시: foodeepeat@fde.com" required>
-				</li>
 			</ul>
         </div>
         <button type="submit" class="findid" onclick="checkFields()">아이디 찾기</button>
