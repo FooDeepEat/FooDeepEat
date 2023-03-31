@@ -146,6 +146,11 @@ input::placeholder {
   border-radius: 7px;
   background-color: #37BA2A;
 }
+a.login-btn{
+  display: inline-block;
+  text-align: center;
+  margin: 0 auto;
+}
 
 .find-id-btn{
   width: 130px;

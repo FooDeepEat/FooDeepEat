@@ -121,6 +121,9 @@ form+from{
     margin: 10px 0;
     font-size: 14px;
 }
+.radio_box ul{
+    display: block;
+}
 .radio_box li label{
     font-size: 14px;
 }

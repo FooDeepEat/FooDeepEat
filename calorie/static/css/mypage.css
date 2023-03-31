@@ -320,11 +320,15 @@
 
 .food-card-sub tr th{
     text-align: left;
+    width: 70px;
 }
-
 .food-card-sub tr td{
     text-align: center;
     padding: 0px 5px;
+}
+
+.food-card-sub tr td:last-child{
+    min-width: 60px;
 }
 
 .food-table {
@@ -344,11 +348,15 @@
 
 .food-number{
     margin: 20px auto;
+    text-align: center;
 }
-
+.food-number td{
+    display: inline-block;
+}
 .food-number td+td{
     margin-left: 10px;
 }
+
 .upload-time{
     color: #aaa;
     font-size: 15px;

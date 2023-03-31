@@ -19,21 +19,25 @@
 {% block content %}
 
 {% if find_username %}
-	<div class="all-wrap">
-    <div class="logo-wrap">
-        <a class="go-home" href="{% url "calorie:home" %}" target="_blank">
-	        <img src="{% static 'image/horizontal_logo.png' %}"></a>
-        <p class="all-main">
-            아이디 찾기 결과
-        </p>
-        <p class="all-sub">
-            아이디는 [<span>&nbsp;{{ find_username }}&nbsp;</span>] 입니다.
-        </p>
-    </div>
+<div class="wrap">
+	<div class="center_wrap">
+		<div class="all-wrap">
+			<div class="logo-wrap">
+				<a class="go-home" href="{% url "calorie:home" %}" target="_blank">
+					<img src="{% static 'image/horizontal_logo.png' %}"></a>
+				<p class="all-main">
+					아이디 찾기 결과
+				</p>
+				<p class="all-sub">
+					아이디는 [<span>&nbsp;{{ find_username }}&nbsp;</span>] 입니다.
+				</p>
+			</div>
 
-	<div id="btn-wrap">
-        <a class="login-btn" href="{% url 'login' %}">로그인</a>
-	</div> 
+			<div id="btn-wrap" class="btn-wrap">
+				<a class="login-btn" href="{% url 'login' %}">로그인</a>
+			</div> 
+		</div>	
+	</div>
 </div>
 
 {% else %}
