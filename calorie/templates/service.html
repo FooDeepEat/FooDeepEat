@@ -60,19 +60,19 @@
 							<tbody>
 								<tr>
 									<td>열량(kcal)</td>
-									<td><span>{{ food.user_food.energy }}</span>kal</td>
+									<td><span>{{ food.user_food.energy|floatformat:1 }}</span>kal</td>
 								</tr>
 								<tr>
 									<td>탄수화물(g)</td>
-									<td><span>{{ food.user_food.carbohydrate }}</span>g</td>
+									<td><span>{{ food.user_food.carbohydrate|floatformat:1 }}</span>g</td>
 								</tr>
 								<tr>
 									<td>단백질(g)</td>
-									<td><span>{{ food.user_food.protein }}</span>g</td>
+									<td><span>{{ food.user_food.protein|floatformat:1 }}</span>g</td>
 								</tr>
 								<tr>
 									<td>지방(g)</td>
-									<td><span>{{ food.user_food.fat }}</span>g</td>
+									<td><span>{{ food.user_food.fat|floatformat:1 }}</span>g</td>
 								</tr>
 							</tbody>
 						</table>

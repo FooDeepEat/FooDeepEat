@@ -13,8 +13,6 @@ from django.core.files import File
 from datetime import datetime
 from django.db.models import Sum
 
-from .models import UserFoodTime
-
 
 @login_required
 def mypage(request, date=None):
@@ -186,15 +184,23 @@ def service(request):
                     created_at__hour=created_at_formatted[11:13],
                     created_at__minute=created_at_formatted[14:16],
                 ).first()
+                print(food.carbohydrate)
+                print(food.protein)
+                print(food.fat)
+                print(food.energy)
                 if user_food:
                     user_food.weight = weight
-                    user_food.energy = f'{food.energy * (float(weight) / 100):.1f}'
-                    user_food.carbohydrate = f'{food.carbohydrate * (float(weight) / 100):.1f}'
-                    user_food.protein = f'{food.protein * (float(weight) / 100):.1f}'
-                    user_food.fat = f'{food.fat * (float(weight) / 100):.1f}'
+                    user_food.carbohydrate = f'{(food.carbohydrate * (float(weight) / 100)) * 4:.1f}'
+                    user_food.protein = f'{(food.protein * (float(weight) / 100)) * 4:.1f}'
+                    user_food.fat = f'{(food.fat * (float(weight) / 100)) * 9:.1f}'
+                    user_food.energy = f'{float(user_food.carbohydrate)+float(user_food.protein)+float(user_food.fat):.1f}'
                     user_food.save()
                     food_time = request.POST.get('food_time')
                     models.UserFoodTime.objects.create(food_time=food_time, name_id=user_food.id)
+                    print(user_food.carbohydrate)
+                    print(user_food.protein)
+                    print(user_food.fat)
+                    print(user_food.energy)
 
             return redirect('calorie:mypage')
 
@@ -213,7 +219,6 @@ def home(request):
             else:
                 random_img = None
             random_imgs.append(random_img)
-        print(random_imgs)
         random_food_list = zip(random_foods, random_imgs)
 
         return render(request, "home.html", {"random_food_list": random_food_list})

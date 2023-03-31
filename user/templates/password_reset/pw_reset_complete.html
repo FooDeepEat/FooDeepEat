@@ -1,16 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	비밀번호변경
 {% endblock %}
 
 {% block css_files %}
-<link rel="stylesheet" type="text/css" href="">
+<link rel="stylesheet" type="text/css" href="{% static 'css/pw_reset_complete.css' %}">
 {% endblock %}
 
 
 {% block content %}
-<h1>비밀번호가 재설정되었습니다.</h1>
-<p>새로운 비밀번호로 로그인하세요.</p>
-<a href="{% url 'login' %}">로그인 페이지로 이동</a>
+
+<div class="all-wrap">
+    <div class="logo-wrap">
+        <a class="logo" href="{% url "calorie:home" %}" target="_blank">
+            <img src="{% static 'image/horizontal_logo.png' %}">
+	    </a>
+    </div>
+
+    <div class="result">
+        <p class="notice-1">비밀번호 변경</p>
+        <span class="notice-2">
+            비밀번호가 재설정 되었습니다.<br>
+            새로운 비밀번호로 로그인하세요.</span>
+    </div>
+
+	<div class="select-btn" name="select-btn">
+		<a class="go-to-login" href="{% url 'login' %}">로그인</a>
+	</div>
+
+</div>
+
 {% endblock %}

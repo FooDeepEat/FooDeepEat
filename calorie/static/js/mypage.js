@@ -1,7 +1,7 @@
 const carbohydrate = parseInt(document.getElementById('total_carbohydrate').innerHTML);
 const protein = parseInt(document.getElementById('total_protein').innerHTML);
 const fat = parseInt(document.getElementById('total_fat').innerHTML);
-const energy = carbohydrate*4 + protein*4 + fat*9
+const energy = carbohydrate + protein + fat
 
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');

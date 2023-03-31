@@ -1,9 +1,61 @@
+.all-wrap{
+  width: 600px;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.logo-wrap{
+  text-align: center;
+}
+
+.go-home img {
+  width: 230px;
+  height: auto;
+  margin: 30px;
+}
+
+.all-main{
+  font-size: 30px;
+  font-weight: 550;
+  margin-bottom: 10px;
+}
+
+.all-sub{
+  font-size: 20px;
+  color: gray;
+  margin-bottom: 50px;
+}
+
 /* ===================================================== */
+/*로그인버튼박스*/
 
+.login-wrap{
+  border-radius: 10px;
+  width: 500px;
+  margin: 0 auto;
+}
 
-
-.forget{
-  padding-bottom: 20px;
+/*로그인버튼박스*/
+.btn-wrap{
+  height: 52px;
+  line-height: 55px;
+  text-align: center;
+  margin: 0px 10px 8px 10px;
+  border: solid 1px rgba(0,0,0,.1);
+  border-radius: 7px;
+  background-color: #37BA2A;
+  color: #fff;
+  cursor: pointer;
+}
+/*로그인버튼*/
+.btn-btn{
+  width: 100%;
+  background-color: #37BA2A;
+  border: none;
+  color:#fff;
+  font-size: 18px;
+  outline:none;
+  cursor: pointer;
 }
 
 .findform{
@@ -11,11 +63,11 @@
 }
 
 .user-info{
-  margin: 15px;
-  padding: 10px 15px;
-  border: solid 1px #ccc;
-  border-radius: 5px; 
-  background: #fff;
+    margin: 15px;
+    padding: 5px 15px;
+    border: solid 1px #dadada;
+    border-radius: 7px; 
+    background: #fff;
 }
 
 .tag{
@@ -29,37 +81,77 @@
     width:100%;
 }
 
-.find-pw-btn{
-  padding: 8px 16px;
-  background-color: #37BA2A;
-  border: 1px solid #37BA2A;
-  color: #fff;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-size: 16px;
-  height: 52px;
-  margin: 20px 15px;
 
+.copy{
+  text-align: center;
+  padding: 20px
 }
-
-#verification-container {
-  margin-top: 10px;
+.copy p{
+  font-size: 10px;
+  color: gray;
 }
-
-#verification-container label,
-#verification-container input,
-#verification-container button {
-  display: block;
-  margin-bottom: 10px;
-}
-
 
 input::placeholder {
   font-size: 14px;
   color: rgb(185, 185, 185);
 }
+.all-wrap{
+  width: 600px;
+  margin: auto;
+  margin-top: 5%;
+}
 
-#btn-wrap{
-  width: 100%;
-  display: grid;
+.logo-wrap{
+  text-align: center;
+}
+
+.go-home img {
+  width: 230px;
+  height: auto;
+  margin: 30px;
+}
+
+.all-main{
+  font-size: 30px;
+  font-weight: 550;
+  margin-bottom: 10px;
+}
+
+.all-sub{
+  font-size: 20px;
+  color: gray;
+  margin-bottom: 50px;
+}
+
+.all-sub span{
+  font-weight: 600;
+  color: #37BA2A;
+}
+
+.select-btn{
+  margin-top: 20px;
+  text-align: center;
+}
+
+.login-btn{
+  width: 130px;
+  height: 40px;
+  font-size: 18px;
+  color: #fff;
+  border: 1px solid #37BA2A;
+  border-radius: 7px;
+  background-color: #37BA2A;
+  margin: 0px 10px;
+}
+
+.find-id-btn{
+  width: 130px;
+  height: 40px;
+  text-align: center;
+  font-size: 18px;
+  color: #fff;
+  border: 1px solid #37BA2A;
+  border-radius: 7px;
+  background-color: #37BA2A;
+  margin: 0px 10px;
 }

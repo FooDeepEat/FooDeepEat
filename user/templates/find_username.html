@@ -19,10 +19,23 @@
 {% block content %}
 
 {% if find_username %}
-	<div>
-		<p>등록 된 아이디는 {{ find_username }} 입니다</p>
-		<a href="{% url 'login' %}">로그인 페이지로 이동</a>
-	</div>
+	<div class="all-wrap">
+    <div class="logo-wrap">
+        <a class="go-home" href="{% url "calorie:home" %}" target="_blank">
+	        <img src="{% static 'image/horizontal_logo.png' %}"></a>
+        <p class="all-main">
+            아이디 찾기 결과
+        </p>
+        <p class="all-sub">
+            아이디는 [<span>&nbsp;{{ find_username }}&nbsp;</span>] 입니다.
+        </p>
+    </div>
+
+
+    <form class="select-btn" name="select-btn">
+        <a class="login-btn" href="{% url 'login' %}">로그인</a>
+    </form>
+</div>
 
 {% else %}
 <div class="wrap">
@@ -60,7 +73,7 @@
 
 			<!-- showVerfication을 해야 btn-wrap이 verification-cantainer로 바뀜 !! -->
 			<div id="btn-wrap">
-				<button class="find-pw-btn" type="submit" onclick="checkFields();">아이디 찾기</button>
+				<button class="login-btn" type="submit" onclick="checkFields();">아이디 찾기</button>
 			</div>       
 		</form>
 
