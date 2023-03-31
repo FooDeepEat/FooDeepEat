@@ -29,6 +29,8 @@ class FoodImage(models.Model):
     name = models.ForeignKey(Food, on_delete=models.CASCADE, related_name='images')
     food_img = models.ImageField(null=True, blank=True, default=None, upload_to="food/")
     created_at = models.DateField(auto_now_add=True)
+    # food_img = models.CharField(null=True, blank=True, default=None, max_length=255)
+    # food_id = models.IntegerField(null=True, blank=True, default=None)
 
     def __str__(self):
         return f"{self.name} {self.food_img} {self.created_at}"

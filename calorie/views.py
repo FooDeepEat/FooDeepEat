@@ -41,29 +41,61 @@ def mypage(request, date=None):
     food_date = datetime.strptime(date, '%Y-%m-%d')
     food_date = food_date.strftime('%Y-%m-%d')
 
+    food_time = request.GET.get('food_time', '아침')
+
     memos = models.UserMemo.objects.filter(user_id=user.id, created_at=date).first()
     foods = models.UserFood.objects.filter(user_id=user.id,
                                            created_at__year=food_date[:4],
                                            created_at__month=food_date[5:7],
-                                           created_at__day=food_date[8:10]
+                                           created_at__day=food_date[8:10],
+                                           user_food_time__food_time=food_time
                                            ).prefetch_related('user_food_images', 'user_food_time').all()
 
-    food_nutri = foods.aggregate(
-        total_energy=Round(Sum('energy'), 1),
-        total_carbohydrate=Round(Sum('carbohydrate'), 1),
-        total_protein=Round(Sum('protein'), 1),
-        total_fat=Round(Sum('fat'), 1)
-    )
-
-    if not foods:
-        food_time = 'N/A'
+    if foods:
+        time_nutri = foods.aggregate(energy=Round(Sum('energy'), 1),
+                                     carbohydrate=Round(Sum('carbohydrate'), 1),
+                                     protein=Round(Sum('protein'), 1),
+                                     fat=Round(Sum('fat'), 1)
+                                     )
     else:
-        try:
-            food_time = foods[0].user_food_time.get().food_time
-        except UserFoodTime.DoesNotExist:
-            food_time = ''
+        time_nutri = {
+            'energy': 0,
+            'carbohydrate': 0,
+            'protein': 0,
+            'fat': 0
+        }
+
+    today_foods = models.UserFood.objects.filter(user_id=user.id,
+                                                 created_at__year=food_date[:4],
+                                                 created_at__month=food_date[5:7],
+                                                 created_at__day=food_date[8:10],
+                                                 ).prefetch_related('user_food_images', 'user_food_time').all()
+
+    if today_foods:
+        today_nutri = today_foods.aggregate(energy=Round(Sum('energy'), 1),
+                                            carbohydrate=Round(Sum('carbohydrate'), 1),
+                                            protein=Round(Sum('protein'), 1),
+                                            fat=Round(Sum('fat'), 1)
+                                            )
+    else:
+        today_nutri = {
+            'energy': 0,
+            'carbohydrate': 0,
+            'protein': 0,
+            'fat': 0
+        }
+
+    created_at = models.UserFood.objects.filter(user_id=user.id,
+                                                created_at__year=food_date[:4],
+                                                created_at__month=food_date[5:7],
+                                                created_at__day=food_date[8:10],
+                                                user_food_time__food_time=food_time
+                                                ).prefetch_related('user_food_images', 'user_food_time').first()
+
     return render(request, "mypage.html", {"user": user, "memos": memos, "date": date,
-                                           "foods": foods, "food_nutri": food_nutri, 'food_time': food_time})
+                                           "foods": foods, "time_nutri": time_nutri,
+                                           "created_at": created_at, "food_time": food_time,
+                                           "today_nutri": today_nutri})
 
 
 @login_required
@@ -172,18 +204,21 @@ def service(request):
 def home(request):
     random_imgs = []
     foods = list(models.Food.objects.all())
-    random_foods = random.sample(foods, 2)
-    for random_food in random_foods:
-        food_imgs = models.FoodImage.objects.filter(name=random_food).all()
-        if food_imgs:
-            random_img = random.choice(food_imgs)
-        else:
-            random_img = None
-        random_imgs.append(random_img)
+    if foods:
+        random_foods = random.sample(foods, 2)
+        for random_food in random_foods:
+            food_imgs = models.FoodImage.objects.filter(name=random_food).all()
+            if food_imgs:
+                random_img = random.choice(food_imgs)
+            else:
+                random_img = None
+            random_imgs.append(random_img)
+        print(random_imgs)
+        random_food_list = zip(random_foods, random_imgs)
 
-    random_food_list = zip(random_foods, random_imgs)
-
-    return render(request, "home.html", {"random_food_list": random_food_list})
+        return render(request, "home.html", {"random_food_list": random_food_list})
+    else:
+        return render(request, "home.html")
 
 
 def search(request):

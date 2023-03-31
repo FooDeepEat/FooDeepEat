@@ -108,7 +108,9 @@
         {% for random_food, random_img in random_food_list %}
         <div class="today_box">
             <div class="today_img">
-                <img src="{{ random_img.food_img.url }}" alt="{{ random_food.name }}">
+	            {% if random_img.food_img %}
+                    <img src="../../media/{{ random_img.food_img }}" alt="{{ random_food.name }}">
+	            {% endif %}
             </div>
             <div class="today_txtbox">
                 <ul class="today_ul">

@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 	비밀번호찾기
 {% endblock %}
 
 {% block css_files %}
-<link rel="stylesheet" type="text/css" href="">
+<link rel="stylesheet" type="text/css" href="{% static 'css/pw_reset_done.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>이메일을 전송했습니다.</h1>
-<h2>이메일을 확인해주세요</h2>
-<a href="https://www.google.com/mail">이메일로 이동</a>
+<div class="all-wrap">
+    <div class="logo-wrap">
+        <a class="logo" href="click to home" target="_blank"><img src="{% static 'image/horizontal_logo.png' %}"></a>
+    </div>
+
+    <div class="result">
+        <p class="notice-1">비밀번호 찾기</p>
+        <span class="notice-2">
+            비밀번호 재설정 이메일을 전송했습니다.<br>
+            이메일을 확인해주세요.</span>
+    </div>
+
+	<div class="select-btn" name="select-btn">
+        <a class="go-to-naver" href="https://www.naver.com/">네이버</a>
+        <a class="go-to-daum" href="https://www.daum.net/">다음</a>
+        <a class="go-to-gg" href="https://www.google.com/">구글</a>
+    </div>
+</div>
 {% endblock %}

@@ -1,11 +1,10 @@
 from django import forms
-from django.forms import DateInput, ClearableFileInput
+from django.forms import DateInput
 from django.utils import timezone
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
-from .models import Account, Address, Option, Agree, ProfileImage
+from django.contrib.auth.forms import UserCreationForm
+from .models import Account, Address, Option, Agree
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.exceptions import ValidationError
 
 
 class SignUpForm(UserCreationForm):
@@ -104,21 +103,3 @@ class AgreeForm(forms.ModelForm):
     class Meta:
         model = Agree
         fields = ('must_agree', 'option_agree')
-
-# class ProfileImageForm(forms.ModelForm):
-#     profile_img = forms.ImageField(
-#         widget=ClearableFileInput(attrs={'accept': 'image/*'}),
-#         required=False
-#     )
-#
-#     class Meta:
-#         model = ProfileImage
-#         fields = ('profile_img',)
-#
-#     def clean_profile_img(self):
-#         profile_img = self.cleaned_data.get('profile_img')
-#         if profile_img:
-#             if profile_img.size > 5 * 1024 * 1024:  # 5MB
-#                 raise ValidationError("파일 크기는 5MB 이하여야 합니다.")
-#             return profile_img
-#         return None

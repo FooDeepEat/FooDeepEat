@@ -16,16 +16,6 @@ class Account(AbstractUser):
         return f"{self.username} {self.first_name+self.last_name}"
 
 
-# 유저 프로필 사진
-class ProfileImage(models.Model):
-    user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='profile_images')
-    profile_img = models.ImageField(null=True, blank=True, upload_to="profile/")
-    img_date = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} {self.profile_img}"
-
-
 # 유저 주소 테이블
 class Address(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='addresses')
