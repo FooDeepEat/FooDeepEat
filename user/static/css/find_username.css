@@ -133,15 +133,18 @@ input::placeholder {
   text-align: center;
 }
 
+#btn-wrap{
+  text-align: center;
+}
 .login-btn{
-  width: 130px;
-  height: 40px;
+  width: 570px;
+  margin: 15px;
+  height: 50px;
   font-size: 18px;
   color: #fff;
   border: 1px solid #37BA2A;
   border-radius: 7px;
   background-color: #37BA2A;
-  margin: 0px 10px;
 }
 
 .find-id-btn{
