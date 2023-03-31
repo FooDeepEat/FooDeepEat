@@ -31,10 +31,9 @@
         </p>
     </div>
 
-
-    <form class="select-btn" name="select-btn">
+	<div id="btn-wrap">
         <a class="login-btn" href="{% url 'login' %}">로그인</a>
-    </form>
+	</div> 
 </div>
 
 {% else %}
@@ -54,9 +53,6 @@
 		</div>
 		<form name="findform" method="POST">
 			{% csrf_token %}
-			{% if error_msg %}
-				<p style="color:red">{{ error_msg }}</p>
-			{% endif %}
 			<div class="user-info">
 				<label for="user-name" class="tag">이름</label>
 				<input type="text" name="name" class="user-name tagform" placeholder="푸디핏" required>
@@ -70,6 +66,9 @@
 				<label for="tel" class="tag">휴대폰 번호</label>
 				<input class="tel tagform" type="text" name="number" placeholder="010-1234-5678" maxlength="13" onkeyup="addHyphenTel(this)" required>
 			</div>
+			{% if error_msg %}
+				<p style="color:red">{{ error_msg }}</p>
+			{% endif %}
 
 			<!-- showVerfication을 해야 btn-wrap이 verification-cantainer로 바뀜 !! -->
 			<div id="btn-wrap">
