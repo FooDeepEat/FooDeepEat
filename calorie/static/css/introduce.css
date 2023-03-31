@@ -130,6 +130,7 @@
 .box {
   width: 200px;
   height: 200px;
+  position: relative;
 }
 
 .box img{
@@ -151,7 +152,6 @@
 /* 상단부 멤버 하단 호버 효과 */
 .hover-text {
     width: 200px;
-    margin-top: 10px;
     padding: 15px 0px;
     background-color: #C5D9C3;
     border-radius: 25px;
@@ -159,6 +159,7 @@
     position: absolute;
     opacity: 0;
     transition: all ease 0.5s;
+    top: 215px;
 }
 
 .hover-title:hover + .hover-text {
@@ -168,16 +169,16 @@
 
 /* 하단부 멤버 상단 호버 효과 */
 .hover-text-2 {
+    border-radius: 25px;
     width: 200px;
-    margin-top: -350px;
     padding: 15px 0px;
     background-color: #C5D9C3;
-    border-radius: 5px;
     color: #000000;
-    position: absolute;
     opacity: 0;
     transition: all ease 0.5s;
-    
+    position: absolute;
+    bottom: 210px;
+    z-index: 10;    
 }
 
 .hover-title-2:hover + .hover-text-2 {
