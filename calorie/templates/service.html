@@ -39,53 +39,55 @@
 		<div class="food_box">
 			<form method="POST" name="user_weight">
 				{% csrf_token %}
-                {% for food in user_food_list %}
-                <div class="food_info">
-					<table class="food_info_table">
-						<colgroup>
-							<col width="50%">
-							<col width="50%">
-						</colgroup>
-						<thead>
-							<tr>
-								<th colspan="2">
-									<div class="thum_box">
-										<p class="thum_img"><img src="{{ food.image.url }}" alt=""/></p>
-										<p class="thum_txt">[<span class="thum_name">{{ food.food.name }}</span>] 100g 기준의 영양정보입니다.</p>
-									</div>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>열량(kcal)</td>
-								<td><span>{{ food.user_food.energy }}</span>kal</td>
-							</tr>
-							<tr>
-								<td>탄수화물(g)</td>
-								<td><span>{{ food.user_food.carbohydrate }}</span>g</td>
-							</tr>
-							<tr>
-								<td>단백질(g)</td>
-								<td><span>{{ food.user_food.protein }}</span>g</td>
-							</tr>
-							<tr>
-								<td>지방(g)</td>
-								<td><span>{{ food.user_food.fat }}</span>g</td>
-							</tr>
-						</tbody>
-					</table>
-					<p class="food_info_time">{{ food.user_food.created_at }}</p>
-                    <input type="hidden" name="created_at_{{ forloop.counter }}" value="{{ food.user_food.created_at }}">
-                    <input type="hidden" name="food_name_{{ forloop.counter }}" value="{{ food.food.name }}">
-					<div class="eatbox">
-						<span class="eat_txt">얼마나 드셨나요?(g)</span>
-						<span class="eat_input">
-							<input type="text" value="" name="user_weight_{{ forloop.counter }}" id="inputField" required>
-						</span>
+				<div class="food_info_div">
+					{% for food in user_food_list %}
+					<div class="food_info">
+						<table class="food_info_table">
+							<colgroup>
+								<col width="50%">
+								<col width="50%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th colspan="2">
+										<div class="thum_box">
+											<p class="thum_img"><img src="{{ food.image.url }}" alt=""/></p>
+											<p class="thum_txt">[<span class="thum_name">{{ food.food.name }}</span>] 100g 기준의 영양정보입니다.</p>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>열량(kcal)</td>
+									<td><span>{{ food.user_food.energy }}</span>kal</td>
+								</tr>
+								<tr>
+									<td>탄수화물(g)</td>
+									<td><span>{{ food.user_food.carbohydrate }}</span>g</td>
+								</tr>
+								<tr>
+									<td>단백질(g)</td>
+									<td><span>{{ food.user_food.protein }}</span>g</td>
+								</tr>
+								<tr>
+									<td>지방(g)</td>
+									<td><span>{{ food.user_food.fat }}</span>g</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>{{ food.user_food.created_at }}</p>
+						<input type="hidden" name="created_at_{{ forloop.counter }}" value="{{ food.user_food.created_at }}">
+						<input type="hidden" name="food_name_{{ forloop.counter }}" value="{{ food.food.name }}">
+						<div class="eatbox">
+							<span class="eat_txt">얼마나 드셨나요?(g)</span>
+							<span class="eat_input">
+								<input type="text" value="" name="user_weight_{{ forloop.counter }}" id="inputField" required>
+							</span>
+						</div>
 					</div>
-                </div>
-				{% endfor %}
+					{% endfor %}
+				</div>
 				{% if user_food_list %}
 				<div class="food_write_box">
 					<select name="food_time" class="food_time">

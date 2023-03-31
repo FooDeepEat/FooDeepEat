@@ -59,7 +59,7 @@ input{
   background-color: transparent;
   width: 100%;
 }
-input:focus-visible{
+select:focus-visible, input:focus-visible{
   outline: 0;
 }
 img{

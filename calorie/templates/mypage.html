@@ -102,7 +102,7 @@
                         <td class="timestamp">
 	                        <form method="GET">
 	                            <input type="hidden" name="food_time" value="{{ food_time }}">
-		                        <select name="food_time" class="food_time" onchange="this.form.submit()">
+		                        <select name="food_time" class="food_time_select" onchange="this.form.submit()">
 									<option value="아침" {% if food_time == "아침" %}selected{% endif %}>아침
 									</option>
 							        <option value="점심" {% if food_time == "점심" %}selected{% endif %}>점심
